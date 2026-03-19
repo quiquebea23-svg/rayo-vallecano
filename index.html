@@ -358,9 +358,9 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
       <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.4);border-radius:10px;padding:12px 18px;">
         <div style="font-size:22px">⚽</div>
         <div>
-          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px">LaLiga · Jornada 29</div>
+          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px">LaLiga J29 · MANANA</div>
           <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">FC Barcelona vs Rayo Vallecano</div>
-          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Abril 2026 · Camp Nou</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Sab 21 Mar · Camp Nou · 18:30h</div>
           <div id="countdownLiga" style="font-family:'Bebas Neue';font-size:14px;color:var(--oro);margin-top:4px;letter-spacing:2px"></div>
         </div>
       </div>
@@ -962,7 +962,7 @@ function fallbackPartidos(){
     </div>
     <div class="mi">
       <div class="mc-comp" style="color:var(--rojo)">LaLiga · J29</div>
-      <div class="mc-date">Abril 2026 · Camp Nou</div>
+      <div class="mc-date">Sab 21 Mar · Camp Nou · 18:30h</div>
       <span class="badge bn">Próximo</span>
     </div>
   </div>
@@ -1380,7 +1380,7 @@ async function loadWeather(){
 // ─── COUNTDOWN ───────────────────────────────
 function startCountdowns(){
   const matches=[
-    {id:'countdownLiga',date:new Date('2026-04-05T14:15:00Z')},
+    {id:'countdownLiga',date:new Date('2026-03-21T17:30:00Z')},
     {id:'countdownConf',date:new Date('2026-04-09T19:00:00Z')},
   ];
   function update(){
