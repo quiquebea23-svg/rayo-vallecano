@@ -1,140 +1,224 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rayo Vallecano — La Franja | Noticias, Partidos y Clasificación</title>
-<meta name="description" content="Toda la actualidad del Rayo Vallecano: resultados en tiempo real, clasificación de LaLiga, Conference League, plantilla y estadísticas.">
-<!-- Google AdSense — cuando te aprueben pega tu código aquí -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1235272704128896"
-     crossorigin="anonymous"></script>
+<meta name="description" content="Toda la actualidad del Rayo Vallecano: resultados en tiempo real, clasificación de LaLiga, Conference League, plantilla, historia y estadísticas.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--rojo:#D01B2E;--rojo-dark:#9b0f1e;--blanco:#F5F0E8;--negro:#0A0A0A;--gris:#161616;--gris2:#222;--gris3:#333;--oro:#C9A84C;--azul:#4a8fff;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--negro);color:var(--blanco);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+/* TEMAS */
+[data-theme="dark"]{--bg:#0A0A0A;--gris:#161616;--gris2:#222;--gris3:#333;--txt:#F5F0E8;--txt2:#aaa;--txt3:#555;--brd:#222;}
+[data-theme="light"]{--bg:#f4f4f4;--gris:#fff;--gris2:#eee;--gris3:#ddd;--txt:#111;--txt2:#444;--txt3:#999;--brd:#ddd;}
+:root{--rojo:#D01B2E;--rojo-dark:#9b0f1e;--oro:#C9A84C;--azul:#4a8fff;}
+*{margin:0;padding:0;box-sizing:border-box;transition:background .2s,color .2s,border-color .2s;}
+body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-header{background:rgba(10,10,10,.97);border-bottom:3px solid var(--rojo);position:sticky;top:0;z-index:200;backdrop-filter:blur(10px);}
-.h-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 20px;}
-.logo{display:flex;align-items:center;gap:12px;}
-.escudo{width:40px;height:40px;background:var(--rojo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:16px;color:#fff;border:2px solid var(--oro);position:relative;overflow:hidden;flex-shrink:0;}
+/* HEADER */
+header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;top:0;z-index:300;backdrop-filter:blur(10px);}
+.h-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 16px;gap:8px;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.escudo{width:38px;height:38px;background:var(--rojo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:15px;color:#fff;border:2px solid var(--oro);position:relative;overflow:hidden;flex-shrink:0;}
 .escudo::after{content:'';position:absolute;top:0;left:50%;width:3px;height:100%;background:rgba(255,255,255,.25);transform:translateX(-50%);}
-.logo h1{font-family:'Bebas Neue';font-size:22px;letter-spacing:3px;line-height:1;}
-.logo span{font-family:'Barlow Condensed';font-size:10px;letter-spacing:4px;color:var(--rojo);text-transform:uppercase;}
-nav{display:flex;gap:2px;}
-nav button{background:none;border:none;border-bottom:2px solid transparent;color:#666;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 13px;cursor:pointer;transition:all .2s;}
-nav button:hover{color:var(--blanco);}
-nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
+.logo h1{font-family:'Bebas Neue';font-size:20px;letter-spacing:3px;line-height:1;color:var(--txt);}
+.logo span{font-family:'Barlow Condensed';font-size:9px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;}
 
-.hero{background:linear-gradient(135deg,#0a0a0a 0%,#1a0006 60%,#0a0a0a 100%);padding:44px 20px 34px;position:relative;overflow:hidden;}
-.hero::before{content:'RV';position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue';font-size:260px;color:rgba(208,27,46,.035);pointer-events:none;}
+/* SEARCH BAR */
+.search-wrap{flex:1;max-width:280px;position:relative;}
+.search-input{width:100%;background:var(--gris2);border:1px solid var(--gris3);border-radius:20px;padding:7px 14px 7px 34px;color:var(--txt);font-family:'Barlow';font-size:13px;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--rojo);}
+.search-input::placeholder{color:var(--txt3);}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--txt3);font-size:13px;pointer-events:none;}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--gris);border:1px solid var(--gris3);border-radius:10px;z-index:400;display:none;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.search-results.on{display:block;}
+.sr-item{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--gris2);transition:background .15s;}
+.sr-item:last-child{border-bottom:none;}
+.sr-item:hover{background:var(--gris2);}
+.sr-tag{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);margin-bottom:2px;}
+.sr-title{color:var(--txt);font-size:13px;}
+
+/* NAV + THEME */
+.nav-right{display:flex;align-items:center;gap:4px;}
+nav{display:flex;gap:1px;}
+nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+nav button:hover{color:var(--txt);}
+nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
+.theme-btn{background:var(--gris2);border:1px solid var(--gris3);border-radius:20px;padding:5px 10px;cursor:pointer;font-size:14px;color:var(--txt);transition:all .2s;flex-shrink:0;}
+.theme-btn:hover{border-color:var(--rojo);}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--bg) 0%,#1a0006 60%,var(--bg) 100%);padding:40px 20px 30px;position:relative;overflow:hidden;}
+[data-theme="light"] .hero{background:linear-gradient(135deg,#f4f4f4 0%,#ffe5e5 60%,#f4f4f4 100%);}
+.hero::before{content:'RV';position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue';font-size:240px;color:rgba(208,27,46,.04);pointer-events:none;}
 .hero-bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rojo);}
 .hero-inner{max-width:1100px;margin:0 auto;}
 .hero-eye{font-family:'Barlow Condensed';font-size:11px;letter-spacing:4px;color:var(--rojo);text-transform:uppercase;margin-bottom:10px;}
-.hero-title{font-family:'Bebas Neue';font-size:clamp(40px,7vw,76px);letter-spacing:4px;line-height:.9;margin-bottom:20px;}
+.hero-title{font-family:'Bebas Neue';font-size:clamp(36px,6vw,72px);letter-spacing:4px;line-height:.9;margin-bottom:18px;}
 .hero-title em{color:var(--rojo);font-style:normal;}
-.next-match{display:inline-flex;align-items:center;gap:16px;background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.4);border-radius:10px;padding:12px 20px;}
-.nm-label{font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px;}
-.nm-title{font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;}
-.nm-sub{font-size:12px;color:#888;margin-top:2px;}
+.next-match{display:inline-flex;align-items:center;gap:14px;background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.35);border-radius:10px;padding:11px 18px;}
+.nm-label{font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:2px;}
+.nm-title{font-family:'Bebas Neue';font-size:19px;letter-spacing:2px;}
+.nm-sub{font-size:12px;color:var(--txt3);margin-top:2px;}
 .dot{width:8px;height:8px;background:#ff3e3e;border-radius:50%;animation:pulse 1.2s ease infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
 
-.ad-banner{max-width:1100px;margin:16px auto 0;padding:0 20px;}
-.ad-slot{background:var(--gris);border:1px dashed #2a2a2a;border-radius:8px;height:90px;display:flex;align-items:center;justify-content:center;color:#2a2a2a;font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;}
-
-.content{max-width:1100px;margin:0 auto;padding:26px 20px 60px;}
+/* CONTENT */
+.content{max-width:1100px;margin:0 auto;padding:24px 16px 60px;}
 .section{display:none;}
-.section.active{display:block;animation:fu .3s ease;}
-@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.sec-t{font-family:'Bebas Neue';font-size:26px;letter-spacing:3px;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--gris2);display:flex;align-items:center;gap:10px;}
-.sec-t::before{content:'';width:4px;height:26px;background:var(--rojo);border-radius:2px;flex-shrink:0;}
-.sec-t small{font-family:'Barlow Condensed';font-size:12px;font-weight:600;letter-spacing:2px;color:#444;}
+.section.active{display:block;animation:fu .35s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sec-t{font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px;color:var(--txt);}
+.sec-t::before{content:'';width:4px;height:24px;background:var(--rojo);border-radius:2px;flex-shrink:0;}
+.sec-t small{font-family:'Barlow Condensed';font-size:11px;font-weight:600;letter-spacing:2px;color:var(--txt3);}
 
 /* STATUS */
-.api-status{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:16px;}
-.sdot{width:7px;height:7px;border-radius:50%;background:#555;flex-shrink:0;}
-.sdot.ok{background:#4caf50;}
-.sdot.err{background:var(--rojo);}
-.sdot.ld{background:var(--oro);animation:pulse 1s infinite;}
+.api-status{display:flex;align-items:center;gap:8px;font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:14px;}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--txt3);flex-shrink:0;}
+.sdot.ok{background:#4caf50;}.sdot.err{background:var(--rojo);}.sdot.ld{background:var(--oro);animation:pulse 1s infinite;}
 
 /* SKELETON */
 .skeleton{background:linear-gradient(90deg,var(--gris) 25%,var(--gris2) 50%,var(--gris) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;height:80px;margin-bottom:10px;}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* NEWS */
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
-.news-card{background:var(--gris);border:1px solid var(--gris2);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;text-decoration:none;}
-.news-card:hover{transform:translateY(-4px);border-color:var(--rojo);}
-.news-img{width:100%;height:155px;object-fit:cover;display:block;background:var(--gris2);}
-.news-body{padding:13px;}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
+.news-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;display:block;}
+.news-card:hover{transform:translateY(-4px);border-color:var(--rojo);box-shadow:0 8px 24px rgba(208,27,46,.1);}
+.news-img{width:100%;height:150px;object-fit:cover;display:block;background:var(--gris2);}
+.news-body{padding:12px;}
 .news-tag{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:5px;}
-.news-title{font-family:'Barlow Condensed';font-size:15px;font-weight:700;color:var(--blanco);line-height:1.3;margin-bottom:5px;}
-.news-meta{font-size:11px;color:#444;}
+.news-title{font-family:'Barlow Condensed';font-size:15px;font-weight:700;color:var(--txt);line-height:1.3;margin-bottom:5px;}
+.news-desc{font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:6px;}
+.news-meta{font-size:11px;color:var(--txt3);}
 
 /* PARTIDOS */
-.frow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
-.pill{background:var(--gris2);border:1px solid var(--gris3);color:#888;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:1px;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;}
+.frow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.pill{background:var(--gris2);border:1px solid var(--gris3);color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:1px;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;}
 .pill:hover{border-color:var(--rojo);color:var(--rojo);}
-.mc{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:9px;transition:border-color .2s;}
-.mc:hover{border-color:var(--gris3);}
+.mc{background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;transition:all .2s;cursor:pointer;}
+.mc:hover{border-color:var(--rojo);transform:translateY(-2px);box-shadow:0 4px 16px rgba(208,27,46,.08);}
 .mc.res{border-left:3px solid var(--rojo);}
 .mc.nxt{border-left:3px solid var(--oro);}
 .mc.conf{border-left:3px solid var(--azul);}
 .mc.live{border-left:3px solid #4caf50;box-shadow:0 0 18px rgba(76,175,80,.12);}
-.teams{display:flex;align-items:center;gap:14px;flex:1;min-width:0;}
-.tn{font-family:'Barlow Condensed';font-size:15px;font-weight:700;letter-spacing:1px;flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.teams{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
+.tn{font-family:'Barlow Condensed';font-size:14px;font-weight:700;letter-spacing:1px;flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt);}
 .tn.rv{color:var(--rojo);}
 .tn.lft{text-align:left;}
-.ms{font-family:'Bebas Neue';font-size:28px;letter-spacing:2px;min-width:66px;text-align:center;flex-shrink:0;}
-.ms.vs{font-size:13px;color:#333;letter-spacing:4px;}
-.mi{text-align:right;flex-shrink:0;min-width:130px;}
+.ms{font-family:'Bebas Neue';font-size:26px;letter-spacing:2px;min-width:62px;text-align:center;flex-shrink:0;color:var(--txt);}
+.ms.vs{font-size:12px;color:var(--gris3);letter-spacing:4px;}
+.mi{text-align:right;flex-shrink:0;min-width:120px;}
 .mc-comp{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:2px;}
-.mc-date{font-size:11px;color:#555;}
-.badge{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:4px;}
-.bw{background:rgba(76,175,80,.15);color:#4caf50;}
-.bd{background:rgba(255,193,7,.15);color:#ffc107;}
-.bl{background:rgba(208,27,46,.15);color:var(--rojo);}
-.bn{background:rgba(201,168,76,.15);color:var(--oro);}
-.blive{background:rgba(76,175,80,.15);color:#4caf50;}
-
-.ad-inline{background:var(--gris);border:1px dashed #2a2a2a;border-radius:8px;height:90px;display:flex;align-items:center;justify-content:center;color:#2a2a2a;font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:24px 0;}
+.mc-date{font-size:11px;color:var(--txt3);}
+.badge{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;display:inline-block;margin-top:4px;}
+.bw{background:rgba(76,175,80,.15);color:#4caf50;}.bd{background:rgba(255,193,7,.15);color:#ffc107;}.bl{background:rgba(208,27,46,.15);color:var(--rojo);}.bn{background:rgba(201,168,76,.15);color:var(--oro);}.blive{background:rgba(76,175,80,.15);color:#4caf50;}
 
 /* TABLA */
 .tw{overflow-x:auto;}
 table.tb{width:100%;border-collapse:collapse;font-size:13px;}
-.tb th{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#444;padding:9px;text-align:center;border-bottom:1px solid var(--gris2);}
+.tb th{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);padding:9px;text-align:center;border-bottom:1px solid var(--brd);}
 .tb th:nth-child(2){text-align:left;}
-.tb td{padding:10px 9px;text-align:center;border-bottom:1px solid #111;color:#888;}
-.tb td:nth-child(2){text-align:left;font-weight:500;color:var(--blanco);}
-.tb tr:hover td{background:var(--gris);}
+.tb td{padding:10px 9px;text-align:center;border-bottom:1px solid var(--gris2);color:var(--txt2);}
+.tb td:nth-child(2){text-align:left;font-weight:500;color:var(--txt);}
+.tb tr:hover td{background:var(--gris2);}
 .tb tr.rrow td{background:rgba(208,27,46,.07);}
 .tb tr.rrow td:nth-child(2){color:var(--rojo);font-weight:700;}
 .pb{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:11px;}
-.pcl{background:rgba(70,130,255,.2);color:#4488ff;}
-.peu{background:rgba(255,150,0,.2);color:#ff9900;}
-.pde{background:rgba(208,27,46,.2);color:var(--rojo);}
-.pno{color:#555;}
+.pcl{background:rgba(70,130,255,.2);color:#4488ff;}.peu{background:rgba(255,150,0,.2);color:#ff9900;}.pde{background:rgba(208,27,46,.2);color:var(--rojo);}.pno{color:var(--txt3);}
 
 /* PLANTILLA */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:11px;}
-.posh{grid-column:1/-1;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rojo);padding:6px 0 3px;border-bottom:1px solid #1a1a1a;margin-top:6px;}
-.pcard{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:13px 11px;text-align:center;transition:all .2s;}
-.pcard:hover{border-color:var(--rojo);transform:translateY(-3px);}
-.pnum{font-family:'Bebas Neue';font-size:36px;color:rgba(208,27,46,.22);line-height:1;}
-.pname{font-family:'Barlow Condensed';font-size:13px;font-weight:700;color:var(--blanco);letter-spacing:1px;margin-bottom:3px;line-height:1.2;}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;}
+.posh{grid-column:1/-1;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rojo);padding:6px 0 3px;border-bottom:1px solid var(--brd);margin-top:6px;}
+.pcard{background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:12px 10px;text-align:center;transition:all .2s;cursor:pointer;}
+.pcard:hover{border-color:var(--rojo);transform:translateY(-3px);box-shadow:0 6px 18px rgba(208,27,46,.1);}
+.pnum{font-family:'Bebas Neue';font-size:34px;color:rgba(208,27,46,.2);line-height:1;}
+.pname{font-family:'Barlow Condensed';font-size:13px;font-weight:700;color:var(--txt);letter-spacing:1px;margin-bottom:3px;line-height:1.2;}
 .ppos{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);font-family:'Barlow Condensed';}
-.pnat{font-size:11px;color:#444;margin-top:3px;}
-.pstats{display:flex;justify-content:center;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid #1a1a1a;}
+.pnat{font-size:11px;color:var(--txt3);margin-top:3px;}
+.pstats{display:flex;justify-content:center;gap:10px;margin-top:8px;padding-top:8px;border-top:1px solid var(--brd);}
 .pstat{text-align:center;}
-.pstat-val{font-family:'Bebas Neue';font-size:18px;color:var(--rojo);}
-.pstat-lbl{font-family:'Barlow Condensed';font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#444;}
+.pstat-val{font-family:'Bebas Neue';font-size:17px;color:var(--rojo);}
+.pstat-lbl{font-family:'Barlow Condensed';font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--txt3);}
 
-.err-msg{background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.2);border-radius:8px;padding:14px 18px;font-size:13px;color:#888;margin-bottom:16px;}
+/* VIDEOS */
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.vid-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;text-decoration:none;display:block;}
+.vid-card:hover{transform:translateY(-4px);border-color:var(--rojo);}
+.vid-thumb{width:100%;height:158px;object-fit:cover;display:block;background:var(--gris2);position:relative;}
+.vid-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(208,27,46,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;transition:transform .2s;}
+.vid-card:hover .vid-play{transform:translate(-50%,-50%) scale(1.1);}
+.vid-thumb-wrap{position:relative;}
+.vid-body{padding:12px;}
+.vid-tag{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:5px;}
+.vid-title{font-family:'Barlow Condensed';font-size:15px;font-weight:700;color:var(--txt);line-height:1.3;margin-bottom:4px;}
+.vid-meta{font-size:11px;color:var(--txt3);}
 
-@media(max-width:600px){
+/* HISTORIA */
+.hist-timeline{position:relative;padding-left:30px;}
+.hist-timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--rojo),transparent);}
+.hist-item{position:relative;margin-bottom:32px;animation:fu .4s ease both;}
+.hist-item::before{content:'';position:absolute;left:-26px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--rojo);border:2px solid var(--bg);}
+.hist-year{font-family:'Bebas Neue';font-size:28px;letter-spacing:3px;color:var(--rojo);line-height:1;margin-bottom:4px;}
+.hist-title{font-family:'Barlow Condensed';font-size:17px;font-weight:700;color:var(--txt);margin-bottom:6px;letter-spacing:1px;}
+.hist-text{font-size:14px;color:var(--txt2);line-height:1.7;}
+.hist-img{width:100%;max-width:500px;height:180px;object-fit:cover;border-radius:8px;margin-top:10px;border:1px solid var(--brd);}
+.hist-badge{display:inline-block;background:rgba(208,27,46,.12);border:1px solid rgba(208,27,46,.3);color:var(--rojo);font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px);}
+.overlay.on{display:flex;}
+.modal{background:var(--gris);border:1px solid var(--gris2);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fu .25s ease;position:relative;}
+.modal-close{position:absolute;top:12px;right:12px;background:var(--gris2);border:none;color:var(--txt3);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:10;}
+.modal-close:hover{background:var(--rojo);color:#fff;}
+/* modal jugador */
+.pl-header{padding:22px 22px 0;display:flex;align-items:flex-start;gap:14px;}
+.pl-num{font-family:'Bebas Neue';font-size:68px;color:rgba(208,27,46,.12);line-height:.85;flex-shrink:0;}
+.pl-name{font-family:'Bebas Neue';font-size:26px;letter-spacing:2px;line-height:1;color:var(--txt);}
+.pl-pos{font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-top:3px;}
+.pl-meta{font-size:11px;color:var(--txt3);margin-top:3px;}
+.pl-stats-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--gris2);margin:16px 0 0;}
+.pl-stat-box{background:var(--gris);padding:14px 16px;text-align:center;}
+.pl-stat-box .inner-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:10px;background:var(--gris2);}
+.pl-stat-val{font-family:'Bebas Neue';font-size:26px;color:var(--rojo);line-height:1;}
+.pl-stat-lbl{font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-top:2px;}
+.pl-desc{margin:16px 22px 22px;padding:14px;background:var(--gris2);border-left:3px solid var(--rojo);border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;color:var(--txt2);}
+/* modal partido */
+.pm-header{padding:22px 22px 18px;position:relative;}
+.pm-comp{font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.pm-teams{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.pm-team{font-family:'Bebas Neue';font-size:20px;letter-spacing:1px;flex:1;color:var(--txt);}
+.pm-team.right{text-align:right;}
+.pm-score{font-family:'Bebas Neue';font-size:44px;letter-spacing:4px;color:var(--txt);text-align:center;min-width:90px;}
+.pm-score.vs{font-size:14px;color:var(--gris3);letter-spacing:6px;}
+.pm-date{font-size:12px;color:var(--txt3);margin-top:3px;}
+.pm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--gris2);}
+.pm-stat{background:var(--gris);padding:13px 8px;text-align:center;}
+.pm-stat-val{font-family:'Bebas Neue';font-size:24px;color:var(--txt);line-height:1;}
+.pm-stat-lbl{font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-top:2px;}
+.pm-section{padding:14px 20px;}
+.pm-section-title{font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px;}
+.pm-fact{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--gris2);font-size:13px;color:var(--txt2);}
+.pm-fact:last-child{border-bottom:none;}
+
+/* NOTIF BANNER */
+.notif-banner{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.3);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.notif-text{font-family:'Barlow Condensed';font-size:14px;color:#4caf50;letter-spacing:1px;}
+.notif-btn{background:#4caf50;border:none;color:#fff;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border-radius:8px;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.notif-btn:hover{background:#388e3c;}
+.notif-btn.off{background:var(--gris3);}
+
+.err-msg{background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.2);border-radius:8px;padding:13px 16px;font-size:13px;color:var(--txt3);margin-bottom:14px;}
+
+/* MOBILE */
+@media(max-width:640px){
+  .logo h1{font-size:17px;letter-spacing:2px;}
+  .logo span{display:none;}
   nav button{padding:5px 7px;font-size:11px;letter-spacing:1px;}
-  .mc{flex-direction:column;gap:8px;}.mi{text-align:center;}.teams{justify-content:center;}
+  .search-wrap{max-width:120px;}
+  .mc{flex-direction:column;gap:8px;}.mi{text-align:center;min-width:unset;width:100%;}.teams{justify-content:center;}
+  .pm-score{font-size:34px;}.pm-team{font-size:15px;}
+  .hero-title{font-size:36px;}
+  .hist-timeline{padding-left:20px;}
 }
 </style>
 </head>
@@ -146,12 +230,22 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
       <div class="escudo">RV</div>
       <div><h1>Rayo Vallecano</h1><span>Vallecas · 2025/26</span></div>
     </div>
-    <nav>
-      <button class="active" onclick="show('noticias',this)">Noticias</button>
-      <button onclick="show('partidos',this)">Partidos</button>
-      <button onclick="show('tabla',this)">Tabla</button>
-      <button onclick="show('plantilla',this)">Plantilla</button>
-    </nav>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Buscar…" oninput="doSearch(this.value)" onblur="setTimeout(()=>hideSearch(),200)">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <div class="nav-right">
+      <nav>
+        <button class="active" onclick="show('noticias',this)">Noticias</button>
+        <button onclick="show('partidos',this)">Partidos</button>
+        <button onclick="show('tabla',this)">Tabla</button>
+        <button onclick="show('plantilla',this)">Plantilla</button>
+        <button onclick="show('videos',this)">Vídeos</button>
+        <button onclick="show('historia',this)">Historia</button>
+      </nav>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    </div>
   </div>
 </header>
 
@@ -171,11 +265,6 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   </div>
 </div>
 
-<div class="ad-banner">
-  <!-- ANUNCIO 728x90 — pega aquí tu código AdSense cuando te aprueben -->
-  <div class="ad-slot">Publicidad — Google AdSense (se activa cuando te aprueben)</div>
-</div>
-
 <div class="content">
 
 <!-- NOTICIAS -->
@@ -188,11 +277,14 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 <section id="partidos" class="section">
   <div class="sec-t">Partidos <small id="pTime"></small></div>
   <div class="api-status"><div class="sdot ld" id="pDot"></div><span id="pStatus">Cargando datos en tiempo real…</span></div>
+  <div id="seasonSummary" style="display:none;background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:18px;">
+    <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;">Temporada 2025/26 — Todas las competiciones</div>
+    <div id="seasonStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(75px,1fr));gap:8px;"></div>
+  </div>
   <div class="frow" id="frow"></div>
-  <div class="sec-t" style="font-size:17px;margin-top:4px;">Resultados Recientes</div>
+  <div class="sec-t" style="font-size:17px;margin-top:4px;">Todos los Resultados <small id="matchCount"></small></div>
   <div id="listRes"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-  <div class="ad-inline">Publicidad — Google AdSense</div>
-  <div class="sec-t" style="font-size:17px;">Próximos Partidos</div>
+  <div class="sec-t" style="font-size:17px;margin-top:16px;">Próximos Partidos</div>
   <div id="listProx"><div class="skeleton"></div><div class="skeleton"></div></div>
 </section>
 
@@ -203,7 +295,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   <div class="tw">
     <table class="tb">
       <thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead>
-      <tbody id="tbody"><tr><td colspan="10"><div class="skeleton" style="height:40px;margin:4px 0"></div></td></tr></tbody>
+      <tbody id="tbody"><tr><td colspan="10"><div class="skeleton" style="height:36px;margin:3px 0"></div></td></tr></tbody>
     </table>
   </div>
 </section>
@@ -214,262 +306,334 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   <div class="pgrid" id="pgrid"></div>
 </section>
 
+<!-- VIDEOS -->
+<section id="videos" class="section">
+  <div class="sec-t">Vídeos &amp; Highlights</div>
+  <div id="notifArea"></div>
+  <div class="vid-grid" id="vidGrid"></div>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia" class="section">
+  <div class="sec-t">Historia del Rayo Vallecano</div>
+  <div class="hist-timeline" id="histTimeline"></div>
+</section>
+
+</div>
+
+<!-- MODAL JUGADOR -->
+<div class="overlay" id="overlayJugador" onclick="if(event.target===this)closeModal('overlayJugador')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('overlayJugador')">✕</button>
+    <div class="pl-header">
+      <div class="pl-num" id="j-num"></div>
+      <div><div class="pl-name" id="j-name"></div><div class="pl-pos" id="j-pos"></div><div class="pl-meta" id="j-nat"></div></div>
+    </div>
+    <div class="pl-stats-grid" id="j-stats"></div>
+    <div class="pl-desc" id="j-desc"></div>
+  </div>
+</div>
+
+<!-- MODAL PARTIDO -->
+<div class="overlay" id="overlayPartido" onclick="if(event.target===this)closeModal('overlayPartido')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('overlayPartido')">✕</button>
+    <div class="pm-header">
+      <div class="pm-comp" id="pm-comp"></div>
+      <div class="pm-teams">
+        <div class="pm-team" id="pm-home"></div>
+        <div class="pm-score" id="pm-score"></div>
+        <div class="pm-team right" id="pm-away"></div>
+      </div>
+      <div class="pm-date" id="pm-date"></div>
+    </div>
+    <div class="pm-stats" id="pm-stats"></div>
+    <div class="pm-section" id="pm-facts"></div>
+  </div>
 </div>
 
 <script>
-const RAYO_ID = 277;
-const LALIGA = 'PD';
+// ─── TEMA ─────────────────────────────────────
+let isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('theme',isDark?'dark':'light');
+}
+(function(){
+  const t=localStorage.getItem('theme');
+  if(t==='light'){isDark=false;document.documentElement.setAttribute('data-theme','light');document.getElementById('themeBtn').textContent='☀️';}
+})();
 
 // ─── API ─────────────────────────────────────
-async function apiFetch(endpoint) {
-  const r = await fetch(`/api/football?endpoint=${encodeURIComponent(endpoint)}`);
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+const RAYO_ID=277, LALIGA='PD';
+async function apiFetch(endpoint){
+  const r=await fetch(`/api/football?endpoint=${encodeURIComponent(endpoint)}`);
+  if(!r.ok)throw new Error(`HTTP ${r.status}`);
   return r.json();
 }
 
 // ─── PARTIDOS ────────────────────────────────
-async function loadPartidos() {
-  try {
-    const [fin, sch] = await Promise.all([
-      apiFetch(`teams/${RAYO_ID}/matches?status=FINISHED&limit=10`),
-      apiFetch(`teams/${RAYO_ID}/matches?status=SCHEDULED&limit=5`)
+async function loadPartidos(){
+  try{
+    const [fin,sch]=await Promise.all([
+      apiFetch(`teams/${RAYO_ID}/matches?status=FINISHED&season=2025`),
+      apiFetch(`teams/${RAYO_ID}/matches?status=SCHEDULED&season=2025`)
     ]);
-    const finished = fin.matches || [];
-    const scheduled = sch.matches || [];
-
-    // Banner próximo partido
-    if (scheduled.length > 0) {
-      const next = scheduled[0];
-      const rival = next.homeTeam.id === RAYO_ID ? next.awayTeam.name : next.homeTeam.name;
-      const fecha = new Date(next.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
-      const hora = new Date(next.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-      document.getElementById('nmTitle').textContent = `Rayo vs ${rival}`;
-      document.getElementById('nmSub').textContent = `${fecha} · ${hora}h · ${next.competition?.name||''}`;
+    const finished=fin.matches||[];
+    const scheduled=sch.matches||[];
+    if(scheduled.length>0){
+      const next=scheduled[0];
+      const rival=next.homeTeam.id===RAYO_ID?next.awayTeam.name:next.homeTeam.name;
+      const fecha=new Date(next.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
+      const hora=new Date(next.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('nmTitle').textContent=`Rayo vs ${rival}`;
+      document.getElementById('nmSub').textContent=`${fecha} · ${hora}h · ${next.competition?.name||''}`;
     }
-
-    // Filtros
-    const comps = [...new Set(finished.map(m=>m.competition?.name).filter(Boolean))];
-    const frow = document.getElementById('frow');
-    frow.innerHTML = '';
-    let filtro = 'Todos';
-
-    function renderList(f) {
-      const lista = f==='Todos' ? finished : finished.filter(m=>m.competition?.name===f);
-      document.getElementById('listRes').innerHTML = lista.length
-        ? lista.map(m=>matchCard(m,true)).join('')
-        : '<div class="err-msg">No hay resultados disponibles.</div>';
+    let wins=0,draws=0,losses=0,gf=0,ga=0;
+    finished.forEach(m=>{
+      const hRv=m.homeTeam.id===RAYO_ID;
+      const gH=m.score?.fullTime?.home??0, gA=m.score?.fullTime?.away??0;
+      gf+=hRv?gH:gA; ga+=hRv?gA:gH;
+      if(gH===gA)draws++;
+      else if((hRv&&gH>gA)||(!hRv&&gA>gH))wins++;
+      else losses++;
+    });
+    document.getElementById('seasonStats').innerHTML=[
+      ['Jugados',finished.length,'var(--txt)'],['Victorias',wins,'#4caf50'],['Empates',draws,'#ffc107'],
+      ['Derrotas',losses,'var(--rojo)'],['GF',gf,'var(--txt)'],['GC',ga,'var(--txt)'],['Pts',wins*3+draws,'var(--oro)']
+    ].map(([l,v,c])=>`<div style="background:var(--gris2);border-radius:8px;padding:10px 6px;text-align:center"><div style="font-family:'Bebas Neue';font-size:24px;color:${c}">${v}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3)">${l}</div></div>`).join('');
+    document.getElementById('seasonSummary').style.display='block';
+    const comps=[...new Set(finished.map(m=>m.competition?.name).filter(Boolean))];
+    const frow=document.getElementById('frow');
+    frow.innerHTML='';
+    let filtro='Todos';
+    function renderList(f){
+      const lista=(f==='Todos'?[...finished]:finished.filter(m=>m.competition?.name===f)).sort((a,b)=>new Date(b.utcDate)-new Date(a.utcDate));
+      document.getElementById('listRes').innerHTML=lista.length?lista.map(m=>matchCard(m,true)).join(''):'<div class="err-msg">No hay resultados.</div>';
+      document.getElementById('matchCount').textContent=`${lista.length} partidos`;
     }
-
     ['Todos',...comps].forEach((c,i)=>{
-      const b = document.createElement('button');
-      b.className='pill'; b.textContent=c;
-      if(i===0) b.style.cssText='border-color:var(--rojo);color:var(--rojo);';
-      b.onclick=()=>{
-        filtro=c;
-        frow.querySelectorAll('.pill').forEach(x=>x.style.cssText='');
-        b.style.cssText='border-color:var(--rojo);color:var(--rojo);';
-        renderList(filtro);
-      };
+      const b=document.createElement('button');
+      b.className='pill';b.textContent=c;
+      if(i===0)b.style.cssText='border-color:var(--rojo);color:var(--rojo);';
+      b.onclick=()=>{filtro=c;frow.querySelectorAll('.pill').forEach(x=>x.style.cssText='');b.style.cssText='border-color:var(--rojo);color:var(--rojo);';renderList(filtro);};
       frow.appendChild(b);
     });
     renderList('Todos');
-
-    document.getElementById('listProx').innerHTML = scheduled.length
-      ? scheduled.map(m=>matchCard(m,false)).join('')
-      : '<div class="err-msg">No hay próximos partidos programados.</div>';
-
+    document.getElementById('listProx').innerHTML=scheduled.length?scheduled.map(m=>matchCard(m,false)).join(''):'<div class="err-msg">No hay próximos partidos.</div>';
     document.getElementById('pDot').className='sdot ok';
-    document.getElementById('pStatus').textContent='Datos en tiempo real · football-data.org';
+    document.getElementById('pStatus').textContent=`Temporada completa 2025/26 · football-data.org`;
     document.getElementById('pTime').textContent=`Actualizado ${new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}`;
+  }catch(e){document.getElementById('pDot').className='sdot err';document.getElementById('pStatus').textContent='Error — mostrando datos guardados';fallbackPartidos();}
+}
 
-  } catch(e) {
-    document.getElementById('pDot').className='sdot err';
-    document.getElementById('pStatus').textContent='Error al cargar — mostrando datos guardados';
-    fallbackPartidos();
+function matchCard(m,finished){
+  const hRv=m.homeTeam.id===RAYO_ID, aRv=m.awayTeam.id===RAYO_ID;
+  const isConf=m.competition?.name?.includes('Conference')||m.competition?.code==='ECNL';
+  const cc=isConf?'color:var(--azul)':'color:var(--rojo)';
+  const fecha=new Date(m.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
+  const hora=new Date(m.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  const mData=encodeURIComponent(JSON.stringify({home:m.homeTeam.name,away:m.awayTeam.name,gH:m.score?.fullTime?.home,gA:m.score?.fullTime?.away,comp:m.competition?.name||'',fecha,hora,finished,homeRv:hRv,awayRv:aRv,isConf}));
+  if(finished){
+    const gH=m.score?.fullTime?.home??'—', gA=m.score?.fullTime?.away??'—';
+    let bc='bd',bt='Empate';
+    if(gH!=='—'&&gA!=='—'){if((hRv&&gH>gA)||(aRv&&gA>gH)){bc='bw';bt='Victoria';}else if((hRv&&gH<gA)||(aRv&&gA<gH)){bc='bl';bt='Derrota';}}
+    return `<div class="mc res" onclick="openPartido('${mData}')"><div class="teams"><div class="tn ${hRv?'rv':''}">${m.homeTeam.name}</div><div class="ms">${gH} — ${gA}</div><div class="tn lft ${aRv?'rv':''}">${m.awayTeam.name}</div></div><div class="mi"><div class="mc-comp" style="${cc}">${m.competition?.name||''}</div><div class="mc-date">${fecha}</div><span class="badge ${bc}">${bt}</span></div></div>`;
+  } else {
+    const isLive=m.status==='IN_PLAY'||m.status==='PAUSED';
+    return `<div class="mc ${isConf?'conf':'nxt'} ${isLive?'live':''}" onclick="openPartido('${mData}')"><div class="teams"><div class="tn ${hRv?'rv':''}">${m.homeTeam.name}</div><div class="ms vs">${isLive?`${m.score?.fullTime?.home||0}—${m.score?.fullTime?.away||0}`:'VS'}</div><div class="tn lft ${aRv?'rv':''}">${m.awayTeam.name}</div></div><div class="mi"><div class="mc-comp" style="${cc}">${m.competition?.name||''}</div><div class="mc-date">${fecha} · ${hora}h</div>${isLive?'<span class="badge blive">🔴 EN VIVO</span>':'<span class="badge bn">Próximo</span>'}</div></div>`;
   }
 }
 
-function matchCard(m, finished) {
-  const homeRv = m.homeTeam.id===RAYO_ID;
-  const awayRv = m.awayTeam.id===RAYO_ID;
-  const isConf = m.competition?.name?.includes('Conference')||m.competition?.code==='ECNL';
-  const compColor = isConf?'color:var(--azul)':'color:var(--rojo)';
-  const fecha = new Date(m.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
-  const hora = new Date(m.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
-
-  if(finished){
-    const gH=m.score?.fullTime?.home??'—';
-    const gA=m.score?.fullTime?.away??'—';
-    let badgeCls='bd',badgeTxt='Empate';
-    if(gH!=='—'&&gA!=='—'){
-      if((homeRv&&gH>gA)||(awayRv&&gA>gH)){badgeCls='bw';badgeTxt='Victoria';}
-      else if((homeRv&&gH<gA)||(awayRv&&gA<gH)){badgeCls='bl';badgeTxt='Derrota';}
-    }
-    return `<div class="mc res">
-      <div class="teams">
-        <div class="tn ${homeRv?'rv':''}">${m.homeTeam.name}</div>
-        <div class="ms">${gH} — ${gA}</div>
-        <div class="tn lft ${awayRv?'rv':''}">${m.awayTeam.name}</div>
-      </div>
-      <div class="mi">
-        <div class="mc-comp" style="${compColor}">${m.competition?.name||''}</div>
-        <div class="mc-date">${fecha}</div>
-        <span class="badge ${badgeCls}">${badgeTxt}</span>
-      </div>
-    </div>`;
+function openPartido(dataStr){
+  const m=JSON.parse(decodeURIComponent(dataStr));
+  const cc=m.isConf?'color:var(--azul)':'color:var(--rojo)';
+  document.getElementById('pm-comp').innerHTML=`<span style="${cc}">${m.comp}</span>`;
+  document.getElementById('pm-home').textContent=m.home;
+  document.getElementById('pm-away').textContent=m.away;
+  document.getElementById('pm-home').style.color=m.homeRv?'var(--rojo)':'var(--txt)';
+  document.getElementById('pm-away').style.color=m.awayRv?'var(--rojo)':'var(--txt)';
+  if(m.finished&&m.gH!==null&&m.gH!==undefined){
+    document.getElementById('pm-score').textContent=`${m.gH} — ${m.gA}`;
+    document.getElementById('pm-score').classList.remove('vs');
+    let res='Empate',rc='#ffc107';
+    if((m.homeRv&&m.gH>m.gA)||(m.awayRv&&m.gA>m.gH)){res='Victoria ⚡';rc='#4caf50';}
+    else if((m.homeRv&&m.gH<m.gA)||(m.awayRv&&m.gA<m.gH)){res='Derrota';rc='var(--rojo)';}
+    document.getElementById('pm-stats').innerHTML=`<div class="pm-stat"><div class="pm-stat-val" style="color:${rc}">${res}</div><div class="pm-stat-lbl">Resultado</div></div><div class="pm-stat"><div class="pm-stat-val">${m.gH}</div><div class="pm-stat-lbl">Goles local</div></div><div class="pm-stat"><div class="pm-stat-val">${m.gA}</div><div class="pm-stat-lbl">Goles visit.</div></div>`;
+    document.getElementById('pm-facts').innerHTML=`<div class="pm-section-title">Detalles</div><div class="pm-fact"><span>📅</span>${m.fecha}</div><div class="pm-fact"><span>🏆</span>${m.comp}</div><div class="pm-fact"><span>⚡</span>Rayo ${m.homeRv?'local':'visitante'}</div>`;
   } else {
-    const isLive=m.status==='IN_PLAY'||m.status==='PAUSED';
-    return `<div class="mc ${isConf?'conf':'nxt'} ${isLive?'live':''}">
-      <div class="teams">
-        <div class="tn ${homeRv?'rv':''}">${m.homeTeam.name}</div>
-        <div class="ms vs">${isLive?`${m.score?.fullTime?.home||0}—${m.score?.fullTime?.away||0}`:'VS'}</div>
-        <div class="tn lft ${awayRv?'rv':''}">${m.awayTeam.name}</div>
-      </div>
-      <div class="mi">
-        <div class="mc-comp" style="${compColor}">${m.competition?.name||''}</div>
-        <div class="mc-date">${fecha} · ${hora}h</div>
-        ${isLive?'<span class="badge blive">🔴 EN VIVO</span>':'<span class="badge bn">Próximo</span>'}
-      </div>
-    </div>`;
+    document.getElementById('pm-score').textContent='VS';
+    document.getElementById('pm-score').classList.add('vs');
+    document.getElementById('pm-stats').innerHTML=`<div class="pm-stat"><div class="pm-stat-val" style="color:var(--oro)">Pendiente</div><div class="pm-stat-lbl">Estado</div></div><div class="pm-stat"><div class="pm-stat-val" style="font-size:16px">${m.fecha}</div><div class="pm-stat-lbl">Fecha</div></div><div class="pm-stat"><div class="pm-stat-val">${m.hora}h</div><div class="pm-stat-lbl">Hora</div></div>`;
+    document.getElementById('pm-facts').innerHTML=`<div class="pm-section-title">Información</div><div class="pm-fact"><span>🏆</span>${m.comp}</div><div class="pm-fact"><span>⚡</span>Rayo ${m.homeRv?'local en Vallecas':'visitante'}</div>`;
   }
+  document.getElementById('pm-date').textContent=m.fecha+(m.hora&&!m.finished?' · '+m.hora+'h':'');
+  document.getElementById('overlayPartido').classList.add('on');
+  document.body.style.overflow='hidden';
 }
 
 // ─── TABLA ───────────────────────────────────
-async function loadTabla() {
-  try {
-    const data = await apiFetch(`competitions/${LALIGA}/standings`);
-    const standings = data.standings?.[0]?.table||[];
-    document.getElementById('tbody').innerHTML = standings.map(t=>{
+async function loadTabla(){
+  try{
+    const data=await apiFetch(`competitions/${LALIGA}/standings`);
+    const standings=data.standings?.[0]?.table||[];
+    document.getElementById('tbody').innerHTML=standings.map(t=>{
       const isRayo=t.team.name.includes('Rayo');
-      const dg=t.goalDifference;
-      const dgStr=dg>0?`+${dg}`:String(dg);
+      const dg=t.goalDifference, dgStr=dg>0?`+${dg}`:String(dg);
       let pc='pb pno';
       if(t.position<=4)pc='pb pcl';
       else if(t.position<=6)pc='pb peu';
       else if(t.position>=18)pc='pb pde';
-      return `<tr ${isRayo?'class="rrow"':''}>
-        <td><span class="${pc}">${t.position}</span></td>
-        <td>${isRayo?'⚡ ':''}${t.team.name}</td>
-        <td>${t.playedGames}</td><td>${t.won}</td><td>${t.draw}</td><td>${t.lost}</td>
-        <td>${t.goalsFor}</td><td>${t.goalsAgainst}</td><td>${dgStr}</td>
-        <td><strong>${t.points}</strong></td>
-      </tr>`;
+      return `<tr ${isRayo?'class="rrow"':''}><td><span class="${pc}">${t.position}</span></td><td>${isRayo?'⚡ ':''}${t.team.name}</td><td>${t.playedGames}</td><td>${t.won}</td><td>${t.draw}</td><td>${t.lost}</td><td>${t.goalsFor}</td><td>${t.goalsAgainst}</td><td>${dgStr}</td><td><strong>${t.points}</strong></td></tr>`;
     }).join('');
     document.getElementById('tDot').className='sdot ok';
     document.getElementById('tStatus').textContent='Clasificación en tiempo real · football-data.org';
-  } catch(e) {
-    document.getElementById('tDot').className='sdot err';
-    document.getElementById('tStatus').textContent='Error — mostrando datos guardados';
-    fallbackTabla();
-  }
+  }catch(e){document.getElementById('tDot').className='sdot err';document.getElementById('tStatus').textContent='Error — datos guardados';fallbackTabla();}
 }
 
 // ─── FALLBACKS ───────────────────────────────
 function fallbackPartidos(){
   const datos=[
+    {loc:"Rayo Vallecano",vis:"Samsunspor",gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",r:"win"},
     {loc:"Samsunspor",vis:"Rayo Vallecano",gL:1,gV:3,f:"12 Mar 2026",comp:"Conference League",r:"win"},
     {loc:"Rayo Vallecano",vis:"Levante",gL:1,gV:1,f:"8 Mar 2026",comp:"LaLiga",r:"draw"},
     {loc:"Getafe CF",vis:"Rayo Vallecano",gL:0,gV:0,f:"1 Mar 2026",comp:"LaLiga",r:"draw"},
     {loc:"Rayo Vallecano",vis:"Osasuna",gL:2,gV:1,f:"22 Feb 2026",comp:"LaLiga",r:"win"},
+    {loc:"Atlético Madrid",vis:"Rayo Vallecano",gL:2,gV:0,f:"15 Feb 2026",comp:"LaLiga",r:"loss"},
   ];
   document.getElementById('listRes').innerHTML=datos.map(p=>{
     const bc=p.r==='win'?'bw':p.r==='draw'?'bd':'bl';
     const bt=p.r==='win'?'Victoria':p.r==='draw'?'Empate':'Derrota';
     const ic=p.comp.includes('Conference');
-    return `<div class="mc res"><div class="teams">
-      <div class="tn ${p.loc==='Rayo Vallecano'?'rv':''}">${p.loc}</div>
-      <div class="ms">${p.gL} — ${p.gV}</div>
-      <div class="tn lft ${p.vis==='Rayo Vallecano'?'rv':''}">${p.vis}</div>
-    </div><div class="mi">
-      <div class="mc-comp" style="${ic?'color:var(--azul)':'color:var(--rojo)'}">${p.comp}</div>
-      <div class="mc-date">${p.f}</div>
-      <span class="badge ${bc}">${bt}</span>
-    </div></div>`;
+    const md=encodeURIComponent(JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp,fecha:p.f,hora:'',finished:true,homeRv:p.loc==='Rayo Vallecano',awayRv:p.vis==='Rayo Vallecano',isConf:ic}));
+    return `<div class="mc res" onclick="openPartido('${md}')"><div class="teams"><div class="tn ${p.loc==='Rayo Vallecano'?'rv':''}">${p.loc}</div><div class="ms">${p.gL} — ${p.gV}</div><div class="tn lft ${p.vis==='Rayo Vallecano'?'rv':''}">${p.vis}</div></div><div class="mi"><div class="mc-comp" style="${ic?'color:var(--azul)':'color:var(--rojo)'}">${p.comp}</div><div class="mc-date">${p.f}</div><span class="badge ${bc}">${bt}</span></div></div>`;
   }).join('');
-  document.getElementById('nmTitle').textContent='Rayo Vallecano vs Samsunspor';
-  document.getElementById('nmSub').textContent='Conference League · Octavos vuelta';
-  document.getElementById('listProx').innerHTML=`<div class="mc conf"><div class="teams">
-    <div class="tn rv">Rayo Vallecano</div><div class="ms vs">VS</div>
-    <div class="tn lft">Samsunspor</div></div>
-    <div class="mi"><div class="mc-comp" style="color:var(--azul)">Conference League</div>
-    <div class="mc-date">19 Mar 2026</div><span class="badge bn">Próximo</span></div></div>`;
+  document.getElementById('nmTitle').textContent='Cuartos Conference League';
+  document.getElementById('nmSub').textContent='Fecha por confirmar · UEFA Conference League';
+  document.getElementById('listProx').innerHTML=`<div class="mc conf" style="justify-content:center;padding:18px;"><div style="text-align:center"><div style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:6px">Conference League · Cuartos</div><div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--txt)">Rayo Vallecano — Rival por confirmar</div><div style="font-size:12px;color:var(--txt3);margin-top:4px">Sorteo pendiente · Abril 2026</div><span class="badge bn" style="margin-top:8px">Próximo</span></div></div>`;
 }
 
 function fallbackTabla(){
-  const t=[
-    {pos:1,eq:"FC Barcelona",pj:28,g:23,e:1,p:4,gf:77,gc:28,pts:70,tipo:"cl"},
-    {pos:2,eq:"Real Madrid",pj:28,g:21,e:3,p:4,gf:60,gc:24,pts:66,tipo:"cl"},
-    {pos:3,eq:"Atlético de Madrid",pj:28,g:17,e:6,p:5,gf:47,gc:25,pts:57,tipo:"cl"},
-    {pos:4,eq:"Villarreal CF",pj:28,g:17,e:4,p:7,gf:51,gc:33,pts:55,tipo:"cl"},
-    {pos:5,eq:"Real Betis",pj:28,g:11,e:11,p:6,gf:43,gc:35,pts:44,tipo:"eu"},
-    {pos:6,eq:"Celta de Vigo",pj:28,g:10,e:11,p:7,gf:38,gc:31,pts:41,tipo:"eu"},
-    {pos:7,eq:"Real Sociedad",pj:28,g:10,e:8,p:10,gf:43,gc:42,pts:38,tipo:"no"},
-    {pos:8,eq:"RCD Espanyol",pj:28,g:10,e:7,p:11,gf:35,gc:42,pts:37,tipo:"no"},
-    {pos:9,eq:"Getafe CF",pj:28,g:10,e:5,p:13,gf:23,gc:30,pts:35,tipo:"no"},
-    {pos:10,eq:"Alavés",pj:28,g:9,e:7,p:12,gf:32,gc:40,pts:34,tipo:"no"},
-    {pos:11,eq:"Osasuna",pj:28,g:9,e:6,p:13,gf:31,gc:38,pts:33,tipo:"no"},
-    {pos:12,eq:"Mallorca",pj:28,g:9,e:5,p:14,gf:27,gc:35,pts:32,tipo:"no"},
-    {pos:13,eq:"Rayo Vallecano",pj:28,g:8,e:9,p:11,gf:30,gc:36,pts:33,tipo:"no",rv:true},
-    {pos:14,eq:"Athletic Club",pj:28,g:8,e:8,p:12,gf:35,gc:38,pts:32,tipo:"no"},
-    {pos:15,eq:"Sevilla FC",pj:28,g:7,e:9,p:12,gf:28,gc:42,pts:30,tipo:"no"},
-    {pos:16,eq:"Valencia CF",pj:28,g:7,e:8,p:13,gf:26,gc:40,pts:29,tipo:"no"},
-    {pos:17,eq:"Levante UD",pj:28,g:6,e:9,p:13,gf:28,gc:43,pts:27,tipo:"no"},
-    {pos:18,eq:"Elche CF",pj:28,g:6,e:7,p:15,gf:22,gc:47,pts:25,tipo:"de"},
-    {pos:19,eq:"Las Palmas",pj:28,g:5,e:8,p:15,gf:24,gc:46,pts:23,tipo:"de"},
-    {pos:20,eq:"Real Oviedo",pj:28,g:4,e:6,p:18,gf:20,gc:55,pts:18,tipo:"de"},
-  ];
-  document.getElementById('tbody').innerHTML=t.map(x=>{
-    const dg=x.gf-x.gc;const s=dg>0?`+${dg}`:String(dg);
-    const pc=x.tipo==='cl'?'pb pcl':x.tipo==='eu'?'pb peu':x.tipo==='de'?'pb pde':'pb pno';
-    return `<tr ${x.rv?'class="rrow"':''}><td><span class="${pc}">${x.pos}</span></td>
-    <td>${x.rv?'⚡ ':''}${x.eq}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td>
-    <td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${s}</td><td><strong>${x.pts}</strong></td></tr>`;
-  }).join('');
+  const t=[{pos:1,eq:"FC Barcelona",pj:29,g:24,e:1,p:4,gf:79,gc:28,pts:73,t:"cl"},{pos:2,eq:"Real Madrid",pj:29,g:21,e:3,p:5,gf:61,gc:26,pts:66,t:"cl"},{pos:3,eq:"Atlético de Madrid",pj:29,g:17,e:6,p:6,gf:48,gc:27,pts:57,t:"cl"},{pos:4,eq:"Villarreal CF",pj:29,g:17,e:4,p:8,gf:52,gc:35,pts:55,t:"cl"},{pos:5,eq:"Real Betis",pj:29,g:11,e:11,p:7,gf:43,gc:36,pts:44,t:"eu"},{pos:6,eq:"Celta de Vigo",pj:29,g:10,e:11,p:8,gf:38,gc:33,pts:41,t:"eu"},{pos:13,eq:"Rayo Vallecano",pj:29,g:9,e:9,p:11,gf:31,gc:36,pts:36,t:"no",rv:true},{pos:18,eq:"Elche CF",pj:29,g:6,e:7,p:16,gf:22,gc:48,pts:25,t:"de"},{pos:19,eq:"Las Palmas",pj:29,g:5,e:8,p:16,gf:24,gc:47,pts:23,t:"de"},{pos:20,eq:"Real Oviedo",pj:29,g:4,e:6,p:19,gf:20,gc:56,pts:18,t:"de"}];
+  document.getElementById('tbody').innerHTML=t.map(x=>{const dg=x.gf-x.gc;const s=dg>0?`+${dg}`:String(dg);const pc=x.t==='cl'?'pb pcl':x.t==='eu'?'pb peu':x.t==='de'?'pb pde':'pb pno';return `<tr ${x.rv?'class="rrow"':''}><td><span class="${pc}">${x.pos}</span></td><td>${x.rv?'⚡ ':''}${x.eq}</td><td>${x.pj}</td><td>${x.g}</td><td>${x.e}</td><td>${x.p}</td><td>${x.gf}</td><td>${x.gc}</td><td>${s}</td><td><strong>${x.pts}</strong></td></tr>`;}).join('');
 }
 
 // ─── NOTICIAS ────────────────────────────────
 const noticias=[
-  {tag:"Conference League 🔥",t:"Esta noche: Rayo vs Samsunspor, un paso de los cuartos de final europeos",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",link:"https://www.marca.com/futbol/rayo-vallecano.html"},
-  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80",link:"https://www.marca.com/futbol/rayo-vallecano.html"},
-  {tag:"LaLiga",t:"Empate en Getafe (0-0): el Rayo sólido a domicilio esta temporada",f:"1 Mar 2026",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",f:"18 Mar 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",link:"https://www.marca.com/futbol/rayo-vallecano.html"},
-  {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://www.marca.com/futbol/rayo-vallecano.html"},
+  {tag:"Conference League 🎉",t:"¡CUARTOS! El Rayo elimina al Samsunspor y hace historia en Europa",desc:"El Rayo pasa a cuartos con un global de 4-1. Una noche histórica en Vallecas que la afición no olvidará jamás.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",desc:"El Rayo firmó una actuación brillante a domicilio. Alemão marcó dos goles y Álvaro García puso el tercero.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"LaLiga",t:"Empate en Getafe (0-0): el Rayo sólido a domicilio esta temporada",desc:"Un punto que demuestra la solidez defensiva del equipo de Iñigo Pérez fuera de Vallecas.",f:"1 Mar 2026",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",desc:"El extremo marroquí sigue creciendo y ya es pieza clave tanto en el Rayo como en su selección.",f:"18 Mar 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",desc:"Victoria importante en casa que permite al Rayo alejarse de los puestos de descenso.",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+];
+function rNoticias(){
+  document.getElementById('newsGrid').innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+}
+
+// ─── VÍDEOS ──────────────────────────────────
+const videos=[
+  {tag:"Conference League",t:"¡GOLAZO de Alemão! Rayo Vallecano 1-3 en Samsunspor",desc:"El delantero brasileño pone el tercer gol del Rayo con un derechazo imparable en el fondo de la red.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=600&q=80",url:"https://www.youtube.com/results?search_query=Rayo+Vallecano+Conference+League+2026"},
+  {tag:"LaLiga",t:"RESUMEN: Rayo 2-1 Osasuna — Goles, jugadas y análisis",desc:"Los mejores momentos de la victoria ante Osasuna. De Frutos y Alemão fueron los protagonistas.",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1540379708242-14a809fcef22?w=600&q=80",url:"https://www.youtube.com/results?search_query=Rayo+Vallecano+Osasuna+2026"},
+  {tag:"Jugadores",t:"TOP 5 goles de Jorge de Frutos esta temporada",desc:"El máximo goleador del Rayo con 12 tantos. Un repaso a sus mejores dianas de la temporada 2025/26.",f:"15 Mar 2026",img:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80",url:"https://www.youtube.com/results?search_query=Jorge+de+Frutos+goles+Rayo+Vallecano"},
+  {tag:"Conference League",t:"El Rayo en Europa: todas las jugadas de la fase de grupos",desc:"Repaso completo a los 6 partidos de la fase de grupos donde el Rayo fue imbatible.",f:"20 Dic 2025",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",url:"https://www.youtube.com/results?search_query=Rayo+Vallecano+Conference+League+fase+grupos"},
+  {tag:"Afición",t:"Vallecas explota: la celebración tras pasar a cuartos",desc:"Las imágenes de la afición en Vallecas celebrando el pase histórico a cuartos de la Conference League.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",url:"https://www.youtube.com/results?search_query=Rayo+Vallecano+cuartos+Conference+League+aficion"},
+  {tag:"Jugadores",t:"Akhomach: los mejores regates y jugadas del marroquí",desc:"El extremo más desequilibrante del Rayo con sus mejores momentos. 1.7 regates por partido.",f:"10 Mar 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",url:"https://www.youtube.com/results?search_query=Akhomach+Rayo+Vallecano+2026"},
 ];
 
-function rNoticias(){
-  document.getElementById('newsGrid').innerHTML=noticias.map(n=>`
-    <a class="news-card" href="${n.link}" target="_blank" rel="noopener">
-      <img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'">
-      <div class="news-body">
-        <div class="news-tag">${n.tag}</div>
-        <div class="news-title">${n.t}</div>
-        <div class="news-meta">${n.f}</div>
+let notifEnabled=false;
+function rVideos(){
+  // Notificaciones
+  const na=document.getElementById('notifArea');
+  na.innerHTML=`<div class="notif-banner"><div class="notif-text">🔔 Activa las notificaciones para saber cuándo juega el Rayo</div><button class="notif-btn ${notifEnabled?'off':''}" onclick="toggleNotif(this)" id="notifBtn">${notifEnabled?'Desactivar':'Activar notificaciones'}</button></div>`;
+  document.getElementById('vidGrid').innerHTML=videos.map(v=>`
+    <a class="vid-card" href="${v.url}" target="_blank" rel="noopener">
+      <div class="vid-thumb-wrap">
+        <img class="vid-thumb" src="${v.img}" alt="${v.t}" loading="lazy" onerror="this.style.display='none'">
+        <div class="vid-play">▶</div>
+      </div>
+      <div class="vid-body">
+        <div class="vid-tag">${v.tag}</div>
+        <div class="vid-title">${v.t}</div>
+        <div style="font-size:12px;color:var(--txt2);line-height:1.4;margin-bottom:4px">${v.desc}</div>
+        <div class="vid-meta">${v.f}</div>
       </div>
     </a>`).join('');
 }
 
+function toggleNotif(btn){
+  if(!notifEnabled){
+    if('Notification' in window){
+      Notification.requestPermission().then(p=>{
+        if(p==='granted'){
+          notifEnabled=true;
+          btn.textContent='Desactivar';
+          btn.classList.add('off');
+          new Notification('¡Rayo Vallecano!',{body:'Te avisaremos cuando el Rayo juegue ⚡🔴',icon:'https://rayo-vallecano.vercel.app/favicon.ico'});
+          localStorage.setItem('notif','on');
+        }
+      });
+    }
+  } else {
+    notifEnabled=false;
+    btn.textContent='Activar notificaciones';
+    btn.classList.remove('off');
+    localStorage.setItem('notif','off');
+  }
+}
+
+// ─── HISTORIA ────────────────────────────────
+const historia=[
+  {year:"1924",titulo:"Fundación del club",badge:"Origen",texto:"El Rayo Vallecano es fundado el 29 de mayo de 1924 como modesto club de fútbol del barrio obrero de Vallecas, en Madrid. Nace como símbolo de la clase trabajadora de uno de los barrios más humildes de la capital.",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=500&q=70"},
+  {year:"1947",titulo:"Primera división por primera vez",badge:"Hito histórico",texto:"El Rayo asciende por primera vez a Primera División, un logro increíble para un club de barrio. La afición de Vallecas, fiel y apasionada, llena el campo para celebrar uno de los momentos más importantes de su historia.",img:""},
+  {year:"1977",titulo:"Inauguración del Estadio de Vallecas",badge:"Casa del Rayo",texto:"Se inaugura el actual Estadio de Vallecas, casa del Rayo hasta hoy. El estadio, enclavado en pleno barrio y con capacidad para 14.700 espectadores, es uno de los más auténticos y peculiares del fútbol español.",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=70"},
+  {year:"1991",titulo:"La bandera de la igualdad",badge:"Identidad única",texto:"El Rayo fue el primer club europeo en lucir una bandera LGBTQ+ en su estadio, convirtiéndose en símbolo de tolerancia e inclusión en el fútbol. Una identidad que el club lleva con orgullo hasta hoy y que le diferencia del resto.",img:""},
+  {year:"2003",titulo:"Temporada en Primera con Míchel",badge:"Era dorada",texto:"Bajo la dirección de Míchel, el Rayo vive una de sus mejores épocas en Primera División, consolidándose en la élite y fichando jugadores internacionales. La afición disfruta de un fútbol brillante y ofensivo que deja huella.",img:""},
+  {year:"2011",titulo:"Regreso épico a Primera División",badge:"Resurrección",texto:"Tras años en categorías inferiores, el Rayo regresa a Primera División con una plantilla joven y hambrienta. El club se convierte en referente del fútbol de ataque y en favorito de la afición neutral por su estilo valiente.",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&q=70"},
+  {year:"2014",titulo:"El año de las camisetas solidarias",badge:"Valores",texto:"El Rayo lanza camisetas con mensajes solidarios contra los desahucios en plena crisis económica española. El club se convierte en símbolo de resistencia social y sus camisetas se venden por todo el mundo como objetos de culto.",img:""},
+  {year:"2019",titulo:"Descenso y lucha por volver",badge:"Resiliencia",texto:"El Rayo desciende a Segunda División tras una dura temporada pero la afición no abandona al equipo. Vallecas demuestra que su amor por el club va más allá de la categoría. Dos años después regresan a Primera.",img:""},
+  {year:"2025",titulo:"¡Europa por primera vez en 24 años!",badge:"🌍 Historia",texto:"El Rayo Vallecano se clasifica para la UEFA Conference League 2025/26, su primera competición europea desde 2001. Un logro histórico para el club obrero de Vallecas que ahora juega con los mejores equipos de Europa.",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=500&q=70"},
+  {year:"2026",titulo:"¡CUARTOS DE FINAL! El sueño europeo continúa",badge:"🏆 Presente",texto:"El Rayo Vallecano elimina al Samsunspor turco en los octavos de final de la Conference League y se mete en cuartos. Vallecas celebra una noche histórica mientras el equipo sigue soñando con llegar más lejos en Europa.",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=500&q=70"},
+];
+
+function rHistoria(){
+  document.getElementById('histTimeline').innerHTML=historia.map((h,i)=>`
+    <div class="hist-item" style="animation-delay:${i*0.08}s">
+      <div class="hist-badge">${h.badge}</div>
+      <div class="hist-year">${h.year}</div>
+      <div class="hist-title">${h.titulo}</div>
+      <div class="hist-text">${h.texto}</div>
+      ${h.img?`<img class="hist-img" src="${h.img}" alt="${h.titulo}" loading="lazy" onerror="this.style.display='none'">`:''}
+    </div>`).join('');
+}
+
 // ─── PLANTILLA ───────────────────────────────
 const plantilla=[
-  {num:1,n:"Stole Dimitrievski",pos:"Portero",nac:"🇲🇰 Macedonia",s:{pj:32,g:0,a:0}},
-  {num:13,n:"Augusto Batalla",pos:"Portero",nac:"🇦🇷 Argentina",s:{pj:4,g:0,a:0}},
-  {num:2,n:"Andrei Rațiu",pos:"Defensa",nac:"🇷🇴 Rumanía",s:{pj:30,g:2,a:4}},
-  {num:3,n:"Florian Lejeune",pos:"Defensa",nac:"🇫🇷 Francia",s:{pj:28,g:3,a:1}},
-  {num:5,n:"Luis Felipe",pos:"Defensa",nac:"🇧🇷 Brasil",s:{pj:22,g:1,a:0}},
-  {num:16,n:"Pep Chavarría",pos:"Defensa",nac:"🇪🇸 España",s:{pj:25,g:0,a:2}},
-  {num:20,n:"Fran García",pos:"Defensa",nac:"🇪🇸 España",s:{pj:29,g:1,a:5}},
-  {num:23,n:"Alejandro Catena",pos:"Defensa",nac:"🇪🇸 España",s:{pj:26,g:2,a:0}},
-  {num:4,n:"Pathé Ciss",pos:"Centrocampista",nac:"🇸🇳 Senegal",s:{pj:28,g:2,a:3}},
-  {num:6,n:"Unai López",pos:"Centrocampista",nac:"🇪🇸 España",s:{pj:30,g:3,a:4}},
-  {num:8,n:"Óscar Valentín",pos:"Centrocampista",nac:"🇪🇸 España",s:{pj:27,g:1,a:2}},
-  {num:14,n:"Santi Comesaña",pos:"Centrocampista",nac:"🇪🇸 España",s:{pj:25,g:2,a:1}},
-  {num:7,n:"Ilias Akhomach",pos:"Delantero",nac:"🇲🇦 Marruecos",s:{pj:30,g:7,a:8}},
-  {num:9,n:"Alemão",pos:"Delantero",nac:"🇧🇷 Brasil",s:{pj:32,g:14,a:5}},
-  {num:10,n:"Isi Palazón",pos:"Delantero",nac:"🇪🇸 España",s:{pj:22,g:4,a:6}},
-  {num:11,n:"Álvaro García",pos:"Delantero",nac:"🇪🇸 España",s:{pj:28,g:6,a:4}},
-  {num:17,n:"Jorge de Frutos",pos:"Delantero",nac:"🇪🇸 España",s:{pj:26,g:5,a:3}},
-  {num:19,n:"Sergio Camello",pos:"Delantero",nac:"🇪🇸 España",s:{pj:24,g:4,a:2}},
-  {num:24,n:"Randy Nteka",pos:"Delantero",nac:"🇫🇷 Francia",s:{pj:20,g:3,a:2}},
+  {num:1, n:"Dani Cárdenas",   pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:25},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Portero titular esta temporada. Ha sustituido a Dimitrievski con gran solidez bajo palos."},
+  {num:13,n:"Augusto Batalla", pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:4}, conf:{g:0,a:0,pj:2},copa:{g:0,a:0,pj:0}}, desc:"Portero suplente argentino. Pocas apariciones pero siempre preparado cuando se le necesita."},
+  {num:2, n:"Andrei Rațiu",    pos:"Defensa",        nac:"🇷🇴 Rumanía",   stats:{liga:{g:0,a:1,pj:27},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Lateral derecho más valioso de la plantilla (18M€). Gran proyección ofensiva y mejor regateador del equipo."},
+  {num:5, n:"Luiz Felipe",     pos:"Defensa",        nac:"🇧🇷 Brasil",    stats:{liga:{g:0,a:0,pj:12},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Central brasileño limitado por lesiones. Cuando juega aporta mucha calidad con el balón."},
+  {num:16,n:"Pep Chavarría",   pos:"Defensa",        nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Lateral izquierdo con 2 goles en LaLiga. Ha sorprendido con su aportación goleadora esta temporada."},
+  {num:20,n:"Alfonso Espino",  pos:"Defensa",        nac:"🇺🇾 Uruguay",   stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:0}}, desc:"Lateral izquierdo uruguayo. Marcó un gol clave en Anoeta que silenció a la Real Sociedad."},
+  {num:23,n:"Florian Lejeune", pos:"Defensa",        nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:21},conf:{g:0,a:0,pj:5},copa:{g:0,a:0,pj:1}}, desc:"Central francés experimentado y líder de la zaga. Organizador de la defensa."},
+  {num:24,n:"Nobel Mendy",     pos:"Defensa",        nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:19},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central senegalés. Marcó un golazo ante el Atlético de Madrid. Fortísimo físicamente."},
+  {num:3, n:"Abdul Mumin",     pos:"Defensa",        nac:"🇬🇭 Ghana",     stats:{liga:{g:0,a:0,pj:10},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central ghanés de apoyo que alterna con Lejeune y Mendy."},
+  {num:4, n:"Pathé Ciss",      pos:"Centrocampista", nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:26},conf:{g:0,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Pivote defensivo imprescindible. Recuperador nato. Su gol ante el Celta fue clave esta temporada."},
+  {num:6, n:"Unai López",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:2,pj:24},conf:{g:1,a:1,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Centrocampista completo con goles en LaLiga y Conference League. Gran visión de juego."},
+  {num:8, n:"Gerard Gumbau",   pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:5},copa:{g:1,a:0,pj:1}}, desc:"Mediocentro catalán que aporta orden y equilibrio. Golazo en Copa del Rey."},
+  {num:14,n:"Óscar Valentín",  pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:22},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Capitán del Rayo Vallecano. Marcó un gol histórico ante el Atlético de Madrid."},
+  {num:15,n:"Pedro Díaz",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:18},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Mediocentro con llegada. Anotó en la victoria ante Granada con cada vez más protagonismo."},
+  {num:21,n:"Fran Pérez",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:17},conf:{g:3,a:0,pj:5},copa:{g:3,a:0,pj:1}}, desc:"Hat-trick en Copa y 3 goles en Conference League. El más goleador fuera de LaLiga. Gran sorpresa."},
+  {num:10,n:"Isi Palazón",     pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:2,pj:22},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Referencia histórica del Rayo. 3 goles en LaLiga y Conference. Top-10 histórico de goleadores del club."},
+  {num:11,n:"Álvaro García",   pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:3,a:3,pj:26},conf:{g:2,a:1,pj:8},copa:{g:0,a:0,pj:1}}, desc:"5 goles y 4 asistencias en todas las competiciones. Convocado por la selección española."},
+  {num:7, n:"Ilias Akhomach",  pos:"Centrocampista", nac:"🇲🇦 Marruecos", stats:{liga:{g:0,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"El más desequilibrante con 1.7 regates por partido. Todavía busca su primer gol pero genera muchas ocasiones."},
+  {num:22,n:"Óscar Trejo",     pos:"Centrocampista", nac:"🇦🇷 Argentina", stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:2},copa:{g:1,a:0,pj:1}}, desc:"Veterano argentino que aporta experiencia y calidad desde el banquillo."},
+  {num:9, n:"Alemão",          pos:"Delantero",      nac:"🇧🇷 Brasil",    stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Fichaje estrella (5.5M€) frenado por lesión inguinal. Solo 1 gol pero con gran calidad cuando juega."},
+  {num:17,n:"Jorge de Frutos", pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:10,a:1,pj:28},conf:{g:1,a:1,pj:7},copa:{g:1,a:0,pj:1}}, desc:"¡EL MEJOR DEL RAYO! 12 goles en todas las competiciones, 10 solo en LaLiga. Debutó con la selección española."},
+  {num:19,n:"Sergio Camello",  pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:20},conf:{g:1,a:0,pj:6},copa:{g:1,a:0,pj:1}}, desc:"Trabaja mucho pero sin fortuna en liga. Sus goles en Conference y Copa han sido importantes."},
+  {num:18,n:"Randy Nteka",     pos:"Delantero",      nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:1}}, desc:"Extremo francés con menos protagonismo esta temporada. Rápido e intenso desde el banquillo."},
 ];
 
 function rPlantilla(){
@@ -478,23 +642,72 @@ function rPlantilla(){
     const jug=plantilla.filter(j=>j.pos===pos);
     const h=document.createElement('div');h.className='posh';h.textContent=pos+'s';g.appendChild(h);
     jug.forEach(j=>{
+      const tot={g:j.stats.liga.g+j.stats.conf.g+j.stats.copa.g,a:j.stats.liga.a+j.stats.conf.a+j.stats.copa.a,pj:j.stats.liga.pj+j.stats.conf.pj+j.stats.copa.pj};
       const c=document.createElement('div');c.className='pcard';
-      c.innerHTML=`
-        <div class="pnum">${j.num}</div>
-        <div class="pname">${j.n}</div>
-        <div class="ppos">${j.pos}</div>
-        <div class="pnat">${j.nac}</div>
-        <div class="pstats">
-          <div class="pstat"><div class="pstat-val">${j.s.pj}</div><div class="pstat-lbl">PJ</div></div>
-          <div class="pstat"><div class="pstat-val">${j.s.g}</div><div class="pstat-lbl">Goles</div></div>
-          <div class="pstat"><div class="pstat-val">${j.s.a}</div><div class="pstat-lbl">Asist</div></div>
-        </div>`;
+      c.innerHTML=`<div class="pnum">${j.num}</div><div class="pname">${j.n}</div><div class="ppos">${j.pos}</div><div class="pnat">${j.nac}</div><div class="pstats"><div class="pstat"><div class="pstat-val">${tot.pj}</div><div class="pstat-lbl">PJ</div></div><div class="pstat"><div class="pstat-val">${tot.g}</div><div class="pstat-lbl">Goles</div></div><div class="pstat"><div class="pstat-val">${tot.a}</div><div class="pstat-lbl">Asist</div></div></div>`;
+      c.onclick=()=>openJugador(j);
       g.appendChild(c);
     });
   });
 }
 
-// ─── NAV ─────────────────────────────────────
+function openJugador(j){
+  const s=j.stats;
+  const tot={g:s.liga.g+s.conf.g+s.copa.g,a:s.liga.a+s.conf.a+s.copa.a,pj:s.liga.pj+s.conf.pj+s.copa.pj};
+  document.getElementById('j-num').textContent=j.num;
+  document.getElementById('j-name').textContent=j.n;
+  document.getElementById('j-pos').textContent=j.pos;
+  document.getElementById('j-nat').textContent=j.nac;
+  document.getElementById('j-stats').innerHTML=`
+    <div class="pl-stat-box" style="background:rgba(208,27,46,0.07)">
+      <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px">Total todas las competiciones</div>
+      <div style="display:flex;justify-content:center;gap:28px">
+        <div style="text-align:center"><div style="font-family:'Bebas Neue';font-size:38px;color:var(--rojo)">${tot.pj}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Partidos</div></div>
+        <div style="text-align:center"><div style="font-family:'Bebas Neue';font-size:38px;color:var(--rojo)">${tot.g}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Goles</div></div>
+        <div style="text-align:center"><div style="font-family:'Bebas Neue';font-size:38px;color:var(--rojo)">${tot.a}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Asistencias</div></div>
+      </div>
+    </div>
+    <div class="pl-stat-box"><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);margin-bottom:6px">⚽ LaLiga</div><div style="font-family:'Bebas Neue';font-size:22px;color:var(--txt)">${s.liga.g} Goles · ${s.liga.a} Asist.</div><div style="font-family:'Barlow Condensed';font-size:9px;color:var(--txt3)">${s.liga.pj} partidos</div></div>
+    <div class="pl-stat-box"><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--azul);margin-bottom:6px">🌍 Conference League</div><div style="font-family:'Bebas Neue';font-size:22px;color:var(--txt)">${s.conf.g} Goles · ${s.conf.a} Asist.</div><div style="font-family:'Barlow Condensed';font-size:9px;color:var(--txt3)">${s.conf.pj} partidos</div></div>
+    <div class="pl-stat-box"><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--oro);margin-bottom:6px">🏆 Copa del Rey</div><div style="font-family:'Bebas Neue';font-size:22px;color:var(--txt)">${s.copa.g} Goles · ${s.copa.a} Asist.</div><div style="font-family:'Barlow Condensed';font-size:9px;color:var(--txt3)">${s.copa.pj} partidos</div></div>`;
+  document.getElementById('j-desc').textContent=j.desc;
+  document.getElementById('overlayJugador').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+// ─── BUSCADOR ────────────────────────────────
+const searchIndex=[
+  ...noticias.map(n=>({tipo:'Noticia',titulo:n.t,section:'noticias',link:n.link})),
+  ...videos.map(v=>({tipo:'Vídeo',titulo:v.t,section:'videos',link:v.url})),
+  ...historia.map(h=>({tipo:'Historia',titulo:h.year+' — '+h.titulo,section:'historia',link:null})),
+  ...plantilla.map(p=>({tipo:'Jugador',titulo:p.n+' · '+p.pos,section:'plantilla',link:null,jugador:p})),
+];
+
+function doSearch(q){
+  const res=document.getElementById('searchResults');
+  if(!q||q.length<2){res.classList.remove('on');return;}
+  const matches=searchIndex.filter(x=>x.titulo.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  if(!matches.length){res.classList.remove('on');return;}
+  res.innerHTML=matches.map((m,i)=>`<div class="sr-item" onclick="handleSearch(${i})"><div class="sr-tag">${m.tipo}</div><div class="sr-title">${m.titulo}</div></div>`).join('');
+  res.classList.add('on');
+  res._matches=matches;
+}
+
+function handleSearch(i){
+  const res=document.getElementById('searchResults');
+  const m=res._matches[i];
+  hideSearch();
+  document.getElementById('searchInput').value='';
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia'].indexOf(m.section)];
+  show(m.section,btn);
+  if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
+  else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
+}
+
+function hideSearch(){document.getElementById('searchResults').classList.remove('on');}
+
+// ─── MODALES ─────────────────────────────────
+function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow='';}
 function show(id,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
@@ -505,6 +718,8 @@ function show(id,btn){
 // ─── INIT ────────────────────────────────────
 rNoticias();
 rPlantilla();
+rVideos();
+rHistoria();
 loadPartidos();
 loadTabla();
 </script>
