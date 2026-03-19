@@ -570,8 +570,10 @@ async function loadPartidos(){
       const rival=next.homeTeam.id===RAYO_ID?next.awayTeam.name:next.homeTeam.name;
       const fecha=new Date(next.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'});
       const hora=new Date(next.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'});
-      document.getElementById('nmTitle').textContent=`Rayo vs ${rival}`;
-      document.getElementById('nmSub').textContent=`${fecha} · ${hora}h · ${next.competition?.name||''}`;
+      const nmT=document.getElementById('nmTitle');
+      const nmS=document.getElementById('nmSub');
+      if(nmT) nmT.textContent='Rayo vs '+rival;
+      if(nmS) nmS.textContent=fecha+' · '+hora+'h · '+(next.competition?.name||'');
     }
     let wins=0,draws=0,losses=0,gf=0,ga=0;
     finished.forEach(m=>{
@@ -949,8 +951,8 @@ function fallbackPartidos(){
     const md=encodeURIComponent(JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp,fecha:p.f,hora:'',finished:true,homeRv:p.loc==='Rayo Vallecano',awayRv:p.vis==='Rayo Vallecano',isConf:ic}));
     return `<div class="mc res" onclick="openPartido('${md}')"><div class="teams"><div class="tn ${p.loc==='Rayo Vallecano'?'rv':''}">${p.loc}</div><div class="ms">${p.gL} — ${p.gV}</div><div class="tn lft ${p.vis==='Rayo Vallecano'?'rv':''}">${p.vis}</div></div><div class="mi"><div class="mc-comp" style="${ic?'color:var(--azul)':'color:var(--rojo)'}">${p.comp}</div><div class="mc-date">${p.f}</div><span class="badge ${bc}">${bt}</span></div></div>`;
   }).join('');
-  document.getElementById('nmTitle').textContent='Rayo vs AEK Atenas — Cuartos Conference';
-  document.getElementById('nmSub').textContent='Jueves 9 Abril · Vallecas · Conference League';
+  var nt=document.getElementById('nmTitle'); if(nt) nt.textContent='Rayo vs AEK Atenas — Cuartos Conference';
+  var ns=document.getElementById('nmSub'); if(ns) ns.textContent='Jueves 9 Abril · Vallecas · Conference League';
   document.getElementById('listProx').innerHTML=`
   <div class="mc res" style="border-left:3px solid var(--rojo)">
     <div class="teams">
@@ -1344,28 +1346,6 @@ function rTienda(){
 
 
 // ─── COUNTDOWN ───────────────────────────────
-function startCountdowns(){
-  const matches = [
-    { id: 'countdownLiga', date: new Date('2026-04-05T16:15:00+02:00') },
-    { id: 'countdownConf', date: new Date('2026-04-09T21:00:00+02:00') },
-  ];
-  function update(){
-    matches.forEach(({id, date}) => {
-      const el = document.getElementById(id);
-      if(!el) return;
-      const diff = date - new Date();
-      if(diff <= 0){ el.textContent = '🔴 JUGANDO AHORA'; return; }
-      const d = Math.floor(diff/86400000);
-      const h = Math.floor((diff%86400000)/3600000);
-      const m = Math.floor((diff%3600000)/60000);
-      const s = Math.floor((diff%60000)/1000);
-      if(d > 0) el.textContent = `⏱ ${d}d ${h}h ${m}m`;
-      else el.textContent = `⏱ ${h}h ${m}m ${s}s`;
-    });
-  }
-  update();
-  setInterval(update, 1000);
-}
 
 // ─── MODO PARTIDO EN VIVO ─────────────────────
 function checkLiveMatch(){
@@ -1428,6 +1408,15 @@ async function loadWeather(){
   }catch(e){}
 }
 
+
+// ─── NAVEGACIÓN ──────────────────────────────
+function show(id,btn){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active');});
+  var el=document.getElementById(id);
+  if(el)el.classList.add('active');
+  if(btn)btn.classList.add('active');
+}
 
 // ─── INIT ────────────────────────────────────
 rEncuestas();
