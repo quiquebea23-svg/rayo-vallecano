@@ -1,18 +1,20 @@
 export default async function handler(req, res) {
-  // Allow requests from the browser
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const { endpoint } = req.query;
   if (!endpoint) return res.status(400).json({ error: 'No endpoint specified' });
 
-  // Allowed endpoints for security
   const allowed = [
     'competitions/PD/standings',       // LaLiga tabla
-    'competitions/PD/matches',         // LaLiga partidos
-    'teams/7/matches',                 // Rayo Vallecano partidos (id=7)
-    'competitions/ECNL/matches',       // Conference League
-    'competitions/ECNL/standings',
+    'competitions/PD/matches',
+    'competitions/CDR/standings',      // Copa del Rey
+    'competitions/CDR/matches',
+    'competitions/ECNL/standings',     // Conference League
+    'competitions/ECNL/matches',
+    'competitions/CL/standings',       // Champions (por si acaso)
+    'competitions/EL/standings',       // Europa League
+    'teams/277/matches',               // Rayo partidos
   ];
 
   const isAllowed = allowed.some(a => endpoint.startsWith(a));
