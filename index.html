@@ -1042,7 +1042,13 @@ function openJugador(j){
   const s=j.stats;
   const tot={g:s.liga.g+s.conf.g+s.copa.g,a:s.liga.a+s.conf.a+s.copa.a,pj:s.liga.pj+s.conf.pj+s.copa.pj};
   const foto2=fotoJugador[j.num]||fotoDefault;
-  document.getElementById('j-num').innerHTML='<img src="'+foto2+'" alt="'+j.n+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo);background:var(--gris2)" onerror="this.src=''+fotoDefault+'';this.onerror=null">';
+  const imgEl=document.getElementById('j-num');
+  imgEl.innerHTML='';
+  const im=document.createElement('img');
+  im.src=foto2; im.alt=j.n;
+  im.style.cssText='width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo);background:var(--gris2);display:block;margin:0 auto 8px';
+  im.onerror=function(){this.src=fotoDefault;this.onerror=null;};
+  imgEl.appendChild(im);
   document.getElementById('j-name').textContent=j.n;
   document.getElementById('j-pos').textContent=j.pos;
   document.getElementById('j-nat').textContent=j.nac;
