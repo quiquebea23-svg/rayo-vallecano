@@ -3,14 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rayo Vallecano — La Franja | Noticias, Partidos y Clasificación</title>
-<meta name="description" content="Toda la actualidad del Rayo Vallecano: resultados en tiempo real, clasificación de LaLiga, Conference League, plantilla, historia y estadísticas.">
+<title>Rayo Vallecano — La Franja | Noticias, Partidos y Clasificación LaLiga 2025-26</title>
+<meta name="description" content="La web más completa del Rayo Vallecano. Resultados en tiempo real, clasificación LaLiga, Conference League, plantilla 2025-26, historia y estadísticas.">
+<meta name="keywords" content="Rayo Vallecano, Vallecas, LaLiga, Conference League, partidos, resultados, clasificación, plantilla, Jorge de Frutos, Alemão, Akhomach">
+<meta name="author" content="La Franja - Rayo Vallecano Fan">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Rayo Vallecano — La Franja | La web de la afición">
+<meta property="og:description" content="Toda la actualidad del Rayo Vallecano: resultados, clasificación LaLiga, Conference League y plantilla 2025-26">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rayo-vallecano.vercel.app">
+<meta property="og:image" content="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200&q=80">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rayo Vallecano — La Franja">
+<meta name="twitter:description" content="Resultados, clasificación y toda la actualidad del Rayo Vallecano">
+<link rel="canonical" href="https://rayo-vallecano.vercel.app">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* TEMAS */
 [data-theme="dark"]{--bg:#0A0A0A;--gris:#161616;--gris2:#222;--gris3:#333;--txt:#F5F0E8;--txt2:#aaa;--txt3:#555;--brd:#222;}
 [data-theme="light"]{--bg:#f4f4f4;--gris:#fff;--gris2:#eee;--gris3:#ddd;--txt:#111;--txt2:#444;--txt3:#999;--brd:#ddd;}
 :root{--rojo:#D01B2E;--rojo-dark:#9b0f1e;--oro:#C9A84C;--azul:#4a8fff;}
+/* Tipografía mejorada */
+.sec-t{font-size:28px;letter-spacing:4px;}
+.hero-title{font-size:clamp(44px,8vw,88px);letter-spacing:5px;}
+.pname{font-size:14px;}
+.news-title{font-size:16px;}
 *{margin:0;padding:0;box-sizing:border-box;transition:background .2s,color .2s,border-color .2s;}
 body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 
@@ -209,17 +226,94 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 
 .err-msg{background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.2);border-radius:8px;padding:13px 16px;font-size:13px;color:var(--txt3);margin-bottom:14px;}
 
+/* ENCUESTAS */
+.encuesta-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;margin-bottom:16px;}
+.encuesta-pregunta{font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:var(--txt);margin-bottom:16px;}
+.encuesta-opciones{display:flex;flex-direction:column;gap:10px;}
+.enc-opt{background:var(--gris2);border:1px solid var(--gris3);border-radius:8px;padding:12px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:space-between;font-size:14px;color:var(--txt2);}
+.enc-opt:hover{border-color:var(--rojo);color:var(--txt);}
+.enc-opt.voted{border-color:var(--rojo);background:rgba(208,27,46,.08);color:var(--txt);}
+.enc-bar{height:4px;background:var(--gris2);border-radius:2px;margin-top:6px;overflow:hidden;}
+.enc-bar-fill{height:100%;background:var(--rojo);border-radius:2px;transition:width .6s ease;}
+.enc-pct{font-family:'Bebas Neue';font-size:18px;color:var(--rojo);}
+/* TIENDA */
+.tienda-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:24px;}
+.tienda-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;text-decoration:none;display:block;transition:transform .2s,border-color .2s;}
+.tienda-card:hover{transform:translateY(-4px);border-color:var(--rojo);}
+.tienda-img{width:100%;height:160px;object-fit:cover;background:var(--gris2);}
+.tienda-body{padding:14px;}
+.tienda-nombre{font-family:'Barlow Condensed';font-size:16px;font-weight:700;color:var(--txt);margin-bottom:4px;}
+.tienda-precio{font-family:'Bebas Neue';font-size:22px;color:var(--rojo);}
+.tienda-btn{display:block;text-align:center;background:var(--rojo);color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px;border-radius:0 0 12px 12px;text-decoration:none;transition:background .2s;margin-top:10px;}
+.tienda-btn:hover{background:var(--rojo-dark);}
+/* REDES SOCIALES */
+.redes-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+.red-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-family:'Barlow Condensed';font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;transition:transform .2s,opacity .2s;color:#fff;}
+.red-btn:hover{transform:translateY(-2px);opacity:.9;}
+.red-twitter{background:#000;}
+.red-instagram{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+.red-youtube{background:#ff0000;}
+.red-facebook{background:#1877f2;}
+.red-tiktok{background:#010101;}
+/* APUESTAS */
+.apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #0f3460;border-radius:12px;padding:20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.apuestas-banner h3{font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:#e2b96f;margin-bottom:4px;}
+.apuestas-banner p{font-size:12px;color:#888;line-height:1.5;}
+.apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:opacity .2s;flex-shrink:0;}
+.apuestas-btn:hover{opacity:.85;}
+.apuestas-legal{font-size:10px;color:#444;margin-top:8px;text-align:center;}
+
 /* MOBILE */
 @media(max-width:640px){
-  .logo h1{font-size:17px;letter-spacing:2px;}
+  .logo h1{font-size:16px;letter-spacing:2px;}
   .logo span{display:none;}
-  nav button{padding:5px 7px;font-size:11px;letter-spacing:1px;}
-  .search-wrap{max-width:120px;}
+  .h-inner{height:52px;padding:0 10px;gap:6px;}
+  nav{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+  nav::-webkit-scrollbar{display:none;}
+  nav button{padding:5px 8px;font-size:11px;letter-spacing:1px;white-space:nowrap;flex-shrink:0;}
+  .search-wrap{max-width:100px;}
+  .search-input{font-size:12px;padding:6px 10px 6px 28px;}
   .mc{flex-direction:column;gap:8px;}.mi{text-align:center;min-width:unset;width:100%;}.teams{justify-content:center;}
   .pm-score{font-size:34px;}.pm-team{font-size:15px;}
-  .hero-title{font-size:36px;}
+  .hero{padding:30px 14px 24px;}
+  .hero-title{font-size:38px;letter-spacing:3px;}
   .hist-timeline{padding-left:20px;}
+  .news-grid{grid-template-columns:1fr;}
+  .pgrid{grid-template-columns:repeat(2,1fr);}
+  .content{padding:18px 14px 50px;}
+  .sec-t{font-size:22px;}
+  .pl-stats-grid{grid-template-columns:1fr;}
+  .encuesta-card{padding:16px;}
+  .tienda-grid{grid-template-columns:1fr;}
 }
+@media(max-width:380px){
+  .hero-title{font-size:32px;}
+  nav button{font-size:10px;padding:4px 7px;}
+}
+/* ENCUESTAS */
+.encuesta-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;margin-bottom:16px;}
+.encuesta-pregunta{font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:var(--txt);margin-bottom:16px;}
+.enc-opt{background:var(--gris2);border:1px solid var(--gris3);border-radius:8px;padding:12px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:space-between;font-size:14px;color:var(--txt2);margin-bottom:8px;}
+.enc-opt:hover{border-color:var(--rojo);color:var(--txt);}
+.enc-opt.voted{border-color:var(--rojo);background:rgba(208,27,46,.08);color:var(--txt);}
+.enc-pct{font-family:'Bebas Neue';font-size:18px;color:var(--rojo);}
+.enc-bar{height:3px;background:var(--gris2);border-radius:2px;margin-top:6px;overflow:hidden;}
+.enc-bar-fill{height:100%;background:var(--rojo);border-radius:2px;transition:width .6s ease;}
+/* TIENDA */
+.tienda-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px;}
+.tienda-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;text-decoration:none;display:block;transition:transform .2s,border-color .2s;}
+.tienda-card:hover{transform:translateY(-4px);border-color:var(--rojo);}
+.tienda-img{width:100%;height:150px;object-fit:cover;background:linear-gradient(135deg,var(--gris2),#1a0006);display:flex;align-items:center;justify-content:center;font-size:48px;}
+.tienda-body{padding:13px;}
+.tienda-nombre{font-family:'Barlow Condensed';font-size:15px;font-weight:700;color:var(--txt);margin-bottom:4px;letter-spacing:1px;}
+.tienda-desc{font-size:12px;color:var(--txt3);margin-bottom:8px;}
+.tienda-btn{display:block;text-align:center;background:var(--rojo);color:#fff;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px;border-radius:6px;text-decoration:none;transition:background .2s;}
+.tienda-btn:hover{background:var(--rojo-dark);}
+.redes-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.red-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-family:'Barlow Condensed';font-size:14px;font-weight:700;letter-spacing:1px;text-decoration:none;transition:transform .2s;color:#fff;}
+.red-btn:hover{transform:translateY(-2px);opacity:.9;}
+.apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(226,185,111,.2);border-radius:12px;padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -243,6 +337,8 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
         <button onclick="show('plantilla',this)">Plantilla</button>
         <button onclick="show('videos',this)">Vídeos</button>
         <button onclick="show('historia',this)">Historia</button>
+      <button onclick="show('encuestas',this)">Encuestas</button>
+      <button onclick="show('tienda',this)">Tienda</button>
       </nav>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
@@ -353,6 +449,28 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   <div class="sec-t">Vídeos &amp; Highlights</div>
   <div id="notifArea"></div>
   <div class="vid-grid" id="vidGrid"></div>
+</section>
+
+<!-- ENCUESTAS -->
+<section id="encuestas" class="section">
+  <div class="sec-t">Encuestas de la Afición</div>
+  <!-- REDES SOCIALES -->
+  <div class="sec-t" style="font-size:18px;margin-top:4px;">Redes Sociales del Rayo</div>
+  <div class="redes-bar">
+    <a class="red-btn" style="background:#000" href="https://twitter.com/RayoVallecano" target="_blank" rel="noopener">𝕏 Twitter / X</a>
+    <a class="red-btn" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888)" href="https://www.instagram.com/rayovallecano/" target="_blank" rel="noopener">📸 Instagram</a>
+    <a class="red-btn" style="background:#ff0000" href="https://www.youtube.com/@RayoVallecanoOficial" target="_blank" rel="noopener">▶ YouTube</a>
+    <a class="red-btn" style="background:#1877f2" href="https://www.facebook.com/RayoVallecano" target="_blank" rel="noopener">Facebook</a>
+    <a class="red-btn" style="background:#010101" href="https://www.tiktok.com/@rayovallecano" target="_blank" rel="noopener">🎵 TikTok</a>
+  </div>
+  <div class="sec-t" style="font-size:18px;margin-top:8px;">Encuestas de la Afición</div>
+  <div id="encuestasGrid"></div>
+</section>
+
+<!-- TIENDA & ENTRADAS -->
+<section id="tienda" class="section">
+  <div class="sec-t">Tienda &amp; Entradas</div>
+  <div id="tiendaContent"></div>
 </section>
 
 <!-- HISTORIA -->
@@ -1103,7 +1221,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -1113,6 +1231,92 @@ function hideSearch(){document.getElementById('searchResults').classList.remove(
 
 // ─── MODALES ─────────────────────────────────
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow='';}
+// ─── ENCUESTAS ───────────────────────────────
+const encuestas=[
+  {id:'e1',pregunta:'¿Quién es el mejor jugador del Rayo esta temporada?',opciones:['Jorge de Frutos','Augusto Batalla','Álvaro García','Andrei Rațiu'],votos:[0,0,0,0]},
+  {id:'e2',pregunta:'¿Llegará el Rayo a las semifinales de la Conference League?',opciones:['¡Sí, a por todas!','Puede ser...','Lo veo difícil','Salimos en cuartos'],votos:[0,0,0,0]},
+  {id:'e3',pregunta:'¿Cómo valoras la temporada 2025-26 del Rayo?',opciones:['Histórica ⭐⭐⭐⭐⭐','Muy buena ⭐⭐⭐⭐','Buena ⭐⭐⭐','Mejorable ⭐⭐'],votos:[0,0,0,0]},
+];
+
+function rEncuestas(){
+  const g=document.getElementById('encuestasGrid');
+  g.innerHTML=encuestas.map(e=>{
+    const voted=localStorage.getItem('enc_'+e.id);
+    const totalV=e.votos.reduce((a,b)=>a+b,0)||1;
+    return `<div class="encuesta-card">
+      <div class="encuesta-pregunta">${e.pregunta}</div>
+      <div>
+        ${e.opciones.map((o,i)=>{
+          const pct=Math.round((e.votos[i]/totalV)*100);
+          return `<div class="enc-opt ${voted==i?'voted':''}" onclick="votar('${e.id}',${i})">
+            <span>${o}</span>
+            <span class="enc-pct">${voted!==null?pct+'%':''}</span>
+          </div>
+          ${voted!==null?`<div class="enc-bar"><div class="enc-bar-fill" style="width:${pct}%"></div></div>`:''}`;
+        }).join('')}
+      </div>
+      <div style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:var(--txt3);margin-top:10px;text-transform:uppercase">${totalV-1} votos</div>
+    </div>`;
+  }).join('');
+}
+
+function votar(id,idx){
+  if(localStorage.getItem('enc_'+id)!==null)return;
+  const e=encuestas.find(x=>x.id===id);
+  e.votos[idx]++;
+  localStorage.setItem('enc_'+id,idx);
+  rEncuestas();
+}
+
+// ─── TIENDA & ENTRADAS ───────────────────────
+function rTienda(){
+  const tiendaItems=[
+    {emoji:'👕',nombre:'Camiseta Oficial 1ª Equipación 2025-26',desc:'La franjirroja de toda la vida',precio:'89,95€',url:'https://www.rayovallecano.es/tienda'},
+    {emoji:'👕',nombre:'Camiseta Oficial 2ª Equipación 2025-26',desc:'Equipación alternativa temporada 25/26',precio:'89,95€',url:'https://www.rayovallecano.es/tienda'},
+    {emoji:'🧢',nombre:'Gorra Oficial Rayo Vallecano',desc:'Luce los colores del Rayo en la calle',precio:'24,95€',url:'https://www.rayovallecano.es/tienda'},
+    {emoji:'🏆',nombre:'Entradas — Rayo vs AEK Atenas',desc:'Cuartos Conference League · 9 Abril · Vallecas',precio:'Desde 20€',url:'https://entradas.rayovallecano.es'},
+    {emoji:'🎫',nombre:'Abono Rayo Vallecano 2025-26',desc:'Sé del Rayo toda la temporada',precio:'Desde 180€',url:'https://www.rayovallecano.es/abonos'},
+    {emoji:'🛍️',nombre:'Pack Fan Rayo Vallecano',desc:'Bufanda + Camiseta + Gorra oficial',precio:'119,95€',url:'https://www.rayovallecano.es/tienda'},
+  ];
+
+  document.getElementById('tiendaContent').innerHTML=`
+    <!-- APUESTAS LEGALES -->
+    <div style="background:rgba(226,185,111,.05);border:1px solid rgba(226,185,111,.15);border-radius:12px;padding:16px;margin-bottom:20px;">
+      <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--oro);margin-bottom:10px">🎲 Apuestas Deportivas — Patrocinadores</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="apuestas-banner">
+          <div>
+            <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:#e2b96f;margin-bottom:2px">Bet365 — Bono Bienvenida</div>
+            <div style="font-size:12px;color:#888">Hasta 100€ en créditos de apuesta para nuevos usuarios</div>
+          </div>
+          <a class="apuestas-btn" href="https://www.bet365.es" target="_blank" rel="noopener sponsored">Apostar →</a>
+        </div>
+        <div class="apuestas-banner">
+          <div>
+            <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:#e2b96f;margin-bottom:2px">Codere — Apuesta en el Rayo</div>
+            <div style="font-size:12px;color:#888">El patrocinador oficial de LaLiga. Cuotas especiales para el Rayo</div>
+          </div>
+          <a class="apuestas-btn" href="https://www.codere.es" target="_blank" rel="noopener sponsored">Ver cuotas →</a>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#444;margin-top:10px;text-align:center">⚠️ El juego puede crear adicción. Juega con responsabilidad. +18. <a href="https://www.jugarbien.es" style="color:#555">jugarbien.es</a></div>
+    </div>
+    <!-- TIENDA OFICIAL -->
+    <div class="sec-t" style="font-size:18px;">🛍️ Tienda Oficial del Rayo</div>
+    <div class="tienda-grid">
+      ${tiendaItems.map(t=>`
+        <a class="tienda-card" href="${t.url}" target="_blank" rel="noopener">
+          <div class="tienda-img">${t.emoji}</div>
+          <div class="tienda-body">
+            <div class="tienda-nombre">${t.nombre}</div>
+            <div class="tienda-desc">${t.desc}</div>
+            <div style="font-family:'Bebas Neue';font-size:22px;color:var(--rojo);margin-bottom:8px">${t.precio}</div>
+            <div class="tienda-btn">Comprar →</div>
+          </div>
+        </a>`).join('')}
+    </div>`;
+}
+
 function show(id,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
@@ -1121,6 +1325,8 @@ function show(id,btn){
 }
 
 // ─── INIT ────────────────────────────────────
+rEncuestas();
+rTienda();
 rNoticias();
 rPlantilla();
 rVideos();
