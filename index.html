@@ -348,7 +348,10 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 <div class="hero">
   <div class="hero-bar"></div>
   <div class="hero-inner">
-    <div class="hero-eye">LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+      <div class="hero-eye" style="margin-bottom:0">LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
+      <div id="vallecasWeather" style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase"></div>
+    </div>
     <div class="hero-title">SIEMPRE <em>RAYO</em>,<br>SIEMPRE VALLECAS</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;">
       <!-- PRÓXIMO LIGA -->
@@ -358,6 +361,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
           <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px">LaLiga · Jornada 29</div>
           <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">FC Barcelona vs Rayo Vallecano</div>
           <div style="font-size:11px;color:var(--txt3);margin-top:2px">Abril 2026 · Camp Nou</div>
+          <div id="countdownLiga" style="font-family:'Bebas Neue';font-size:14px;color:var(--oro);margin-top:4px;letter-spacing:2px"></div>
         </div>
       </div>
       <!-- PRÓXIMO CONFERENCE -->
@@ -367,6 +371,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
           <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:3px">🌍 Conference League · Cuartos Ida</div>
           <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">Rayo Vallecano vs AEK Atenas</div>
           <div style="font-size:11px;color:var(--txt3);margin-top:2px">Jueves 9 Abr · Vallecas · Hora por confirmar</div>
+          <div id="countdownConf" style="font-family:'Bebas Neue';font-size:14px;color:var(--azul);margin-top:4px;letter-spacing:2px"></div>
         </div>
       </div>
     </div>
@@ -442,6 +447,11 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 <!-- PLANTILLA -->
 <section id="plantilla" class="section">
   <div class="sec-t">Plantilla 2025/26</div>
+  <div style="margin-bottom:16px;">
+    <button onclick="openComparador()" style="background:var(--gris);border:1px solid var(--gris3);color:var(--txt2);font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px" onmouseover="this.style.borderColor='var(--rojo)';this.style.color='var(--rojo)'" onmouseout="this.style.borderColor='var(--gris3)';this.style.color='var(--txt2)'">
+      ⚖️ Comparar jugadores
+    </button>
+  </div>
   <div class="pgrid" id="pgrid"></div>
 </section>
 
@@ -1113,38 +1123,22 @@ async function loadSquadPhotos(){
   try {
     const r = await fetch('/api/squad');
     const data = await r.json();
-    const players = data.response?.[0]?.players || [];
-    // Mapear nombre → foto
-    const nameMap = {
-      'Augusto Batalla': 13, 'Dani Cardenas': 1, 'Dani Cárdenas': 1,
-      'Andrei Ratiu': 2, 'Andrei Rațiu': 2,
-      'Pep Chavarria': 3, 'Pep Chavarría': 3,
-      'Luiz Felipe': 5, 'Nobel Mendy': 16, 'Ivan Balliu': 20, 'Iván Balliu': 20,
-      'Alfonso Espino': 22, 'Florian Lejeune': 24,
-      'Pedro Diaz': 4, 'Pedro Díaz': 4,
-      'Pathe Ciss': 6, 'Pathé Ciss': 6,
-      'Isi Palazon': 7, 'Isi Palazón': 7,
-      'Oscar Trejo': 8, 'Óscar Trejo': 8,
-      'Aleman': 9, 'Alemão': 9,
-      'Sergio Camello': 10, 'Randy Nteka': 11,
-      'Gerard Gumbau': 15, 'Unai Lopez': 17, 'Unai López': 17,
-      'Alvaro Garcia': 18, 'Álvaro García': 18,
-      'Jorge De Frutos': 19, 'Jorge de Frutos': 19,
-      'Fran Perez': 21, 'Fran Pérez': 21,
-      'Oscar Valentin': 23, 'Óscar Valentín': 23,
-      'Ilias Akhomach': 25,
-    };
+    const players = data.players || [];
+    // API-Football devuelve el número de dorsal directamente
     players.forEach(p => {
-      const dorsal = nameMap[p.name];
-      if(dorsal && p.photo) fotoJugador[dorsal] = p.photo;
+      if(p.number && p.photo) {
+        fotoJugador[p.number] = p.photo;
+      }
     });
-    // Actualizar fotos ya renderizadas
-    document.querySelectorAll('[data-dorsal]').forEach(img => {
+    // Actualizar todas las imágenes ya renderizadas
+    document.querySelectorAll('img[data-dorsal]').forEach(img => {
       const d = parseInt(img.dataset.dorsal);
-      if(fotoJugador[d]) img.src = fotoJugador[d];
+      if(fotoJugador[d]) {
+        img.src = fotoJugador[d];
+      }
     });
   } catch(e) {
-    console.log('No se pudieron cargar fotos:', e);
+    console.log('Fotos no disponibles:', e);
   }
 }
 
@@ -1348,12 +1342,92 @@ function rTienda(){
     </div>`;
 }
 
-function show(id,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(btn)btn.classList.add('active');
+
+// ─── COUNTDOWN ───────────────────────────────
+function startCountdowns(){
+  const matches = [
+    { id: 'countdownLiga', date: new Date('2026-04-05T16:15:00+02:00') },
+    { id: 'countdownConf', date: new Date('2026-04-09T21:00:00+02:00') },
+  ];
+  function update(){
+    matches.forEach(({id, date}) => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      const diff = date - new Date();
+      if(diff <= 0){ el.textContent = '🔴 JUGANDO AHORA'; return; }
+      const d = Math.floor(diff/86400000);
+      const h = Math.floor((diff%86400000)/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      if(d > 0) el.textContent = `⏱ ${d}d ${h}h ${m}m`;
+      else el.textContent = `⏱ ${h}h ${m}m ${s}s`;
+    });
+  }
+  update();
+  setInterval(update, 1000);
 }
+
+// ─── MODO PARTIDO EN VIVO ─────────────────────
+function checkLiveMatch(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), day = now.getDay();
+  // Simular modo live si estamos en horario de partido habitual
+  // En producción esto vendría de la API
+  const isLikelyLive = false; // Se activa cuando la API detecta partido en vivo
+  if(isLikelyLive){
+    document.body.classList.add('live-mode');
+    document.querySelector('header').style.borderBottomColor = '#4caf50';
+  }
+}
+
+// ─── WEATHER AT VALLECAS ──────────────────────
+async function loadWeather(){
+  try {
+    // Open-Meteo API - completamente gratis, sin key
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.3897&longitude=-3.6597&current=temperature_2m,weathercode,windspeed_10m&timezone=Europe%2FMadrid');
+    const data = await r.json();
+    const temp = Math.round(data.current?.temperature_2m);
+    const wind = Math.round(data.current?.windspeed_10m);
+    const code = data.current?.weathercode;
+    const icon = code <= 1 ? '☀️' : code <= 3 ? '⛅' : code <= 51 ? '🌦' : code <= 67 ? '🌧' : '⛈';
+    // Mostrar en el hero
+    const weatherEl = document.getElementById('vallecasWeather');
+    if(weatherEl) weatherEl.innerHTML = `${icon} Vallecas: ${temp}°C · Viento ${wind}km/h`;
+  } catch(e) {}
+}
+
+
+// ─── COUNTDOWN ───────────────────────────────
+function startCountdowns(){
+  const matches=[
+    {id:'countdownLiga',date:new Date('2026-04-05T14:15:00Z')},
+    {id:'countdownConf',date:new Date('2026-04-09T19:00:00Z')},
+  ];
+  function update(){
+    matches.forEach(({id,date})=>{
+      const el=document.getElementById(id);
+      if(!el)return;
+      const diff=date-new Date();
+      if(diff<=0){el.textContent='🔴 JUGANDO AHORA';return;}
+      const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+      el.textContent=d>0?`⏱ ${d}d ${h}h ${m}m`:`⏱ ${h}h ${m}m ${s}s`;
+    });
+  }
+  update();setInterval(update,1000);
+}
+
+// ─── TIEMPO EN VALLECAS ──────────────────────
+async function loadWeather(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.3897&longitude=-3.6597&current=temperature_2m,weathercode,windspeed_10m&timezone=Europe%2FMadrid');
+    const d=await r.json();
+    const temp=Math.round(d.current?.temperature_2m),wind=Math.round(d.current?.windspeed_10m),code=d.current?.weathercode;
+    const icon=code<=1?'☀️':code<=3?'⛅':code<=51?'🌦':code<=67?'🌧':'⛈';
+    const el=document.getElementById('vallecasWeather');
+    if(el)el.textContent=icon+' Vallecas: '+temp+'°C · Viento '+wind+'km/h';
+  }catch(e){}
+}
+
 
 // ─── INIT ────────────────────────────────────
 rEncuestas();
@@ -1365,6 +1439,24 @@ rHistoria();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
+startCountdowns();
+loadWeather();
 </script>
+<!-- MODAL COMPARADOR -->
+<div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;">✕</button>
+    <div style="padding:20px 20px 0;font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;color:var(--txt)">⚖️ Comparador de Jugadores</div>
+    <div style="padding:16px 20px 24px;" id="compContent"></div>
+  </div>
+</div>
+<!-- MODAL COMPARADOR -->
+<div class="overlay" id="overlayComp" onclick="if(event.target===this){closeComp();}">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="closeComp()">✕</button>
+    <div style="padding:20px 20px 0;font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;color:var(--txt)">⚖️ Comparar Jugadores</div>
+    <div style="padding:16px 20px 24px;" id="compContent"></div>
+  </div>
+</div>
 </body>
 </html>
