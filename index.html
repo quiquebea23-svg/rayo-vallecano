@@ -956,38 +956,48 @@ function rHistoria(){
 }
 
 // ─── PLANTILLA ───────────────────────────────
-// Fotos de jugadores via API-Football (gratis, sin copyright)
-// URL formato: https://media.api-sports.io/football/players/ID.png
-const fotoJugador = {
-  13: 'https://media.api-sports.io/football/players/726.png',    // Batalla
-  1:  'https://media.api-sports.io/football/players/2935.png',   // Cárdenas
-  30: 'https://media.api-sports.io/football/players/200942.png', // Juanpe
-  40: 'https://media.api-sports.io/football/players/200943.png', // Molina
-  2:  'https://media.api-sports.io/football/players/19189.png',  // Ratiu
-  3:  'https://media.api-sports.io/football/players/283480.png', // Chavarría
-  5:  'https://media.api-sports.io/football/players/19181.png',  // Luiz Felipe
-  16: 'https://media.api-sports.io/football/players/283481.png', // Mendy
-  20: 'https://media.api-sports.io/football/players/10310.png',  // Balliu
-  22: 'https://media.api-sports.io/football/players/10311.png',  // Espino
-  24: 'https://media.api-sports.io/football/players/1496.png',   // Lejeune
-  33: 'https://media.api-sports.io/football/players/283482.png', // Vertrouwd
-  4:  'https://media.api-sports.io/football/players/283483.png', // Pedro Díaz
-  6:  'https://media.api-sports.io/football/players/283484.png', // Pathé Ciss
-  7:  'https://media.api-sports.io/football/players/283485.png', // Isi Palazón
-  8:  'https://media.api-sports.io/football/players/283486.png', // Trejo
-  15: 'https://media.api-sports.io/football/players/283487.png', // Gumbau
-  17: 'https://media.api-sports.io/football/players/283488.png', // Unai López
-  21: 'https://media.api-sports.io/football/players/283489.png', // Fran Pérez
-  23: 'https://media.api-sports.io/football/players/283490.png', // Ó. Valentín
-  9:  'https://media.api-sports.io/football/players/283491.png', // Alemão
-  10: 'https://media.api-sports.io/football/players/283492.png', // Camello
-  11: 'https://media.api-sports.io/football/players/283493.png', // Nteka
-  18: 'https://media.api-sports.io/football/players/283494.png', // Álvaro García
-  19: 'https://media.api-sports.io/football/players/283495.png', // De Frutos
-  25: 'https://media.api-sports.io/football/players/283496.png', // Akhomach
-};
-// Foto genérica de escudo si no hay foto del jugador
+// Fotos cargadas automáticamente desde API-Football
 const fotoDefault = 'https://media.api-sports.io/football/teams/728.png';
+let fotoJugador = {}; // se rellena automáticamente con loadSquadPhotos()
+
+async function loadSquadPhotos(){
+  try {
+    const r = await fetch('/api/squad');
+    const data = await r.json();
+    const players = data.response?.[0]?.players || [];
+    // Mapear nombre → foto
+    const nameMap = {
+      'Augusto Batalla': 13, 'Dani Cardenas': 1, 'Dani Cárdenas': 1,
+      'Andrei Ratiu': 2, 'Andrei Rațiu': 2,
+      'Pep Chavarria': 3, 'Pep Chavarría': 3,
+      'Luiz Felipe': 5, 'Nobel Mendy': 16, 'Ivan Balliu': 20, 'Iván Balliu': 20,
+      'Alfonso Espino': 22, 'Florian Lejeune': 24,
+      'Pedro Diaz': 4, 'Pedro Díaz': 4,
+      'Pathe Ciss': 6, 'Pathé Ciss': 6,
+      'Isi Palazon': 7, 'Isi Palazón': 7,
+      'Oscar Trejo': 8, 'Óscar Trejo': 8,
+      'Aleman': 9, 'Alemão': 9,
+      'Sergio Camello': 10, 'Randy Nteka': 11,
+      'Gerard Gumbau': 15, 'Unai Lopez': 17, 'Unai López': 17,
+      'Alvaro Garcia': 18, 'Álvaro García': 18,
+      'Jorge De Frutos': 19, 'Jorge de Frutos': 19,
+      'Fran Perez': 21, 'Fran Pérez': 21,
+      'Oscar Valentin': 23, 'Óscar Valentín': 23,
+      'Ilias Akhomach': 25,
+    };
+    players.forEach(p => {
+      const dorsal = nameMap[p.name];
+      if(dorsal && p.photo) fotoJugador[dorsal] = p.photo;
+    });
+    // Actualizar fotos ya renderizadas
+    document.querySelectorAll('[data-dorsal]').forEach(img => {
+      const d = parseInt(img.dataset.dorsal);
+      if(fotoJugador[d]) img.src = fotoJugador[d];
+    });
+  } catch(e) {
+    console.log('No se pudieron cargar fotos:', e);
+  }
+}
 
 const plantilla=[
   // ── PORTEROS ──
@@ -1031,7 +1041,7 @@ function rPlantilla(){
       const tot={g:j.stats.liga.g+j.stats.conf.g+j.stats.copa.g,a:j.stats.liga.a+j.stats.conf.a+j.stats.copa.a,pj:j.stats.liga.pj+j.stats.conf.pj+j.stats.copa.pj};
       const c=document.createElement('div');c.className='pcard';
       const foto=fotoJugador[j.num]||fotoDefault;
-      c.innerHTML=`<img src="${foto}" alt="${j.n}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--rojo);margin-bottom:8px;background:var(--gris2)" onerror="this.src='${fotoDefault}';this.onerror=null"><div class="pname">${j.n}</div><div class="ppos">${j.pos}</div><div class="pnat">${j.nac}</div><div style="font-family:'Bebas Neue';font-size:20px;color:rgba(208,27,46,.25);margin-top:2px">#${j.num}</div><div class="pstats"><div class="pstat"><div class="pstat-val">${tot.pj}</div><div class="pstat-lbl">PJ</div></div><div class="pstat"><div class="pstat-val">${tot.g}</div><div class="pstat-lbl">Goles</div></div><div class="pstat"><div class="pstat-val">${tot.a}</div><div class="pstat-lbl">Asist</div></div></div>`;
+      c.innerHTML=`<img src="${foto}" data-dorsal="${j.num}" alt="${j.n}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--rojo);margin-bottom:8px;background:var(--gris2)" onerror="this.src='${fotoDefault}';this.onerror=null"><div class="pname">${j.n}</div><div class="ppos">${j.pos}</div><div class="pnat">${j.nac}</div><div style="font-family:'Bebas Neue';font-size:20px;color:rgba(208,27,46,.25);margin-top:2px">#${j.num}</div><div class="pstats"><div class="pstat"><div class="pstat-val">${tot.pj}</div><div class="pstat-lbl">PJ</div></div><div class="pstat"><div class="pstat-val">${tot.g}</div><div class="pstat-lbl">Goles</div></div><div class="pstat"><div class="pstat-val">${tot.a}</div><div class="pstat-lbl">Asist</div></div></div>`;
       c.onclick=()=>openJugador(j);
       g.appendChild(c);
     });
@@ -1045,7 +1055,8 @@ function openJugador(j){
   const imgEl=document.getElementById('j-num');
   imgEl.innerHTML='';
   const im=document.createElement('img');
-  im.src=foto2; im.alt=j.n;
+  im.src=fotoJugador[j.num]||fotoDefault; im.alt=j.n;
+  im.dataset.dorsal=j.num;
   im.style.cssText='width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo);background:var(--gris2);display:block;margin:0 auto 8px';
   im.onerror=function(){this.src=fotoDefault;this.onerror=null;};
   imgEl.appendChild(im);
@@ -1116,6 +1127,7 @@ rVideos();
 rHistoria();
 loadPartidos();
 loadTabla();
+loadSquadPhotos();
 </script>
 </body>
 </html>
