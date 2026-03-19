@@ -377,7 +377,8 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 
 <!-- NOTICIAS -->
 <section id="noticias" class="section active">
-  <div class="sec-t">Últimas Noticias</div>
+  <div class="sec-t">Últimas Noticias <small id="newsTime"></small></div>
+  <div class="api-status" id="newsStatus" style="display:none"><div class="sdot ok"></div><span>Noticias en tiempo real · Actualizado automáticamente</span></div>
   <div class="news-grid" id="newsGrid"></div>
 </section>
 
@@ -557,8 +558,8 @@ async function loadPartidos(){
     if(scheduled.length>0){
       const next=scheduled[0];
       const rival=next.homeTeam.id===RAYO_ID?next.awayTeam.name:next.homeTeam.name;
-      const fecha=new Date(next.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
-      const hora=new Date(next.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+      const fecha=new Date(next.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'});
+      const hora=new Date(next.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'});
       document.getElementById('nmTitle').textContent=`Rayo vs ${rival}`;
       document.getElementById('nmSub').textContent=`${fecha} · ${hora}h · ${next.competition?.name||''}`;
     }
@@ -596,7 +597,7 @@ async function loadPartidos(){
     document.getElementById('listProx').innerHTML=scheduled.length?scheduled.map(m=>matchCard(m,false)).join(''):'<div class="err-msg">No hay próximos partidos.</div>';
     document.getElementById('pDot').className='sdot ok';
     document.getElementById('pStatus').textContent=`Temporada completa 2025/26 · football-data.org`;
-    document.getElementById('pTime').textContent=`Actualizado ${new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}`;
+    document.getElementById('pTime').textContent=`Actualizado ${new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})}`;
   }catch(e){document.getElementById('pDot').className='sdot err';document.getElementById('pStatus').textContent='Error — mostrando datos guardados';fallbackPartidos();}
 }
 
@@ -604,8 +605,8 @@ function matchCard(m,finished){
   const hRv=m.homeTeam.id===RAYO_ID, aRv=m.awayTeam.id===RAYO_ID;
   const isConf=m.competition?.name?.includes('Conference')||m.competition?.code==='ECNL';
   const cc=isConf?'color:var(--azul)':'color:var(--rojo)';
-  const fecha=new Date(m.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'});
-  const hora=new Date(m.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  const fecha=new Date(m.utcDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'});
+  const hora=new Date(m.utcDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'});
   const mData=encodeURIComponent(JSON.stringify({home:m.homeTeam.name,away:m.awayTeam.name,gH:m.score?.fullTime?.home,gA:m.score?.fullTime?.away,comp:m.competition?.name||'',fecha,hora,finished,homeRv:hRv,awayRv:aRv,isConf}));
   if(finished){
     const gH=m.score?.fullTime?.home??'—', gA=m.score?.fullTime?.away??'—';
@@ -993,8 +994,38 @@ const noticias=[
   {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",desc:"Victoria importante en casa que permite al Rayo alejarse de los puestos de descenso.",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
   {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
 ];
-function rNoticias(){
-  document.getElementById('newsGrid').innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+async function rNoticias(){
+  const grid=document.getElementById('newsGrid');
+  // Mostrar skeleton mientras carga
+  grid.innerHTML=Array(6).fill('<div class="skeleton" style="height:280px;border-radius:12px"></div>').join('');
+  try {
+    const r=await fetch('/api/news');
+    const data=await r.json();
+    const items=data.items||[];
+    if(items.length>0){
+      grid.innerHTML=items.map((n,i)=>{
+        const fecha=n.pubDate?new Date(n.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'}):'';
+        const hora=n.pubDate?new Date(n.pubDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'';
+        const fuente=n.link.includes('as.com')?'AS':n.link.includes('marca')?'Marca':n.link.includes('mundodeportivo')?'Mundo Deportivo':n.link.includes('unionrayo')?'Unión Rayo':'Deportes';
+        const img=n.img||noticias[i%noticias.length]?.img||'';
+        return `<a class="news-card" href="${n.link}" target="_blank" rel="noopener">
+          ${img?`<img class="news-img" src="${img}" alt="${n.title}" loading="lazy" onerror="this.style.background='var(--gris2)';this.style.display='none'">`:'<div class="news-img" style="display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,var(--gris2),#1a0006)">⚡</div>'}
+          <div class="news-body">
+            <div class="news-tag">${fuente}</div>
+            <div class="news-title">${n.title}</div>
+            ${n.description?`<div class="news-desc">${n.description}</div>`:''}
+            <div class="news-meta">${fecha}${hora?' · '+hora:''}h</div>
+          </div>
+        </a>`;
+      }).join('');
+    } else {
+      // Fallback a noticias estáticas
+      grid.innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+    }
+  } catch(e) {
+    // Fallback a noticias estáticas si falla la API
+    grid.innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+  }
 }
 
 // ─── VÍDEOS ──────────────────────────────────
