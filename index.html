@@ -366,7 +366,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 
 <!-- MODAL PARTIDO -->
 <div class="overlay" id="overlayPartido" onclick="if(event.target===this)closeModal('overlayPartido')">
-  <div class="modal">
+  <div class="modal" style="max-width:580px;">
     <button class="modal-close" onclick="closeModal('overlayPartido')">✕</button>
     <div class="pm-header">
       <div class="pm-comp" id="pm-comp"></div>
@@ -378,6 +378,17 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
       <div class="pm-date" id="pm-date"></div>
     </div>
     <div class="pm-stats" id="pm-stats"></div>
+    <!-- EVENTOS en tiempo real -->
+    <div id="pm-events-wrap" style="display:none;">
+      <div style="display:flex;gap:1px;background:var(--gris2);border-top:1px solid var(--gris2);">
+        <button class="pm-tab active" onclick="switchPmTab('events',this)" style="flex:1;background:var(--gris);border:none;padding:11px;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);cursor:pointer;">⚽ Eventos</button>
+        <button class="pm-tab" onclick="switchPmTab('lineups',this)" style="flex:1;background:var(--gris2);border:none;padding:11px;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);cursor:pointer;">👕 Alineaciones</button>
+        <button class="pm-tab" onclick="switchPmTab('stats',this)" style="flex:1;background:var(--gris2);border:none;padding:11px;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);cursor:pointer;">📊 Estadísticas</button>
+      </div>
+      <div id="pm-tab-events" class="pm-tab-content" style="padding:16px 20px;"></div>
+      <div id="pm-tab-lineups" class="pm-tab-content" style="display:none;padding:16px 20px;"></div>
+      <div id="pm-tab-stats" class="pm-tab-content" style="display:none;padding:16px 20px;"></div>
+    </div>
     <div class="pm-section" id="pm-facts"></div>
   </div>
 </div>
@@ -477,31 +488,143 @@ function matchCard(m,finished){
   }
 }
 
+function switchPmTab(tab,btn){
+  document.querySelectorAll('.pm-tab').forEach(b=>{b.style.background='var(--gris2)';b.style.color='var(--txt3)';});
+  btn.style.background='var(--gris)';btn.style.color='var(--rojo)';
+  document.querySelectorAll('.pm-tab-content').forEach(c=>c.style.display='none');
+  document.getElementById('pm-tab-'+tab).style.display='block';
+}
+
 function openPartido(dataStr){
   const m=JSON.parse(decodeURIComponent(dataStr));
   const cc=m.isConf?'color:var(--azul)':'color:var(--rojo)';
-  document.getElementById('pm-comp').innerHTML=`<span style="${cc}">${m.comp}</span>`;
+  document.getElementById('pm-comp').innerHTML='<span style="'+cc+'">'+m.comp+'</span>';
   document.getElementById('pm-home').textContent=m.home;
   document.getElementById('pm-away').textContent=m.away;
   document.getElementById('pm-home').style.color=m.homeRv?'var(--rojo)':'var(--txt)';
   document.getElementById('pm-away').style.color=m.awayRv?'var(--rojo)':'var(--txt)';
+  document.getElementById('pm-events-wrap').style.display='none';
+  document.getElementById('pm-facts').style.display='block';
+  document.querySelectorAll('.pm-tab').forEach((b,i)=>{b.style.background=i===0?'var(--gris)':'var(--gris2)';b.style.color=i===0?'var(--rojo)':'var(--txt3)';});
+  document.querySelectorAll('.pm-tab-content').forEach((c,i)=>c.style.display=i===0?'block':'none');
   if(m.finished&&m.gH!==null&&m.gH!==undefined){
-    document.getElementById('pm-score').textContent=`${m.gH} — ${m.gA}`;
+    document.getElementById('pm-score').textContent=m.gH+' — '+m.gA;
     document.getElementById('pm-score').classList.remove('vs');
     let res='Empate',rc='#ffc107';
     if((m.homeRv&&m.gH>m.gA)||(m.awayRv&&m.gA>m.gH)){res='Victoria ⚡';rc='#4caf50';}
     else if((m.homeRv&&m.gH<m.gA)||(m.awayRv&&m.gA<m.gH)){res='Derrota';rc='var(--rojo)';}
-    document.getElementById('pm-stats').innerHTML=`<div class="pm-stat"><div class="pm-stat-val" style="color:${rc}">${res}</div><div class="pm-stat-lbl">Resultado</div></div><div class="pm-stat"><div class="pm-stat-val">${m.gH}</div><div class="pm-stat-lbl">Goles local</div></div><div class="pm-stat"><div class="pm-stat-val">${m.gA}</div><div class="pm-stat-lbl">Goles visit.</div></div>`;
-    document.getElementById('pm-facts').innerHTML=`<div class="pm-section-title">Detalles</div><div class="pm-fact"><span>📅</span>${m.fecha}</div><div class="pm-fact"><span>🏆</span>${m.comp}</div><div class="pm-fact"><span>⚡</span>Rayo ${m.homeRv?'local':'visitante'}</div>`;
+    document.getElementById('pm-stats').innerHTML='<div class="pm-stat"><div class="pm-stat-val" style="color:'+rc+'">'+res+'</div><div class="pm-stat-lbl">Resultado</div></div><div class="pm-stat"><div class="pm-stat-val">'+m.gH+'</div><div class="pm-stat-lbl">Goles local</div></div><div class="pm-stat"><div class="pm-stat-val">'+m.gA+'</div><div class="pm-stat-lbl">Goles visit.</div></div>';
+    document.getElementById('pm-facts').innerHTML='<div class="pm-section-title">Detalles</div><div class="pm-fact"><span>📅</span>'+m.fecha+'</div><div class="pm-fact"><span>🏆</span>'+m.comp+'</div><div class="pm-fact"><span>⚡</span>Rayo '+(m.homeRv?'local en Vallecas':'visitante')+'</div>';
+    loadMatchEvents(m);
   } else {
     document.getElementById('pm-score').textContent='VS';
     document.getElementById('pm-score').classList.add('vs');
-    document.getElementById('pm-stats').innerHTML=`<div class="pm-stat"><div class="pm-stat-val" style="color:var(--oro)">Pendiente</div><div class="pm-stat-lbl">Estado</div></div><div class="pm-stat"><div class="pm-stat-val" style="font-size:16px">${m.fecha}</div><div class="pm-stat-lbl">Fecha</div></div><div class="pm-stat"><div class="pm-stat-val">${m.hora}h</div><div class="pm-stat-lbl">Hora</div></div>`;
-    document.getElementById('pm-facts').innerHTML=`<div class="pm-section-title">Información</div><div class="pm-fact"><span>🏆</span>${m.comp}</div><div class="pm-fact"><span>⚡</span>Rayo ${m.homeRv?'local en Vallecas':'visitante'}</div>`;
+    document.getElementById('pm-stats').innerHTML='<div class="pm-stat"><div class="pm-stat-val" style="color:var(--oro)">Pendiente</div><div class="pm-stat-lbl">Estado</div></div><div class="pm-stat"><div class="pm-stat-val" style="font-size:16px">'+m.fecha+'</div><div class="pm-stat-lbl">Fecha</div></div><div class="pm-stat"><div class="pm-stat-val">'+m.hora+'h</div><div class="pm-stat-lbl">Hora</div></div>';
+    document.getElementById('pm-facts').innerHTML='<div class="pm-section-title">Información</div><div class="pm-fact"><span>🏆</span>'+m.comp+'</div><div class="pm-fact"><span>⚡</span>Rayo '+(m.homeRv?'local en Vallecas':'visitante')+'</div>';
   }
   document.getElementById('pm-date').textContent=m.fecha+(m.hora&&!m.finished?' · '+m.hora+'h':'');
   document.getElementById('overlayPartido').classList.add('on');
   document.body.style.overflow='hidden';
+}
+
+async function loadMatchEvents(m){
+  const wrap=document.getElementById('pm-events-wrap');
+  const evDiv=document.getElementById('pm-tab-events');
+  const lnDiv=document.getElementById('pm-tab-lineups');
+  const stDiv=document.getElementById('pm-tab-stats');
+  wrap.style.display='block';
+  evDiv.innerHTML='<div style="display:flex;align-items:center;gap:10px;padding:14px 0;color:var(--txt3);font-family:Barlow Condensed,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase"><div class="sdot ld"></div>Cargando eventos...</div>';
+  lnDiv.innerHTML=''; stDiv.innerHTML='';
+  try {
+    const r=await fetch('/api/fixtures?last=20');
+    const data=await r.json();
+    const fixtures=data.response||[];
+    const rivalName=(m.homeRv?m.away:m.home).split(' ')[0].toLowerCase();
+    const fix=fixtures.find(f=>{
+      const fgH=f.goals?.home,fgA=f.goals?.away;
+      const hasRayo=f.teams?.home?.name?.toLowerCase().includes('rayo')||f.teams?.away?.name?.toLowerCase().includes('rayo');
+      const hasRival=f.teams?.home?.name?.toLowerCase().includes(rivalName)||f.teams?.away?.name?.toLowerCase().includes(rivalName);
+      const scoreOk=(fgH===m.gH&&fgA===m.gA)||(fgH===m.gA&&fgA===m.gH);
+      return hasRayo&&hasRival&&scoreOk;
+    });
+    if(!fix){
+      evDiv.innerHTML='<div style="color:var(--txt3);font-size:13px;padding:10px 0">No se encontraron eventos para este partido. Puede ser un partido antiguo.</div>';
+      return;
+    }
+    const fid=fix.fixture.id;
+    const rayoId=fix.teams?.home?.name?.toLowerCase().includes('rayo')?fix.teams.home.id:fix.teams.away.id;
+    const [evR,lnR,stR]=await Promise.all([fetch('/api/match?type=events&id='+fid),fetch('/api/match?type=lineups&id='+fid),fetch('/api/match?type=statistics&id='+fid)]);
+    const [evData,lnData,stData]=await Promise.all([evR.json(),lnR.json(),stR.json()]);
+    // EVENTOS
+    const evs=evData.response||[];
+    if(evs.length){
+      evDiv.innerHTML=evs.map(function(e){
+        const isRayo=e.team?.id===rayoId;
+        const icon=e.type==='Goal'?'⚽':e.type==='Card'&&e.detail==='Yellow Card'?'🟨':e.type==='Card'&&e.detail?.includes('Red')?'🟥':e.type==='subst'?'🔄':e.type==='Var'?'📺':'•';
+        let detail='';
+        if(e.type==='Goal') detail='<strong>'+(e.player?.name||'')+'</strong>'+(e.assist?.name?' <span style="color:var(--txt3);font-size:11px">(Asist: '+e.assist.name+')</span>':'');
+        else if(e.type==='Card') detail=(e.player?.name||'')+' <span style="color:var(--txt3);font-size:11px">— '+(e.detail||'')+'</span>';
+        else if(e.type==='subst') detail='<span style="color:#4caf50">▲ '+(e.assist?.name||'')+'</span> <span style="color:var(--rojo)">▼ '+(e.player?.name||'')+'</span>';
+        else detail=e.player?.name||e.detail||'';
+        return '<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gris2);">'
+          +'<div style="font-family:Bebas Neue,sans-serif;font-size:17px;color:var(--txt3);min-width:34px;text-align:center">'+(e.time?.elapsed||'')+(e.time?.extra?'+'+e.time.extra:'')+"'</div>"
+          +'<div style="font-size:17px;flex-shrink:0">'+icon+'</div>'
+          +'<div style="flex:1;font-size:13px;color:'+(isRayo?'var(--txt)':'var(--txt2)')+'">'+detail+'</div>'
+          +'<div style="font-size:10px;color:var(--txt3);font-family:Barlow Condensed,sans-serif;letter-spacing:1px;text-align:right;max-width:80px">'+(e.team?.name?.split(' ')[0]||'')+'</div>'
+          +'</div>';
+      }).join('');
+    } else {
+      evDiv.innerHTML='<div style="color:var(--txt3);font-size:13px;padding:10px 0">Sin eventos registrados.</div>';
+    }
+    // ALINEACIONES
+    const lns=lnData.response||[];
+    if(lns.length){
+      lnDiv.innerHTML=lns.map(function(team){
+        const iRayo=team.team?.id===rayoId;
+        const starters=team.startXI?.map(function(p){return p.player;})||[];
+        const subs=team.substitutes?.map(function(p){return p.player;})||[];
+        return '<div style="margin-bottom:18px;">'
+          +'<div style="font-family:Bebas Neue,sans-serif;font-size:17px;letter-spacing:2px;color:'+(iRayo?'var(--rojo)':'var(--txt)')+';margin-bottom:6px">'+(team.team?.name||'')+' <span style="font-family:Barlow Condensed,sans-serif;font-size:12px;color:var(--txt3);font-weight:normal">'+(team.formation||'')+'</span></div>'
+          +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:6px">Titulares</div>'
+          +starters.map(function(p){return '<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--gris2);font-size:13px;color:'+(iRayo?'var(--txt)':'var(--txt2)')+'"><span style="font-family:Bebas Neue,sans-serif;font-size:15px;color:var(--txt3);min-width:22px">'+(p.number||'')+'</span>'+(p.name||'')+'</div>';}).join('')
+          +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin:8px 0 6px">Suplentes</div>'
+          +subs.map(function(p){return '<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--gris2);font-size:12px;color:var(--txt3)"><span style="font-family:Bebas Neue,sans-serif;font-size:14px;min-width:22px">'+(p.number||'')+'</span>'+(p.name||'')+'</div>';}).join('')
+          +'</div>';
+      }).join('<hr style="border:none;border-top:2px solid var(--gris2);margin:8px 0 16px">');
+    } else {
+      lnDiv.innerHTML='<div style="color:var(--txt3);font-size:13px;padding:10px 0">Alineaciones no disponibles.</div>';
+    }
+    // ESTADÍSTICAS
+    const sts=stData.response||[];
+    if(sts.length===2){
+      const home=sts[0],away=sts[1];
+      const iHomeRayo=home.team?.id===rayoId;
+      const rayoSt=iHomeRayo?home.statistics:away.statistics;
+      const rivalSt=iHomeRayo?away.statistics:home.statistics;
+      const rivalName2=(iHomeRayo?away:home).team?.name?.split(' ').slice(0,2).join(' ')||'RIVAL';
+      stDiv.innerHTML='<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:4px;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--gris2);">'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--rojo)">RAYO</div><div></div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--txt3);text-align:right">'+rivalName2+'</div></div>'
+        +rayoSt.map(function(s,i){
+          const rVal=parseFloat(String(s.value||0).replace('%',''))||0;
+          const rvVal=parseFloat(String(rivalSt[i]?.value||0).replace('%',''))||0;
+          const total=rVal+rvVal||1;
+          const rPct=Math.round((rVal/total)*100);
+          return '<div style="margin-bottom:10px;">'
+            +'<div style="display:flex;justify-content:space-between;margin-bottom:3px;">'
+            +'<span style="font-family:Bebas Neue,sans-serif;font-size:17px;color:var(--rojo)">'+(s.value||0)+'</span>'
+            +'<span style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt3);align-self:center;text-align:center;flex:1;padding:0 6px">'+s.type+'</span>'
+            +'<span style="font-family:Bebas Neue,sans-serif;font-size:17px;color:var(--txt2)">'+(rivalSt[i]?.value||0)+'</span>'
+            +'</div>'
+            +'<div style="height:3px;background:var(--gris2);border-radius:2px;overflow:hidden;"><div style="height:100%;width:'+rPct+'%;background:var(--rojo);border-radius:2px"></div></div>'
+            +'</div>';
+        }).join('');
+    } else {
+      stDiv.innerHTML='<div style="color:var(--txt3);font-size:13px;padding:10px 0">Estadísticas no disponibles.</div>';
+    }
+  } catch(err){
+    evDiv.innerHTML='<div style="color:var(--txt3);font-size:13px;padding:10px 0">Error al cargar. Límite gratuito: 100 peticiones/día.</div>';
+  }
 }
 
 // ─── TABLA ───────────────────────────────────
@@ -786,30 +909,37 @@ function rHistoria(){
 
 // ─── PLANTILLA ───────────────────────────────
 const plantilla=[
-  {num:1, n:"Dani Cárdenas",   pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:25},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Portero titular esta temporada. Ha sustituido a Dimitrievski con gran solidez bajo palos."},
-  {num:13,n:"Augusto Batalla", pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:4}, conf:{g:0,a:0,pj:2},copa:{g:0,a:0,pj:0}}, desc:"Portero suplente argentino. Pocas apariciones pero siempre preparado cuando se le necesita."},
-  {num:2, n:"Andrei Rațiu",    pos:"Defensa",        nac:"🇷🇴 Rumanía",   stats:{liga:{g:0,a:1,pj:27},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Lateral derecho más valioso de la plantilla (18M€). Gran proyección ofensiva y mejor regateador del equipo."},
-  {num:5, n:"Luiz Felipe",     pos:"Defensa",        nac:"🇧🇷 Brasil",    stats:{liga:{g:0,a:0,pj:12},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Central brasileño limitado por lesiones. Cuando juega aporta mucha calidad con el balón."},
-  {num:16,n:"Pep Chavarría",   pos:"Defensa",        nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Lateral izquierdo con 2 goles en LaLiga. Ha sorprendido con su aportación goleadora esta temporada."},
-  {num:20,n:"Alfonso Espino",  pos:"Defensa",        nac:"🇺🇾 Uruguay",   stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:0}}, desc:"Lateral izquierdo uruguayo. Marcó un gol clave en Anoeta que silenció a la Real Sociedad."},
-  {num:23,n:"Florian Lejeune", pos:"Defensa",        nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:21},conf:{g:0,a:0,pj:5},copa:{g:0,a:0,pj:1}}, desc:"Central francés experimentado y líder de la zaga. Organizador de la defensa."},
-  {num:24,n:"Nobel Mendy",     pos:"Defensa",        nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:19},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central senegalés. Marcó un golazo ante el Atlético de Madrid. Fortísimo físicamente."},
-  {num:3, n:"Abdul Mumin",     pos:"Defensa",        nac:"🇬🇭 Ghana",     stats:{liga:{g:0,a:0,pj:10},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central ghanés de apoyo que alterna con Lejeune y Mendy."},
-  {num:4, n:"Pathé Ciss",      pos:"Centrocampista", nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:26},conf:{g:0,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Pivote defensivo imprescindible. Recuperador nato. Su gol ante el Celta fue clave esta temporada."},
-  {num:6, n:"Unai López",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:2,pj:24},conf:{g:1,a:1,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Centrocampista completo con goles en LaLiga y Conference League. Gran visión de juego."},
-  {num:8, n:"Gerard Gumbau",   pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:5},copa:{g:1,a:0,pj:1}}, desc:"Mediocentro catalán que aporta orden y equilibrio. Golazo en Copa del Rey."},
-  {num:14,n:"Óscar Valentín",  pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:22},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Capitán del Rayo Vallecano. Marcó un gol histórico ante el Atlético de Madrid."},
-  {num:15,n:"Pedro Díaz",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:18},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Mediocentro con llegada. Anotó en la victoria ante Granada con cada vez más protagonismo."},
-  {num:21,n:"Fran Pérez",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:17},conf:{g:3,a:0,pj:5},copa:{g:3,a:0,pj:1}}, desc:"Hat-trick en Copa y 3 goles en Conference League. El más goleador fuera de LaLiga. Gran sorpresa."},
-  {num:10,n:"Isi Palazón",     pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:2,pj:22},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Referencia histórica del Rayo. 3 goles en LaLiga y Conference. Top-10 histórico de goleadores del club."},
-  {num:11,n:"Álvaro García",   pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:3,a:3,pj:26},conf:{g:2,a:1,pj:8},copa:{g:0,a:0,pj:1}}, desc:"5 goles y 4 asistencias en todas las competiciones. Convocado por la selección española."},
-  {num:7, n:"Ilias Akhomach",  pos:"Centrocampista", nac:"🇲🇦 Marruecos", stats:{liga:{g:0,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"El más desequilibrante con 1.7 regates por partido. Todavía busca su primer gol pero genera muchas ocasiones."},
-  {num:22,n:"Óscar Trejo",     pos:"Centrocampista", nac:"🇦🇷 Argentina", stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:2},copa:{g:1,a:0,pj:1}}, desc:"Veterano argentino que aporta experiencia y calidad desde el banquillo."},
-  {num:9, n:"Alemão",          pos:"Delantero",      nac:"🇧🇷 Brasil",    stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Fichaje estrella (5.5M€) frenado por lesión inguinal. Solo 1 gol pero con gran calidad cuando juega."},
-  {num:17,n:"Jorge de Frutos", pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:10,a:1,pj:28},conf:{g:1,a:1,pj:7},copa:{g:1,a:0,pj:1}}, desc:"¡EL MEJOR DEL RAYO! 12 goles en todas las competiciones, 10 solo en LaLiga. Debutó con la selección española."},
-  {num:19,n:"Sergio Camello",  pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:20},conf:{g:1,a:0,pj:6},copa:{g:1,a:0,pj:1}}, desc:"Trabaja mucho pero sin fortuna en liga. Sus goles en Conference y Copa han sido importantes."},
-  {num:18,n:"Randy Nteka",     pos:"Delantero",      nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:1}}, desc:"Extremo francés con menos protagonismo esta temporada. Rápido e intenso desde el banquillo."},
-];
+  // ── PORTEROS ──
+  {num:13, n:"Augusto Batalla",    pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:22},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:0}}, desc:"PORTERO TITULAR. El argentino es el guardameta indiscutible de Iñigo Pérez en LaLiga y Conference League. Gran personalidad, líder vocal del equipo y especialista en penaltis. Se perdió unos partidos por lesión."},
+  {num:1,  n:"Dani Cárdenas",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:6}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:3}}, desc:"Portero suplente que cubrió a Batalla durante su lesión. Titular en Copa del Rey donde hizo grandes intervenciones. Muy fiable cuando ha sido necesario."},
+  {num:30, n:"Juanpe Gil",         pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:0}}, desc:"Tercer portero del primer equipo. Joven guardameta de 24 años que forma parte del equipo para completar la plantilla y trabajar en los entrenamientos."},
+  {num:40, n:"Adrián Molina",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:0}}, desc:"Cuarto portero del primer equipo con tan solo 20 años. Procede de la cantera del Rayo y es el futuro bajo palos del club."},
+  // ── DEFENSAS ──
+  {num:2,  n:"Andrei Rațiu",       pos:"Defensa",        nac:"🇷🇴 Rumanía",   stats:{liga:{g:0,a:1,pj:27},conf:{g:1,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Lateral derecho titular y el jugador más valioso de la plantilla (18M€). Desbordante en ataque, gran regateador y pieza clave en ambas fases del juego."},
+  {num:3,  n:"Pep Chavarría",      pos:"Defensa",        nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:24},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Lateral izquierdo titular con 2 goles en LaLiga esta temporada. Disciplinado tácticamente y con mucho carácter."},
+  {num:5,  n:"Luiz Felipe",        pos:"Defensa",        nac:"🇧🇷 Brasil",    stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:1}}, desc:"Central brasileño con gran calidad técnica pero limitado por lesiones esta temporada. Cuando juega aporta mucha tranquilidad al equipo."},
+  {num:16, n:"Nobel Mendy",        pos:"Defensa",        nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:19},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:0}}, desc:"Central senegalés. Fortísimo físicamente y muy sólido en el juego aéreo. Marcó un golazo ante el Atlético de Madrid."},
+  {num:20, n:"Iván Balliu",        pos:"Defensa",        nac:"🇦🇱 Albania",   stats:{liga:{g:0,a:0,pj:9}, conf:{g:0,a:0,pj:2}, copa:{g:0,a:0,pj:0}}, desc:"Lateral derecho alternativo. Aporta experiencia y fiabilidad cuando Rațiu necesita descanso o está sancionado."},
+  {num:22, n:"Alfonso Espino",     pos:"Defensa",        nac:"🇺🇾 Uruguay",   stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:0}}, desc:"Lateral izquierdo suplente de Chavarría. Anotó un gol importante en Anoeta ante la Real Sociedad. Muy fiable defensivamente."},
+  {num:24, n:"Florian Lejeune",    pos:"Defensa",        nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:21},conf:{g:0,a:0,pj:5}, copa:{g:0,a:0,pj:1}}, desc:"Central francés y veterano del equipo. Organizador de la defensa, líder en el vestuario y peligroso en los balones parados."},
+  {num:33, n:"Jozhua Vertrouwd",   pos:"Defensa",        nac:"🇧🇪 Bélgica",   stats:{liga:{g:0,a:0,pj:8}, conf:{g:0,a:0,pj:2}, copa:{g:0,a:0,pj:0}}, desc:"Central belga incorporado este verano procedente del CD Castellón. Joven con mucho potencial y buena salida de balón."},
+  // ── CENTROCAMPISTAS ──
+  {num:4,  n:"Pedro Díaz",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:18},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:0}}, desc:"Mediocentro con llegada y buen disparo. Anotó un gol importante ante el Granada y tiene cada vez más peso en el equipo."},
+  {num:6,  n:"Pathé Ciss",         pos:"Centrocampista", nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:26},conf:{g:0,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Pivote defensivo imprescindible. El mejor recuperador de balón del equipo. Su gol ante el Celta fue uno de los más importantes de la temporada."},
+  {num:7,  n:"Isi Palazón",        pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:2,pj:22},conf:{g:1,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Leyenda viva del Rayo Vallecano. Máximo goleador histórico del club. Aporta calidad, experiencia y liderazgo. 3 goles esta temporada entre LaLiga y Conference."},
+  {num:8,  n:"Óscar Trejo",        pos:"Centrocampista", nac:"🇦🇷 Argentina", stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:2}, copa:{g:1,a:0,pj:1}}, desc:"Veterano mediapunta argentino. Aporta calidad y experiencia desde el banquillo. Siempre tiene alguna jugada mágica guardada."},
+  {num:15, n:"Gerard Gumbau",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:5}, copa:{g:1,a:0,pj:1}}, desc:"Mediocentro catalán que aporta orden y equilibrio al centro del campo. Marcó un golazo en Copa del Rey esta temporada."},
+  {num:17, n:"Unai López",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:2,pj:24},conf:{g:1,a:1,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Centrocampista completo con goles en LaLiga y Conference League. Gran visión de juego, uno de los más importantes del equipo."},
+  {num:21, n:"Fran Pérez",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:17},conf:{g:3,a:0,pj:5}, copa:{g:3,a:0,pj:1}}, desc:"¡La gran sorpresa de la temporada! Hat-trick en Copa del Rey y 3 goles en Conference League. El jugador más goleador fuera de LaLiga."},
+  {num:23, n:"Óscar Valentín",     pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:22},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:1}}, desc:"Capitán del Rayo Vallecano. El corazón del vestuario. Marcó un gol histórico ante el Atlético de Madrid esta temporada."},
+  // ── DELANTEROS ──
+  {num:9,  n:"Alemão",             pos:"Delantero",      nac:"🇧🇷 Brasil",    stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:1}}, desc:"Fichaje estrella del verano (5.5M€ del Pachuca). Frenado por una lesión inguinal grave. Solo 1 gol pero con gran calidad. Se espera que explote totalmente recuperado."},
+  {num:10, n:"Sergio Camello",     pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:20},conf:{g:1,a:0,pj:6}, copa:{g:1,a:0,pj:1}}, desc:"Delantero centro con mucho trabajo y sacrificio. Sin suerte goleadora en liga pero sus goles en Conference y Copa han sido importantes."},
+  {num:11, n:"Randy Nteka",        pos:"Delantero",      nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:1}}, desc:"Extremo francés con menos protagonismo esta temporada. Rápido e intenso, aporta profundidad cuando entra desde el banquillo."},
+  {num:18, n:"Álvaro García",      pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:3,a:3,pj:26},conf:{g:2,a:1,pj:8}, copa:{g:0,a:0,pj:1}}, desc:"Extremo con 5 goles y 4 asistencias en todas las competiciones. Convocado por la selección española. Su doblete en la fase previa de Conference fue histórico."},
+  {num:19, n:"Jorge de Frutos",    pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:10,a:1,pj:28},conf:{g:1,a:1,pj:7}, copa:{g:1,a:0,pj:1}}, desc:"¡EL MEJOR DEL RAYO! 12 goles en todas las competiciones. 10 solo en LaLiga — nadie lo había logrado desde Raúl de Tomás en 2018/19. Debutó con la selección española."},
+  {num:25, n:"Ilias Akhomach",     pos:"Delantero",      nac:"🇲🇦 Marruecos", stats:{liga:{g:0,a:0,pj:24},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Extremo cedido por el Villarreal. El jugador más desequilibrante con 1.7 regates por partido — el mejor de la plantilla. Aún busca su primer gol pero genera muchísimas ocasiones."},
+]
 
 function rPlantilla(){
   const g=document.getElementById('pgrid');
