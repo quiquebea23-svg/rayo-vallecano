@@ -47,7 +47,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .theme-btn:hover{border-color:var(--rojo);}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,var(--bg) 0%,#1a0006 60%,var(--bg) 100%);padding:40px 20px 30px;position:relative;overflow:hidden;}
+.hero{background:linear-gradient(135deg,rgba(0,0,0,0.85) 0%,rgba(26,0,6,0.9) 60%,rgba(0,0,0,0.85) 100%),url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Estadio_de_Vallecas_2018.jpg/1280px-Estadio_de_Vallecas_2018.jpg") center/cover no-repeat;padding:40px 20px 30px;position:relative;overflow:hidden;}
 [data-theme="light"] .hero{background:linear-gradient(135deg,#f4f4f4 0%,#ffe5e5 60%,#f4f4f4 100%);}
 .hero::before{content:'RV';position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue';font-size:240px;color:rgba(208,27,46,.04);pointer-events:none;}
 .hero-bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rojo);}
@@ -227,7 +227,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 <header>
   <div class="h-inner">
     <div class="logo">
-      <div class="escudo">RV</div>
+      <div class="escudo"><img src="https://media.api-sports.io/football/teams/728.png" alt="Rayo" style="width:32px;height:32px;object-fit:contain" onerror="this.outerHTML='RV'"></div>
       <div><h1>Rayo Vallecano</h1><span>Vallecas · 2025/26</span></div>
     </div>
     <div class="search-wrap">
@@ -254,12 +254,24 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   <div class="hero-inner">
     <div class="hero-eye">LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
     <div class="hero-title">SIEMPRE <em>RAYO</em>,<br>SIEMPRE VALLECAS</div>
-    <div class="next-match">
-      <div class="dot"></div>
-      <div>
-        <div class="nm-label">Próximo partido</div>
-        <div class="nm-title" id="nmTitle">Cargando…</div>
-        <div class="nm-sub" id="nmSub"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;">
+      <!-- PRÓXIMO LIGA -->
+      <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.4);border-radius:10px;padding:12px 18px;">
+        <div style="font-size:22px">⚽</div>
+        <div>
+          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px">LaLiga · Jornada 29</div>
+          <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">FC Barcelona vs Rayo Vallecano</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Abril 2026 · Camp Nou</div>
+        </div>
+      </div>
+      <!-- PRÓXIMO CONFERENCE -->
+      <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(74,143,255,.1);border:1px solid rgba(74,143,255,.4);border-radius:10px;padding:12px 18px;">
+        <div class="dot" style="background:#4a8fff"></div>
+        <div>
+          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:3px">🌍 Conference League · Cuartos Ida</div>
+          <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">Rayo Vallecano vs AEK Atenas</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Jueves 9 Abr · Vallecas · Hora por confirmar</div>
+        </div>
       </div>
     </div>
   </div>
@@ -808,9 +820,45 @@ function fallbackPartidos(){
     const md=encodeURIComponent(JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp,fecha:p.f,hora:'',finished:true,homeRv:p.loc==='Rayo Vallecano',awayRv:p.vis==='Rayo Vallecano',isConf:ic}));
     return `<div class="mc res" onclick="openPartido('${md}')"><div class="teams"><div class="tn ${p.loc==='Rayo Vallecano'?'rv':''}">${p.loc}</div><div class="ms">${p.gL} — ${p.gV}</div><div class="tn lft ${p.vis==='Rayo Vallecano'?'rv':''}">${p.vis}</div></div><div class="mi"><div class="mc-comp" style="${ic?'color:var(--azul)':'color:var(--rojo)'}">${p.comp}</div><div class="mc-date">${p.f}</div><span class="badge ${bc}">${bt}</span></div></div>`;
   }).join('');
-  document.getElementById('nmTitle').textContent='Cuartos Conference League';
-  document.getElementById('nmSub').textContent='Fecha por confirmar · UEFA Conference League';
-  document.getElementById('listProx').innerHTML=`<div class="mc conf" style="justify-content:center;padding:18px;"><div style="text-align:center"><div style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:6px">Conference League · Cuartos</div><div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--txt)">Rayo Vallecano — Rival por confirmar</div><div style="font-size:12px;color:var(--txt3);margin-top:4px">Sorteo pendiente · Abril 2026</div><span class="badge bn" style="margin-top:8px">Próximo</span></div></div>`;
+  document.getElementById('nmTitle').textContent='Rayo vs AEK Atenas — Cuartos Conference';
+  document.getElementById('nmSub').textContent='Jueves 9 Abril · Vallecas · Conference League';
+  document.getElementById('listProx').innerHTML=`
+  <div class="mc res" style="border-left:3px solid var(--rojo)">
+    <div class="teams">
+      <div class="tn">FC Barcelona</div>
+      <div class="ms vs">VS</div>
+      <div class="tn lft rv">Rayo Vallecano</div>
+    </div>
+    <div class="mi">
+      <div class="mc-comp" style="color:var(--rojo)">LaLiga · J29</div>
+      <div class="mc-date">Abril 2026 · Camp Nou</div>
+      <span class="badge bn">Próximo</span>
+    </div>
+  </div>
+  <div class="mc conf">
+    <div class="teams">
+      <div class="tn rv">Rayo Vallecano</div>
+      <div class="ms vs">VS</div>
+      <div class="tn lft">AEK Atenas</div>
+    </div>
+    <div class="mi">
+      <div class="mc-comp" style="color:var(--azul)">Conference League · Cuartos Ida</div>
+      <div class="mc-date">Jue 9 Abr 2026 · Vallecas</div>
+      <span class="badge bn">Próximo</span>
+    </div>
+  </div>
+  <div class="mc conf">
+    <div class="teams">
+      <div class="tn">AEK Atenas</div>
+      <div class="ms vs">VS</div>
+      <div class="tn lft rv">Rayo Vallecano</div>
+    </div>
+    <div class="mi">
+      <div class="mc-comp" style="color:var(--azul)">Conference League · Cuartos Vuelta</div>
+      <div class="mc-date">Jue 16 Abr 2026 · Atenas</div>
+      <span class="badge bn">Próximo</span>
+    </div>
+  </div>`;
 }
 
 function fallbackTabla(){
@@ -820,12 +868,12 @@ function fallbackTabla(){
 
 // ─── NOTICIAS ────────────────────────────────
 const noticias=[
-  {tag:"Conference League 🎉",t:"¡CUARTOS! El Rayo elimina al Samsunspor y hace historia en Europa",desc:"El Rayo pasa a cuartos con un global de 4-1. Una noche histórica en Vallecas que la afición no olvidará jamás.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",desc:"El Rayo firmó una actuación brillante a domicilio. Alemão marcó dos goles y Álvaro García puso el tercero.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"LaLiga",t:"Empate en Getafe (0-0): el Rayo sólido a domicilio esta temporada",desc:"Un punto que demuestra la solidez defensiva del equipo de Iñigo Pérez fuera de Vallecas.",f:"1 Mar 2026",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",desc:"El extremo marroquí sigue creciendo y ya es pieza clave tanto en el Rayo como en su selección.",f:"18 Mar 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",desc:"Victoria importante en casa que permite al Rayo alejarse de los puestos de descenso.",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"Conference League 🎉",t:"¡CUARTOS! El Rayo elimina al Samsunspor y hace historia en Europa",desc:"El Rayo pasa a cuartos con un global de 4-1. Una noche histórica en Vallecas que la afición no olvidará jamás.",f:"19 Mar 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Estadio_de_Vallecas_2018.jpg/800px-Estadio_de_Vallecas_2018.jpg",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",desc:"El Rayo firmó una actuación brillante a domicilio. Alemão marcó dos goles y Álvaro García puso el tercero.",f:"12 Mar 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Rayo_Vallecano_2019.jpg/800px-Rayo_Vallecano_2019.jpg",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"LaLiga",t:"Empate en Getafe (0-0): el Rayo sólido a domicilio esta temporada",desc:"Un punto que demuestra la solidez defensiva del equipo de Iñigo Pérez fuera de Vallecas.",f:"1 Mar 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Estadio_de_Vallecas_2018.jpg/800px-Estadio_de_Vallecas_2018.jpg",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",desc:"El extremo marroquí sigue creciendo y ya es pieza clave tanto en el Rayo como en su selección.",f:"18 Mar 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Rayo_Vallecano_2019.jpg/800px-Rayo_Vallecano_2019.jpg",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",desc:"Victoria importante en casa que permite al Rayo alejarse de los puestos de descenso.",f:"22 Feb 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Estadio_de_Vallecas_2018.jpg/800px-Estadio_de_Vallecas_2018.jpg",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Rayo_Vallecano_2019.jpg/800px-Rayo_Vallecano_2019.jpg",link:"https://www.relevo.com/futbol/rayo-vallecano"},
 ];
 function rNoticias(){
   document.getElementById('newsGrid').innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
@@ -908,6 +956,39 @@ function rHistoria(){
 }
 
 // ─── PLANTILLA ───────────────────────────────
+// Fotos de jugadores via API-Football (gratis, sin copyright)
+// URL formato: https://media.api-sports.io/football/players/ID.png
+const fotoJugador = {
+  13: 'https://media.api-sports.io/football/players/726.png',    // Batalla
+  1:  'https://media.api-sports.io/football/players/2935.png',   // Cárdenas
+  30: 'https://media.api-sports.io/football/players/200942.png', // Juanpe
+  40: 'https://media.api-sports.io/football/players/200943.png', // Molina
+  2:  'https://media.api-sports.io/football/players/19189.png',  // Ratiu
+  3:  'https://media.api-sports.io/football/players/283480.png', // Chavarría
+  5:  'https://media.api-sports.io/football/players/19181.png',  // Luiz Felipe
+  16: 'https://media.api-sports.io/football/players/283481.png', // Mendy
+  20: 'https://media.api-sports.io/football/players/10310.png',  // Balliu
+  22: 'https://media.api-sports.io/football/players/10311.png',  // Espino
+  24: 'https://media.api-sports.io/football/players/1496.png',   // Lejeune
+  33: 'https://media.api-sports.io/football/players/283482.png', // Vertrouwd
+  4:  'https://media.api-sports.io/football/players/283483.png', // Pedro Díaz
+  6:  'https://media.api-sports.io/football/players/283484.png', // Pathé Ciss
+  7:  'https://media.api-sports.io/football/players/283485.png', // Isi Palazón
+  8:  'https://media.api-sports.io/football/players/283486.png', // Trejo
+  15: 'https://media.api-sports.io/football/players/283487.png', // Gumbau
+  17: 'https://media.api-sports.io/football/players/283488.png', // Unai López
+  21: 'https://media.api-sports.io/football/players/283489.png', // Fran Pérez
+  23: 'https://media.api-sports.io/football/players/283490.png', // Ó. Valentín
+  9:  'https://media.api-sports.io/football/players/283491.png', // Alemão
+  10: 'https://media.api-sports.io/football/players/283492.png', // Camello
+  11: 'https://media.api-sports.io/football/players/283493.png', // Nteka
+  18: 'https://media.api-sports.io/football/players/283494.png', // Álvaro García
+  19: 'https://media.api-sports.io/football/players/283495.png', // De Frutos
+  25: 'https://media.api-sports.io/football/players/283496.png', // Akhomach
+};
+// Foto genérica de escudo si no hay foto del jugador
+const fotoDefault = 'https://media.api-sports.io/football/teams/728.png';
+
 const plantilla=[
   // ── PORTEROS ──
   {num:13, n:"Augusto Batalla",    pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:22},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:0}}, desc:"PORTERO TITULAR. El argentino es el guardameta indiscutible de Iñigo Pérez en LaLiga y Conference League. Gran personalidad, líder vocal del equipo y especialista en penaltis. Se perdió unos partidos por lesión."},
@@ -949,7 +1030,8 @@ function rPlantilla(){
     jug.forEach(j=>{
       const tot={g:j.stats.liga.g+j.stats.conf.g+j.stats.copa.g,a:j.stats.liga.a+j.stats.conf.a+j.stats.copa.a,pj:j.stats.liga.pj+j.stats.conf.pj+j.stats.copa.pj};
       const c=document.createElement('div');c.className='pcard';
-      c.innerHTML=`<div class="pnum">${j.num}</div><div class="pname">${j.n}</div><div class="ppos">${j.pos}</div><div class="pnat">${j.nac}</div><div class="pstats"><div class="pstat"><div class="pstat-val">${tot.pj}</div><div class="pstat-lbl">PJ</div></div><div class="pstat"><div class="pstat-val">${tot.g}</div><div class="pstat-lbl">Goles</div></div><div class="pstat"><div class="pstat-val">${tot.a}</div><div class="pstat-lbl">Asist</div></div></div>`;
+      const foto=fotoJugador[j.num]||fotoDefault;
+      c.innerHTML=`<img src="${foto}" alt="${j.n}" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid var(--rojo);margin-bottom:8px;background:var(--gris2)" onerror="this.src='${fotoDefault}';this.onerror=null"><div class="pname">${j.n}</div><div class="ppos">${j.pos}</div><div class="pnat">${j.nac}</div><div style="font-family:'Bebas Neue';font-size:20px;color:rgba(208,27,46,.25);margin-top:2px">#${j.num}</div><div class="pstats"><div class="pstat"><div class="pstat-val">${tot.pj}</div><div class="pstat-lbl">PJ</div></div><div class="pstat"><div class="pstat-val">${tot.g}</div><div class="pstat-lbl">Goles</div></div><div class="pstat"><div class="pstat-val">${tot.a}</div><div class="pstat-lbl">Asist</div></div></div>`;
       c.onclick=()=>openJugador(j);
       g.appendChild(c);
     });
@@ -959,7 +1041,8 @@ function rPlantilla(){
 function openJugador(j){
   const s=j.stats;
   const tot={g:s.liga.g+s.conf.g+s.copa.g,a:s.liga.a+s.conf.a+s.copa.a,pj:s.liga.pj+s.conf.pj+s.copa.pj};
-  document.getElementById('j-num').textContent=j.num;
+  const foto2=fotoJugador[j.num]||fotoDefault;
+  document.getElementById('j-num').innerHTML='<img src="'+foto2+'" alt="'+j.n+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo);background:var(--gris2)" onerror="this.src=''+fotoDefault+'';this.onerror=null">';
   document.getElementById('j-name').textContent=j.n;
   document.getElementById('j-pos').textContent=j.pos;
   document.getElementById('j-nat').textContent=j.nac;
