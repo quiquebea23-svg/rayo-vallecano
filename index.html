@@ -290,13 +290,43 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 
 <!-- TABLA -->
 <section id="tabla" class="section">
-  <div class="sec-t">Clasificación LaLiga</div>
-  <div class="api-status"><div class="sdot ld" id="tDot"></div><span id="tStatus">Cargando clasificación…</span></div>
-  <div class="tw">
-    <table class="tb">
-      <thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead>
-      <tbody id="tbody"><tr><td colspan="10"><div class="skeleton" style="height:36px;margin:3px 0"></div></td></tr></tbody>
-    </table>
+  <div class="sec-t">Clasificaciones</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;" id="tablaTabsBtns">
+    <button class="pill" style="border-color:var(--rojo);color:var(--rojo);" onclick="switchTabla('liga',this)">⚽ LaLiga</button>
+    <button class="pill" onclick="switchTabla('conf',this)">🌍 Conference League</button>
+    <button class="pill" onclick="switchTabla('copa',this)">🏆 Copa del Rey</button>
+  </div>
+
+  <!-- LaLiga -->
+  <div id="tablaLiga">
+    <div class="api-status"><div class="sdot ld" id="tDot"></div><span id="tStatus">Cargando clasificación…</span></div>
+    <div class="tw">
+      <table class="tb">
+        <thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead>
+        <tbody id="tbody"><tr><td colspan="10"><div class="skeleton" style="height:36px;margin:3px 0"></div></td></tr></tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;font-family:'Barlow Condensed';font-size:11px;letter-spacing:1px;color:var(--txt3);">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(70,130,255,.5);margin-right:4px"></span>Champions League</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(255,150,0,.5);margin-right:4px"></span>Europa / Conference</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:rgba(208,27,46,.5);margin-right:4px"></span>Descenso</span>
+    </div>
+  </div>
+
+  <!-- Conference League -->
+  <div id="tablaConf" style="display:none;">
+    <div class="api-status"><div class="sdot ld" id="cDot"></div><span id="cStatus">Cargando Conference League…</span></div>
+    <div id="confContent">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </div>
+
+  <!-- Copa del Rey -->
+  <div id="tablaCopa" style="display:none;">
+    <div class="api-status"><div class="sdot ld" id="kDot"></div><span id="kStatus">Cargando Copa del Rey…</span></div>
+    <div id="copaContent">
+      <div class="skeleton"></div><div class="skeleton"></div>
+    </div>
   </div>
 </section>
 
@@ -475,6 +505,26 @@ function openPartido(dataStr){
 }
 
 // ─── TABLA ───────────────────────────────────
+// ─── TABLA PESTAÑAS ──────────────────────────
+let confLoaded=false, copaLoaded=false;
+
+function switchTabla(tab, btn){
+  document.getElementById('tablaLiga').style.display='none';
+  document.getElementById('tablaConf').style.display='none';
+  document.getElementById('tablaCopa').style.display='none';
+  document.querySelectorAll('#tablaTabsBtns .pill').forEach(b=>b.style.cssText='');
+  btn.style.cssText='border-color:var(--rojo);color:var(--rojo);';
+  if(tab==='liga'){
+    document.getElementById('tablaLiga').style.display='block';
+  } else if(tab==='conf'){
+    document.getElementById('tablaConf').style.display='block';
+    if(!confLoaded){loadConf();confLoaded=true;}
+  } else if(tab==='copa'){
+    document.getElementById('tablaCopa').style.display='block';
+    if(!copaLoaded){loadCopa();copaLoaded=true;}
+  }
+}
+
 async function loadTabla(){
   try{
     const data=await apiFetch(`competitions/${LALIGA}/standings`);
@@ -489,8 +539,133 @@ async function loadTabla(){
       return `<tr ${isRayo?'class="rrow"':''}><td><span class="${pc}">${t.position}</span></td><td>${isRayo?'⚡ ':''}${t.team.name}</td><td>${t.playedGames}</td><td>${t.won}</td><td>${t.draw}</td><td>${t.lost}</td><td>${t.goalsFor}</td><td>${t.goalsAgainst}</td><td>${dgStr}</td><td><strong>${t.points}</strong></td></tr>`;
     }).join('');
     document.getElementById('tDot').className='sdot ok';
-    document.getElementById('tStatus').textContent='Clasificación en tiempo real · football-data.org';
-  }catch(e){document.getElementById('tDot').className='sdot err';document.getElementById('tStatus').textContent='Error — datos guardados';fallbackTabla();}
+    document.getElementById('tStatus').textContent='LaLiga EA Sports 2025/26 · En tiempo real';
+  }catch(e){
+    document.getElementById('tDot').className='sdot err';
+    document.getElementById('tStatus').textContent='Error — datos guardados';
+    fallbackTabla();
+  }
+}
+
+async function loadConf(){
+  try{
+    const data=await apiFetch(`competitions/ECNL/standings?season=2025`);
+    const dot=document.getElementById('cDot');
+    const status=document.getElementById('cStatus');
+
+    // La Conference League tiene grupos o eliminatorias — puede venir de varias formas
+    const standings=data.standings||[];
+    if(!standings.length){
+      // Si no hay tabla (fase eliminatoria), mostramos el estado actual del Rayo
+      document.getElementById('confContent').innerHTML=`
+        <div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;text-align:center;">
+          <div style="font-family:'Bebas Neue';font-size:48px;color:var(--azul);letter-spacing:2px;margin-bottom:8px">CUARTOS DE FINAL</div>
+          <div style="font-family:'Barlow Condensed';font-size:14px;color:var(--txt2);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px">UEFA Conference League 2025/26</div>
+          <div style="background:rgba(74,143,255,.1);border:1px solid rgba(74,143,255,.3);border-radius:10px;padding:16px;display:inline-block;margin-bottom:16px;">
+            <div style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:6px">Rayo Vallecano</div>
+            <div style="font-family:'Bebas Neue';font-size:22px;letter-spacing:2px;color:var(--txt)">EN CUARTOS 🎉</div>
+            <div style="font-size:12px;color:var(--txt3);margin-top:4px">Eliminó al Samsunspor (Global 4-1)</div>
+          </div>
+          ${renderConfHistory()}
+        </div>`;
+      dot.className='sdot ok';
+      status.textContent='Conference League 2025/26 · Fase eliminatoria';
+      return;
+    }
+
+    // Si hay grupos, renderizamos la tabla
+    let html='';
+    standings.forEach(group=>{
+      const label=group.group||group.stage||'Grupo';
+      const isRayoGroup=group.table?.some(t=>t.team.name.includes('Rayo'));
+      html+=`<div style="margin-bottom:20px;">
+        <div style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${isRayoGroup?'var(--azul)':'var(--txt3)'};margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--brd)">
+          ${isRayoGroup?'⚡ ':''} ${label}
+        </div>
+        <div class="tw"><table class="tb">
+          <thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>Pts</th></tr></thead>
+          <tbody>${(group.table||[]).map(t=>{
+            const isRayo=t.team.name.includes('Rayo');
+            const dg=t.goalDifference,dgStr=dg>0?`+${dg}`:String(dg);
+            return `<tr ${isRayo?'class="rrow"':''}><td><span class="pb ${t.position<=2?'pcl':'pno'}">${t.position}</span></td><td>${isRayo?'⚡ ':''}${t.team.name}</td><td>${t.playedGames}</td><td>${t.won}</td><td>${t.draw}</td><td>${t.lost}</td><td>${t.goalsFor}</td><td>${t.goalsAgainst}</td><td><strong>${t.points}</strong></td></tr>`;
+          }).join('')}</tbody>
+        </table></div>
+      </div>`;
+    });
+    html+=renderConfHistory();
+    document.getElementById('confContent').innerHTML=html;
+    dot.className='sdot ok';
+    status.textContent='Conference League 2025/26 · En tiempo real';
+  }catch(e){
+    document.getElementById('cDot').className='sdot err';
+    document.getElementById('cStatus').textContent='Error al cargar Conference League';
+    document.getElementById('confContent').innerHTML=`<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;text-align:center;"><div style="font-family:'Bebas Neue';font-size:42px;color:var(--azul);letter-spacing:2px;margin-bottom:8px">CUARTOS DE FINAL</div><div style="font-family:'Barlow Condensed';font-size:13px;color:var(--txt2);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">UEFA Conference League 2025/26</div>${renderConfHistory()}</div>`;
+  }
+}
+
+function renderConfHistory(){
+  const rondas=[
+    {ronda:'Fase de grupos',resultado:'1º de grupo · 6/6 victorias · 16 goles marcados',ok:true},
+    {ronda:'Octavos de final',resultado:'Rayo 1-0 Samsunspor (ida: 1-3 en Turquía) · Global 4-1 ✅',ok:true},
+    {ronda:'Cuartos de final',resultado:'Rival por confirmar · Abril 2026',ok:false},
+    {ronda:'Semifinales',resultado:'Por disputar',ok:false},
+    {ronda:'Final — Wrocław',resultado:'27 mayo 2026',ok:false},
+  ];
+  return `<div style="margin-top:16px;text-align:left;">
+    <div style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;">Camino del Rayo en la Conference</div>
+    ${rondas.map(r=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gris2);">
+      <div style="width:20px;height:20px;border-radius:50%;background:${r.ok?'rgba(76,175,80,.2)':'var(--gris2)'};display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">${r.ok?'✅':'⏳'}</div>
+      <div>
+        <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;color:${r.ok?'var(--txt)':'var(--txt3)'}">${r.ronda}</div>
+        <div style="font-size:12px;color:${r.ok?'var(--txt2)':'var(--txt3)'}">${r.resultado}</div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+async function loadCopa(){
+  try{
+    const data=await apiFetch(`competitions/CDR/standings?season=2025`);
+    const dot=document.getElementById('kDot');
+    const status=document.getElementById('kStatus');
+    const standings=data.standings||[];
+
+    // La Copa del Rey es eliminatoria, normalmente no tiene tabla
+    document.getElementById('copaContent').innerHTML=`
+      <div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;">
+        <div style="font-family:'Bebas Neue';font-size:36px;color:var(--oro);letter-spacing:2px;margin-bottom:4px;">Copa del Rey 2025/26</div>
+        <div style="font-family:'Barlow Condensed';font-size:12px;color:var(--txt3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Competición eliminatoria · Sin tabla de clasificación</div>
+        ${renderCopaHistory()}
+      </div>`;
+    dot.className='sdot ok';
+    status.textContent='Copa del Rey 2025/26';
+  }catch(e){
+    document.getElementById('kDot').className='sdot err';
+    document.getElementById('kStatus').textContent='Error al cargar Copa del Rey';
+    document.getElementById('copaContent').innerHTML=`<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;">${renderCopaHistory()}</div>`;
+  }
+}
+
+function renderCopaHistory(){
+  const rondas=[
+    {ronda:'32avos de final',resultado:'Rayo Vallecano pasa la eliminatoria',ok:true},
+    {ronda:'16avos de final',resultado:'Rayo Vallecano pasa la eliminatoria',ok:true},
+    {ronda:'Octavos de final',resultado:'Eliminado por equipo de Primera División',ok:false,elim:true},
+  ];
+  return `<div>
+    <div style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;">Camino del Rayo en la Copa</div>
+    ${rondas.map(r=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gris2);">
+      <div style="width:20px;height:20px;border-radius:50%;background:${r.ok?'rgba(76,175,80,.2)':r.elim?'rgba(208,27,46,.2)':'var(--gris2)'};display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">${r.ok?'✅':r.elim?'❌':'⏳'}</div>
+      <div>
+        <div style="font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1px;color:${r.ok?'var(--txt)':'var(--txt3)'}">${r.ronda}</div>
+        <div style="font-size:12px;color:var(--txt2)">${r.resultado}</div>
+      </div>
+    </div>`).join('')}
+    <div style="margin-top:14px;padding:12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:8px;">
+      <div style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--oro);margin-bottom:4px">ℹ️ Sobre la Copa del Rey</div>
+      <div style="font-size:12px;color:var(--txt2);line-height:1.6">La Copa del Rey es una competición eliminatoria sin tabla de clasificación. El Rayo ya está eliminado esta temporada, pero sus jugadores marcaron goles importantes: Fran Pérez (hat-trick), Gumbau y Trejo.</div>
+    </div>
+  </div>`;
 }
 
 // ─── FALLBACKS ───────────────────────────────
