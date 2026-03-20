@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rayo Vallecano — La Franja | Noticias, Partidos y Clasificación LaLiga 2025-26</title>
+<title>Rayo Vallecano — La Franja | Noticias, Partidos, Conference League y Clasificación 2025-26</title>
 <meta name="description" content="La web más completa del Rayo Vallecano. Resultados en tiempo real, clasificación LaLiga, Conference League, plantilla 2025-26, historia y estadísticas.">
 <meta name="keywords" content="Rayo Vallecano, Vallecas, LaLiga, Conference League, partidos, resultados, clasificación, plantilla, Jorge de Frutos, Alemão, Akhomach">
 <meta name="author" content="La Franja - Rayo Vallecano Fan">
@@ -22,6 +22,8 @@
 <link rel="canonical" href="https://rayo-vallecano.vercel.app">
 <meta name="theme-color" content="#D01B2E">
 <link rel="icon" href="https://media.api-sports.io/football/teams/728.png" type="image/png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -501,6 +503,23 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loadScreen" style="position:fixed;inset:0;background:#0A0A0A;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease">
+  <div style="font-family:'Bebas Neue';font-size:72px;letter-spacing:8px;color:#D01B2E;animation:pulse 1s ease infinite;margin-bottom:8px">RAYO</div>
+  <div style="font-family:'Barlow Condensed';font-size:13px;letter-spacing:6px;text-transform:uppercase;color:#555;margin-bottom:32px">VALLECANO · 2025/26</div>
+  <div style="width:200px;height:3px;background:#1a1a1a;border-radius:2px;overflow:hidden">
+    <div id="loadBar" style="width:0%;height:100%;background:linear-gradient(90deg,#D01B2E,#C9A84C);border-radius:2px;transition:width .1s linear"></div>
+  </div>
+</div>
+
+<!-- LOADING SCREEN -->
+<div id="loadScreen" style="position:fixed;inset:0;background:#0A0A0A;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease">
+  <div style="font-family:'Bebas Neue';font-size:72px;letter-spacing:8px;color:#D01B2E;animation:pulse 1s ease infinite;margin-bottom:8px">RAYO</div>
+  <div style="font-family:'Barlow Condensed';font-size:13px;letter-spacing:6px;text-transform:uppercase;color:#555;margin-bottom:32px">VALLECANO · 2025/26</div>
+  <div style="width:200px;height:3px;background:#1a1a1a;border-radius:2px;overflow:hidden">
+    <div id="loadBar" style="width:0%;height:100%;background:linear-gradient(90deg,#D01B2E,#C9A84C);border-radius:2px;transition:width .1s linear"></div>
+  </div>
+</div>
 <header>
   <div class="h-inner">
     <div class="logo">
@@ -2561,6 +2580,20 @@ loadTabla();
 loadSquadPhotos();
 startCountdowns();
 loadWeather();
+
+// ─── LOADING SCREEN ───────────────────────
+var loadEl=document.getElementById('loadScreen');
+var loadBar=document.getElementById('loadBar');
+var prog=0;
+var loadInterval=setInterval(function(){
+  prog+=Math.random()*15;
+  if(prog>=100){prog=100;clearInterval(loadInterval);
+    setTimeout(function(){
+      if(loadEl){loadEl.style.opacity='0';setTimeout(function(){loadEl.style.display='none';},500);}
+    },200);
+  }
+  if(loadBar)loadBar.style.width=prog+'%';
+},80);
 window.addEventListener('scroll',function(){var b=document.getElementById('backToTop');if(b)b.style.display=window.scrollY>400?'block':'none';});
 // ─── MOBILE NAV ──────────────────────────────
 function mobileNav(id,btn){
@@ -2651,6 +2684,20 @@ setInterval(function(){
     loadTabla();
   }
 },60000);
+
+// ─── LOADING SCREEN ───────────────────────
+(function(){
+  var loadEl=document.getElementById('loadScreen');
+  var loadBar=document.getElementById('loadBar');
+  var prog=0;
+  var iv=setInterval(function(){
+    prog+=Math.random()*18;
+    if(prog>=100){prog=100;clearInterval(iv);
+      setTimeout(function(){if(loadEl){loadEl.style.opacity='0';setTimeout(function(){loadEl.style.display='none';},500);}},300);
+    }
+    if(loadBar)loadBar.style.width=prog+'%';
+  },60);
+})();
 </script>
 <!-- MODAL COMPARADOR -->
 <div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
@@ -2692,5 +2739,20 @@ setInterval(function(){
   <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
   <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
 </div>
+<!-- FOOTER -->
+<footer style="background:var(--gris);border-top:1px solid var(--gris2);padding:24px 20px;margin-top:40px;text-align:center">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-family:'Bebas Neue';font-size:28px;letter-spacing:4px;color:var(--txt);margin-bottom:4px">⚡ LA FRANJA</div>
+    <div style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:16px">La web de la afición del Rayo Vallecano</div>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
+      <a href="https://twitter.com/LaFranjaRayo" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">𝕏 @LaFranjaRayo</a>
+      <a href="https://rayo-vallecano.vercel.app" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-decoration:none">rayo-vallecano.vercel.app</a>
+      <a href="https://www.rayovallecano.es" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">Web Oficial Rayo</a>
+    </div>
+    <div style="font-size:11px;color:var(--txt3);line-height:1.6">Web de fans no oficial · Datos de football-data.org y API-Football · Hecha con ❤️ desde Vallecas</div>
+    <div style="margin-top:10px;font-size:10px;color:#333">© 2026 La Franja · Rayo Vallecano Fan Site</div>
+  </div>
+</footer>
+
 <!-- BACK TO TOP -->
 <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;background:var(--rojo);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;z-index:400;box-shadow:0 4px 16px rgba(208,27,46,.4);transition:all .2s">↑</button>
