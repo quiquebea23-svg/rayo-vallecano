@@ -520,6 +520,9 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('rival',this)">AEK</button>
       <button onclick="show('once',this)">XI Ideal</button>
       <button onclick="show('quiz',this)">Quiz</button>
+      <button onclick="show('galeria',this)">📸</button>
+      <button onclick="show('alineacion',this)">🔧 XI</button>
+      <button onclick="show('tweets',this)">🐦</button>
       <button onclick="show('predictor',this)">Predictor</button>
       <button onclick="show('logros',this)">🏆 Logros</button>
       </nav>
@@ -833,6 +836,50 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 <section id="logros" class="section">
   <div class="sec-t">🏆 Logros de la Temporada</div>
   <div id="logrosContent"></div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria" class="section">
+  <div class="sec-t">📸 Momentos Históricos</div>
+  <div id="galeriaContent"></div>
+</section>
+
+<!-- ALINEACION BUILDER -->
+<section id="alineacion" class="section">
+  <div class="sec-t">⚽ Crea Tu XI Ideal</div>
+  <div id="alineacionContent"></div>
+</section>
+
+<!-- TWEETS -->
+<section id="tweets" class="section">
+  <div class="sec-t">🐦 Generador de Tweets</div>
+  <div id="tweetsContent">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:20px">
+      <div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px">
+        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--txt);margin-bottom:6px">Antes del Barça 🆚</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet para hype antes del partido de mañana en el Camp Nou</div>
+        <button onclick="generarTweet('prePartido')" style="background:#000;border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
+      </div>
+      <div style="background:var(--gris);border:1px solid #00c853;border-radius:12px;padding:18px">
+        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:#00c853;margin-bottom:6px">Noche Europea 🌍</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet para el AEK Atenas en Vallecas el 9 de abril</div>
+        <button onclick="generarTweet('preAEK')" style="background:#00c853;border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
+      </div>
+      <div style="background:var(--gris);border:1px solid var(--rojo);border-radius:12px;padding:18px">
+        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--rojo);margin-bottom:6px">¡GOOOOL! ⚡</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet de celebración cuando el Rayo marque un gol</div>
+        <button onclick="generarTweet('gol')" style="background:var(--rojo);border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
+      </div>
+      <div style="background:var(--gris);border:1px solid var(--oro);border-radius:12px;padding:18px">
+        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--oro);margin-bottom:6px">¡VICTORIA! 🏆</div>
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet de celebración cuando el Rayo gane un partido</div>
+        <button onclick="generarTweet('victoria')" style="background:linear-gradient(135deg,var(--rojo),var(--oro));border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
+      </div>
+    </div>
+    <div style="background:rgba(208,27,46,.06);border:1px solid rgba(208,27,46,.2);border-radius:10px;padding:14px;font-size:12px;color:var(--txt3)">
+      💡 Al pulsar "Tuitear ahora" se abrirá Twitter con el tweet listo para publicar desde tu cuenta <strong style="color:var(--txt)">@LaFranjaRayo</strong>. Solo tienes que pulsar "Publicar".
+    </div>
+  </div>
 </section>
 
 <!-- HISTORIA -->
@@ -1685,7 +1732,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros','galeria','alineacion','tweets'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -2340,7 +2387,7 @@ function rLogros(){
     {icon:'🌍',titulo:'¡Europa!',desc:'Primera vez en competición europea desde 2001. 24 años después, el Rayo vuelve a Europa.',color:'#00c853',conseguido:true},
     {icon:'🏆',titulo:'Cuartos de Conference',desc:'El Rayo ha llegado a cuartos de final de la UEFA Conference League. Histórico.',color:'#00c853',conseguido:true},
     {icon:'👑',titulo:'Goleador de LaLiga',desc:'Jorge de Frutos, con 10 goles en LaLiga, lidera la tabla de goleadores del equipo.',color:'var(--oro)',conseguido:true},
-    {icon:'🇪🇸',titulo:'Internacionales',desc:'Álvaro García y Jorge de Frutos convocados por la Selección Española.',color:'var(--rojo)',conseguido:true},
+    {icon:'🌍',titulo:'5 Internacionales',desc:'De Frutos (España), Rațiu (Rumanía), Ciss (Senegal), Balliu (Albania) y Vertrouwd (Países Bajos sub-21) convocados.',color:'var(--rojo)',conseguido:true},
     {icon:'⚡',titulo:'Goleada histórica',desc:'6-1 al CD Yuncos en Copa del Rey. La mayor goleada del Rayo en mucho tiempo.',color:'var(--rojo)',conseguido:true},
     {icon:'💪',titulo:'Imbatibles en Conference',desc:'Fase de grupos perfecta: 6 victorias de 6, 16 goles y solo 5 encajados.',color:'#00c853',conseguido:true},
     {icon:'🔮',titulo:'Semifinales Conference',desc:'¿Podrá el Rayo llegar a las semifinales de la Conference League?',color:'var(--txt3)',conseguido:false},
@@ -2376,6 +2423,149 @@ function rLogros(){
     +'</div>';
 }
 
+// ─── GENERADOR DE TWEET ─────────────────────
+function generarTweet(tipo){
+  var tweets={
+    prePartido:[
+      '⚡🔴 HOY JUEGA EL RAYO\n\n🆚 FC Barcelona\n🏟️ Camp Nou\n⏰ 14:00h\n\nSigue todos los datos en tiempo real 👇\nhttps://rayo-vallecano.vercel.app\n\n#RayoVallecano #BarcaRayo #LaLiga #Vallecas',
+      '⚡ MATCHDAY RAYISTA ⚡\n\nHoy en el Camp Nou\nRayo a por todas ante el Barça 🔴⚪\n\n👉 rayo-vallecano.vercel.app\n\n#RayoVallecano #LaLiga #Vallecas',
+    ],
+    preAEK:[
+      '🌍🔴 NOCHE EUROPEA EN VALLECAS\n\nCuartos de Final Conference League\n🆚 AEK Atenas\n🏟️ Estadio de Vallecas\n⏰ Jue 9 Abr · 21:00h\n\n¡Vamos Rayo! 👉 rayo-vallecano.vercel.app\n\n#RayoVallecano #UECL #ConferenceLeague',
+    ],
+    gol:[
+      '⚡⚡⚡ GOOOOOL DEL RAYO\n\nSigue el partido en tiempo real 👇\nhttps://rayo-vallecano.vercel.app\n\n#RayoVallecano #Gol',
+    ],
+    victoria:[
+      '⚡🔴 VICTORIA DEL RAYO\n\n¡Tres puntos más para Vallecas!\nToda la info del partido 👇\nhttps://rayo-vallecano.vercel.app\n\n#RayoVallecano #Vallecas #LaLiga',
+    ],
+  };
+  var lista=tweets[tipo]||tweets.prePartido;
+  var tweet=lista[Math.floor(Math.random()*lista.length)];
+  var url='https://twitter.com/intent/tweet?text='+encodeURIComponent(tweet);
+  window.open(url,'_blank');
+}
+
+// ─── GALERÍA DE MOMENTOS HISTÓRICOS ─────────
+function rGaleria(){
+  var el=document.getElementById('galeriaContent');
+  if(!el)return;
+  var momentos=[
+    {emoji:'🏟️',titulo:'Primer partido en Europa',subtitulo:'Rayo 2-0 Shkendija · Oct 2025',desc:'La noche más especial. 14.700 aficionados en Vallecas viendo al Rayo en Europa por primera vez en 24 años.',color:'#00c853'},
+    {emoji:'⚡',titulo:'Goleada al Atlético',subtitulo:'Rayo 3-0 Atlético · Ene 2026',desc:'Una de las victorias más históricas. El Rayo arrolló al Atlético de Madrid con 3 goles en Vallecas.',color:'var(--rojo)'},
+    {emoji:'🇹🇷',titulo:'Épica en Turquía',subtitulo:'Samsunspor 1-3 Rayo · Mar 2026',desc:'Doblete de Alemão en territorio turco. El Rayo demostró que es equipo europeo de verdad.',color:'#00c853'},
+    {emoji:'👑',titulo:'De Frutos a la Selección',subtitulo:'Sep 2025',desc:'Jorge de Frutos convocado con España. Solo el 6º jugador del Rayo en toda la historia en vestir La Roja.',color:'var(--oro)'},
+    {emoji:'🏆',titulo:'Hat-trick en Copa',subtitulo:'Yuncos 1-6 Rayo · Oct 2025',desc:'Fran Pérez marcó tres goles en Copa del Rey. La noche de una promesa que se convertía en realidad.',color:'var(--rojo)'},
+    {emoji:'🌍',titulo:'¡A Cuartos!',subtitulo:'Rayo 0-1 Samsunspor · Mar 2026',desc:'Con derrota en casa pero con orgullo. El Rayo pasó con global 3-2 a cuartos de Conference League. HISTÓRICO.',color:'#00c853'},
+  ];
+
+  el.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px">'
+    +momentos.map(function(m){
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-left:4px solid '+m.color+';border-radius:12px;padding:18px;">'
+        +'<div style="font-size:40px;margin-bottom:10px">'+m.emoji+'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:1px;color:'+m.color+';margin-bottom:4px">'+m.titulo+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px">'+m.subtitulo+'</div>'
+        +'<div style="font-size:13px;color:var(--txt2);line-height:1.6">'+m.desc+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── GENERADOR ALINEACION PERSONALIZADA ──────
+var alineacionPersonal=[null,null,null,null,null,null,null,null,null,null,null];
+function rAlineacion(){
+  var el=document.getElementById('alineacionContent');
+  if(!el)return;
+  renderAlineacion();
+}
+
+function renderAlineacion(){
+  var el=document.getElementById('alineacionContent');
+  if(!el)return;
+  var posiciones=['POR','LI','DC','DC','LD','MCD','MC','MC','EI','DC','ED'];
+  var posLabels=['Portero','Lateral Izq.','Central','Central','Lateral Der.','Pivote','Centrocampista','Centrocampista','Extremo Izq.','Delantero','Extremo Der.'];
+  var colores={POR:'#ffc107',LI:'var(--azul)',DC:'var(--rojo)',LD:'var(--azul)',MCD:'#00c853',MC:'#00c853',EI:'var(--oro)',ED:'var(--oro)','DC ':'var(--rojo)'};
+
+  var html='<div style="margin-bottom:14px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px">Pon tu XI ideal del Rayo — pulsa para cambiar jugador</div>'
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'
+    +'<button onclick="resetAlineacion()" style="background:var(--gris2);border:1px solid var(--gris3);color:var(--txt3);font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer">↩ Reset</button>'
+    +'<button onclick="tweetAlineacion()" style="background:#000;border:none;color:#fff;font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:8px;cursor:pointer">𝕏 Tuitear mi XI</button>'
+    +'</div>'
+    +'</div>';
+
+  // Campo SVG con jugadores
+  html+='<div style="position:relative;width:100%;max-width:400px;margin:0 auto">'
+    +'<svg viewBox="0 0 100 130" style="width:100%;border-radius:12px">'
+    +'<rect width="100" height="130" fill="#1a5c2a"/>'
+    +'<rect x="5" y="5" width="90" height="120" fill="none" stroke="rgba(255,255,255,.3)" stroke-width=".5"/>'
+    +'<line x1="5" y1="65" x2="95" y2="65" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<circle cx="50" cy="65" r="15" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<rect x="30" y="5" width="40" height="18" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<rect x="30" y="107" width="40" height="18" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>';
+
+  var positions=[
+    {x:50,y:118},{x:15,y:98},{x:35,y:98},{x:65,y:98},{x:85,y:98},
+    {x:50,y:80},{x:25,y:70},{x:75,y:70},
+    {x:15,y:52},{x:50,y:45},{x:85,y:52}
+  ];
+  var defaultPlayers=['Batalla','Chavarría','Lejeune','Mendy','Rațiu','P.Ciss','U.López','O.Valentín','Akhomach','De Frutos','Álvaro'];
+
+  positions.forEach(function(pos,i){
+    var nombre=alineacionPersonal[i]||defaultPlayers[i];
+    var corto=nombre.length>8?nombre.slice(0,8):nombre;
+    html+='<g onclick="cambiarJugador('+i+')" style="cursor:pointer">'
+      +'<circle cx="'+pos.x+'" cy="'+pos.y+'" r="5.5" fill="#D01B2E" stroke="#fff" stroke-width=".8"/>'
+      +'<text x="'+pos.x+'" y="'+(pos.y+.4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue" font-size="3" fill="#fff">'+i+1+'</text>'
+      +'<text x="'+pos.x+'" y="'+(pos.y+8)+'" text-anchor="middle" font-family="Barlow Condensed" font-size="3.2" fill="#fff" font-weight="bold">'+corto+'</text>'
+      +'</g>';
+  });
+
+  html+='</svg></div>';
+
+  // Selector jugador
+  html+='<div id="jugadorSelector" style="display:none;margin-top:12px;background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:14px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px">Selecciona jugador:</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px" id="jugadorOptions"></div>'
+    +'</div>';
+
+  el.innerHTML=html;
+}
+
+var selectedPos=-1;
+function cambiarJugador(pos){
+  selectedPos=pos;
+  var sel=document.getElementById('jugadorSelector');
+  var opts=document.getElementById('jugadorOptions');
+  if(!sel||!opts)return;
+  sel.style.display='block';
+  opts.innerHTML=plantilla.map(function(j){
+    return '<button data-nombre="'+j.n+'" onclick="ponerJugador(this.dataset.nombre)" style="background:var(--gris2);border:1px solid var(--gris3);color:var(--txt);font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;padding:6px;border-radius:6px;cursor:pointer;text-align:center">'
+      +'<img src="'+(fotoJugador[j.num]||fotoDefault)+'" style="width:28px;height:28px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 2px">'
+      +j.n.split(' ').pop()
+      +'</button>';
+  }).join('');
+}
+
+function ponerJugador(nombre){
+  if(selectedPos>=0)alineacionPersonal[selectedPos]=nombre;
+  document.getElementById('jugadorSelector').style.display='none';
+  selectedPos=-1;
+  renderAlineacion();
+}
+
+function resetAlineacion(){
+  alineacionPersonal=[null,null,null,null,null,null,null,null,null,null,null];
+  renderAlineacion();
+}
+
+function tweetAlineacion(){
+  var defaultPlayers=['Batalla','Chavarría','Lejeune','Mendy','Rațiu','P.Ciss','U.López','O.Valentín','Akhomach','De Frutos','Álvaro'];
+  var xi=alineacionPersonal.map(function(p,i){return p||defaultPlayers[i];});
+  var txt='⚡🔴 Mi XI ideal del Rayo Vallecano\n\n'+xi.join(' · ')+'\n\nHaz el tuyo en 👉 rayo-vallecano.vercel.app\n\n#RayoVallecano #Vallecas';
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank');
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2389,6 +2579,8 @@ rOnce();
 rQuiz();
 rPredictor();
 rLogros();
+rGaleria();
+rAlineacion();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
@@ -2519,6 +2711,9 @@ setInterval(function(){
   <button class="mmb" onclick="mobileNav('quiz',null);closeMobileMore()"><span class="mmb-icon">🧠</span><span class="mmb-label">Quiz</span></button>
   <button class="mmb" onclick="mobileNav('predictor',null);closeMobileMore()"><span class="mmb-icon">🔮</span><span class="mmb-label">Predictor</span></button>
   <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()"><span class="mmb-icon">🏆</span><span class="mmb-label">Logros</span></button>
+  <button class="mmb" onclick="mobileNav('galeria',null);closeMobileMore()"><span class="mmb-icon">📸</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="mobileNav('alineacion',null);closeMobileMore()"><span class="mmb-icon">🔧</span><span class="mmb-label">Mi XI</span></button>
+  <button class="mmb" onclick="mobileNav('tweets',null);closeMobileMore()"><span class="mmb-icon">🐦</span><span class="mmb-label">Tweets</span></button>
   <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()"><span class="mmb-icon">🗳️</span><span class="mmb-label">Encuestas</span></button>
   <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
   <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
