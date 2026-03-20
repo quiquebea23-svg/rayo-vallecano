@@ -562,8 +562,18 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 <!-- PLANTILLA -->
 <section id="plantilla" class="section">
   <div class="sec-t">Plantilla 2025/26</div>
+  <!-- ENTRENADOR -->
+  <div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:20px;display:flex;align-items:center;gap:18px;">
+    <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--rojo),var(--rojo-dark));display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;">🧑‍💼</div>
+    <div>
+      <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:4px">Entrenador</div>
+      <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:2px;color:var(--txt)">Íñigo Pérez</div>
+      <div style="font-size:12px;color:var(--txt3);margin-top:2px">🇪🇸 España · En el cargo desde Feb 2024 · Contrato hasta Jun 2026</div>
+      <div style="font-size:12px;color:var(--txt2);margin-top:4px">36% victorias · 33% empates · 31% derrotas · 1.21 pts/partido · Sistema: 4-2-3-1</div>
+    </div>
+  </div>
   <div style="margin-bottom:16px;">
-    <button onclick="openComparador()" style="background:var(--gris);border:1px solid var(--gris3);color:var(--txt2);font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px" onmouseover="this.style.borderColor='var(--rojo)';this.style.color='var(--rojo)'" onmouseout="this.style.borderColor='var(--gris3)';this.style.color='var(--txt2)'">
+    <button onclick="openComparador()" style="background:var(--gris);border:1px solid var(--gris3);color:var(--txt2);font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px">
       ⚖️ Comparar jugadores
     </button>
   </div>
@@ -1051,60 +1061,72 @@ function renderCopaHistory(){
 
 // ─── FALLBACKS ───────────────────────────────
 function fallbackPartidos(){
+  // Datos reales de rayovallecano.es y ESPN - temporada 2025-26
   const datos=[
-    {loc:"Rayo Vallecano",vis:"Samsunspor",gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",r:"win"},
-    {loc:"Samsunspor",vis:"Rayo Vallecano",gL:1,gV:3,f:"12 Mar 2026",comp:"Conference League",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Levante",gL:1,gV:1,f:"8 Mar 2026",comp:"LaLiga",r:"draw"},
-    {loc:"Getafe CF",vis:"Rayo Vallecano",gL:0,gV:0,f:"1 Mar 2026",comp:"LaLiga",r:"draw"},
-    {loc:"Rayo Vallecano",vis:"Osasuna",gL:2,gV:1,f:"22 Feb 2026",comp:"LaLiga",r:"win"},
-    {loc:"Atlético Madrid",vis:"Rayo Vallecano",gL:2,gV:0,f:"15 Feb 2026",comp:"LaLiga",r:"loss"},
+    // LALIGA - resultados reales
+    {loc:"Rayo Vallecano",vis:"Levante UD",    gL:1,gV:1,f:"16 Mar 2026",comp:"LaLiga",j:"J28",r:"draw"},
+    {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference League",j:"Octavos ida",r:"win"},
+    {loc:"Sevilla FC",    vis:"Rayo Vallecano",gL:1,gV:1,f:"08 Mar 2026",comp:"LaLiga",j:"J27",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",j:"Octavos vuelta",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Getafe CF",     gL:1,gV:1,f:"01 Mar 2026",comp:"LaLiga",j:"J26",r:"draw"},
+    {loc:"Real Madrid",   vis:"Rayo Vallecano",gL:3,gV:1,f:"22 Feb 2026",comp:"LaLiga",j:"J25",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Villarreal CF", gL:2,gV:0,f:"15 Feb 2026",comp:"LaLiga",j:"J24",r:"win"},
+    {loc:"Valencia CF",   vis:"Rayo Vallecano",gL:0,gV:1,f:"08 Feb 2026",comp:"LaLiga",j:"J23",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Real Oviedo",   gL:3,gV:0,f:"01 Feb 2026",comp:"LaLiga",j:"J22",r:"win"},
+    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:1,f:"25 Ene 2026",comp:"LaLiga",j:"J21",r:"draw"},
+    {loc:"Real Betis",    vis:"Rayo Vallecano",gL:1,gV:1,f:"18 Ene 2026",comp:"LaLiga",j:"J20",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Atl. Madrid",   gL:3,gV:0,f:"11 Ene 2026",comp:"LaLiga",j:"J19",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Alavés",        gL:2,gV:1,f:"21 Dic 2025",comp:"LaLiga",j:"J18",r:"win"},
+    {loc:"Girona FC",     vis:"Rayo Vallecano",gL:1,gV:3,f:"07 Dic 2025",comp:"LaLiga",j:"J17",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Mallorca",      gL:1,gV:1,f:"30 Nov 2025",comp:"LaLiga",j:"J16",r:"draw"},
+    {loc:"Elche CF",      vis:"Rayo Vallecano",gL:4,gV:0,f:"23 Nov 2025",comp:"LaLiga",j:"J15",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Real Betis",    gL:0,gV:0,f:"09 Nov 2025",comp:"LaLiga",j:"J14",r:"draw"},
+    {loc:"Espanyol",      vis:"Rayo Vallecano",gL:0,gV:2,f:"02 Nov 2025",comp:"LaLiga",j:"J13",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Osasuna",       gL:1,gV:3,f:"26 Oct 2025",comp:"LaLiga",j:"J12",r:"loss"},
+    {loc:"Villarreal CF", vis:"Rayo Vallecano",gL:4,gV:0,f:"09 Nov 2025",comp:"LaLiga",j:"J11",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Alavés",        gL:1,gV:0,f:"19 Oct 2025",comp:"LaLiga",j:"J10",r:"win"},
+    {loc:"Levante UD",    vis:"Rayo Vallecano",gL:0,gV:3,f:"05 Oct 2025",comp:"LaLiga",j:"J9",r:"win"},
+    {loc:"Real Sociedad", vis:"Rayo Vallecano",gL:0,gV:1,f:"28 Sep 2025",comp:"LaLiga",j:"J8",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Sevilla FC",    gL:0,gV:1,f:"21 Sep 2025",comp:"LaLiga",j:"J7",r:"loss"},
+    {loc:"Atl. Madrid",   vis:"Rayo Vallecano",gL:3,gV:2,f:"14 Sep 2025",comp:"LaLiga",j:"J6",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Celta",         gL:1,gV:1,f:"31 Ago 2025",comp:"LaLiga",j:"J5",r:"draw"},
+    {loc:"CA Osasuna",    vis:"Rayo Vallecano",gL:2,gV:0,f:"24 Ago 2025",comp:"LaLiga",j:"J4",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"FC Barcelona",  gL:1,gV:1,f:"17 Ago 2025",comp:"LaLiga",j:"J3",r:"draw"},
+    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:0,f:"10 Ago 2025",comp:"LaLiga",j:"J2",r:"loss"},
+    {loc:"Girona FC",     vis:"Rayo Vallecano",gL:1,gV:3,f:"03 Ago 2025",comp:"LaLiga",j:"J1",r:"win"},
+    // Conference League
+    {loc:"Rayo Vallecano",vis:"Shkendija",     gL:2,gV:0,f:"02 Oct 2025",comp:"Conference League",j:"J1",r:"win"},
+    {loc:"BK Hacken",     vis:"Rayo Vallecano",gL:2,gV:2,f:"23 Oct 2025",comp:"Conference League",j:"J2",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Lech Poznan",   gL:3,gV:2,f:"06 Nov 2025",comp:"Conference League",j:"J3",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Drita",         gL:3,gV:0,f:"28 Nov 2025",comp:"Conference League",j:"J4",r:"win"},
+    {loc:"Omonia",        vis:"Rayo Vallecano",gL:0,gV:2,f:"11 Dic 2025",comp:"Conference League",j:"J5",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Jagiellonia",   gL:2,gV:1,f:"18 Dic 2025",comp:"Conference League",j:"J6",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",j:"Octavos vuelta",r:"win"},
+    {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference League",j:"Octavos ida",r:"win"},
+    // Copa del Rey
+    {loc:"CD Yuncos",     vis:"Rayo Vallecano",gL:1,gV:6,f:"31 Oct 2025",comp:"Copa del Rey",j:"J3",r:"win"},
   ];
+
   document.getElementById('listRes').innerHTML=datos.map(p=>{
+    const isRayoHome=p.loc==='Rayo Vallecano';
+    const isRayoAway=p.vis==='Rayo Vallecano';
     const bc=p.r==='win'?'bw':p.r==='draw'?'bd':'bl';
     const bt=p.r==='win'?'Victoria':p.r==='draw'?'Empate':'Derrota';
     const ic=p.comp.includes('Conference');
-    const md=encodeURIComponent(JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp,fecha:p.f,hora:'',finished:true,homeRv:p.loc==='Rayo Vallecano',awayRv:p.vis==='Rayo Vallecano',isConf:ic}));
-    return `<div class="mc res" onclick="openPartido('${md}')"><div class="teams"><div class="tn ${p.loc==='Rayo Vallecano'?'rv':''}">${p.loc}</div><div class="ms">${p.gL} — ${p.gV}</div><div class="tn lft ${p.vis==='Rayo Vallecano'?'rv':''}">${p.vis}</div></div><div class="mi"><div class="mc-comp" style="${ic?'color:var(--azul)':'color:var(--rojo)'}">${p.comp}</div><div class="mc-date">${p.f}</div><span class="badge ${bc}">${bt}</span></div></div>`;
+    const cc=ic?'color:var(--azul)':p.comp.includes('Copa')?'color:var(--oro)':'color:var(--rojo)';
+    // md defined inline
+    var div=document.createElement('div');
+    div.className='mc res';
+    div.dataset.md=JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp+' '+p.j,fecha:p.f,hora:'',finished:true,homeRv:isRayoHome,awayRv:isRayoAway,isConf:ic});
+    div.onclick=function(){openPartido(encodeURIComponent(this.dataset.md));};
+    div.innerHTML='<div class="teams"><div class="tn '+(isRayoHome?'rv':'')+' ">'+p.loc+'</div><div class="ms">'+p.gL+' — '+p.gV+'</div><div class="tn lft '+(isRayoAway?'rv':'')+' ">'+p.vis+'</div></div><div class="mi"><div class="mc-comp" style="'+cc+'">'+p.comp+' · '+p.j+'</div><div class="mc-date">'+p.f+'</div><span class="badge '+bc+'">'+bt+'</span></div>';
+    return div.outerHTML;
   }).join('');
+
+  document.getElementById('matchCount').textContent=datos.length+' partidos';
   var nt=document.getElementById('nmTitle'); if(nt) nt.textContent='Rayo vs AEK Atenas — Cuartos Conference';
   var ns=document.getElementById('nmSub'); if(ns) ns.textContent='Jueves 9 Abril · Vallecas · Conference League';
-  document.getElementById('listProx').innerHTML=`
-  <div class="mc res" style="border-left:3px solid var(--rojo)">
-    <div class="teams">
-      <div class="tn">FC Barcelona</div>
-      <div class="ms vs">VS</div>
-      <div class="tn lft rv">Rayo Vallecano</div>
-    </div>
-    <div class="mi">
-      <div class="mc-comp" style="color:var(--rojo)">LaLiga · J29</div>
-      <div class="mc-date">Sab 21 Mar · Camp Nou · 18:30h</div>
-      <span class="badge bn">Próximo</span>
-    </div>
-  </div>
-  <div class="mc conf">
-    <div class="teams">
-      <div class="tn rv">Rayo Vallecano</div>
-      <div class="ms vs">VS</div>
-      <div class="tn lft">AEK Atenas</div>
-    </div>
-    <div class="mi">
-      <div class="mc-comp" style="color:var(--azul)">Conference League · Cuartos Ida</div>
-      <div class="mc-date">Jue 9 Abr 2026 · Vallecas</div>
-      <span class="badge bn">Próximo</span>
-    </div>
-  </div>
-  <div class="mc conf">
-    <div class="teams">
-      <div class="tn">AEK Atenas</div>
-      <div class="ms vs">VS</div>
-      <div class="tn lft rv">Rayo Vallecano</div>
-    </div>
-    <div class="mi">
-      <div class="mc-comp" style="color:var(--azul)">Conference League · Cuartos Vuelta</div>
-      <div class="mc-date">Jue 16 Abr 2026 · Atenas</div>
-      <span class="badge bn">Próximo</span>
-    </div>
-  </div>`;
+
 }
 
 function fallbackTabla(){
@@ -1261,37 +1283,40 @@ async function loadSquadPhotos(){
 
 const plantilla=[
   // ── PORTEROS ──
-  {num:13, n:"Augusto Batalla",    pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:22},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:0}}, desc:"PORTERO TITULAR. El argentino es el guardameta indiscutible de Iñigo Pérez en LaLiga y Conference League. Gran personalidad, líder vocal del equipo y especialista en penaltis. Se perdió unos partidos por lesión."},
-  {num:1,  n:"Dani Cárdenas",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:6}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:3}}, desc:"Portero suplente que cubrió a Batalla durante su lesión. Titular en Copa del Rey donde hizo grandes intervenciones. Muy fiable cuando ha sido necesario."},
-  {num:30, n:"Juanpe Gil",         pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:0}}, desc:"Tercer portero del primer equipo. Joven guardameta de 24 años que forma parte del equipo para completar la plantilla y trabajar en los entrenamientos."},
-  {num:40, n:"Adrián Molina",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0}, copa:{g:0,a:0,pj:0}}, desc:"Cuarto portero del primer equipo con tan solo 20 años. Procede de la cantera del Rayo y es el futuro bajo palos del club."},
+  {num:13,n:"Augusto Batalla",    pos:"Portero",        nac:"🇦🇷 Argentina", stats:{liga:{g:0,a:0,pj:22},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:0}}, desc:"PORTERO TITULAR. Lider vocal, especialista en penaltis y con grandisimas intervenciones. El numero 1 de Inigo Perez."},
+  {num:1, n:"Dani Cardenas",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:6}, conf:{g:0,a:0,pj:0},copa:{g:0,a:0,pj:3}}, desc:"Portero suplente que cubrio a Batalla durante su lesion. Titular en Copa del Rey con grandes intervenciones."},
+  {num:30,n:"Juanpe Gil",         pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0},copa:{g:0,a:0,pj:0}}, desc:"Tercer portero del primer equipo. Trabaja duro en los entrenamientos para estar listo cuando se le necesite."},
+  {num:40,n:"Adrian Molina",      pos:"Portero",        nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:0}, conf:{g:0,a:0,pj:0},copa:{g:0,a:0,pj:0}}, desc:"Cuarto portero, 20 anos. Cantera del Rayo Vallecano. El futuro bajo palos del club."},
   // ── DEFENSAS ──
-  {num:2,  n:"Andrei Rațiu",       pos:"Defensa",        nac:"🇷🇴 Rumanía",   stats:{liga:{g:0,a:1,pj:27},conf:{g:1,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Lateral derecho titular y el jugador más valioso de la plantilla (18M€). Desbordante en ataque, gran regateador y pieza clave en ambas fases del juego."},
-  {num:3,  n:"Pep Chavarría",      pos:"Defensa",        nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:24},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Lateral izquierdo titular con 2 goles en LaLiga esta temporada. Disciplinado tácticamente y con mucho carácter."},
-  {num:5,  n:"Luiz Felipe",        pos:"Defensa",        nac:"🇧🇷 Brasil",    stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:1}}, desc:"Central brasileño con gran calidad técnica pero limitado por lesiones esta temporada. Cuando juega aporta mucha tranquilidad al equipo."},
-  {num:16, n:"Nobel Mendy",        pos:"Defensa",        nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:19},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:0}}, desc:"Central senegalés. Fortísimo físicamente y muy sólido en el juego aéreo. Marcó un golazo ante el Atlético de Madrid."},
-  {num:20, n:"Iván Balliu",        pos:"Defensa",        nac:"🇦🇱 Albania",   stats:{liga:{g:0,a:0,pj:9}, conf:{g:0,a:0,pj:2}, copa:{g:0,a:0,pj:0}}, desc:"Lateral derecho alternativo. Aporta experiencia y fiabilidad cuando Rațiu necesita descanso o está sancionado."},
-  {num:22, n:"Alfonso Espino",     pos:"Defensa",        nac:"🇺🇾 Uruguay",   stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:0}}, desc:"Lateral izquierdo suplente de Chavarría. Anotó un gol importante en Anoeta ante la Real Sociedad. Muy fiable defensivamente."},
-  {num:24, n:"Florian Lejeune",    pos:"Defensa",        nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:21},conf:{g:0,a:0,pj:5}, copa:{g:0,a:0,pj:1}}, desc:"Central francés y veterano del equipo. Organizador de la defensa, líder en el vestuario y peligroso en los balones parados."},
-  {num:33, n:"Jozhua Vertrouwd",   pos:"Defensa",        nac:"🇧🇪 Bélgica",   stats:{liga:{g:0,a:0,pj:8}, conf:{g:0,a:0,pj:2}, copa:{g:0,a:0,pj:0}}, desc:"Central belga incorporado este verano procedente del CD Castellón. Joven con mucho potencial y buena salida de balón."},
+  {num:2, n:"Andrei Ratiu",       pos:"Defensa",        nac:"🇷🇴 Rumanía",   stats:{liga:{g:0,a:1,pj:27},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Lateral derecho titular y el jugador mas valioso de la plantilla (18M). Desbordante en ataque y gran regateador. Uno de los mejores laterales de LaLiga."},
+  {num:3, n:"Pep Chavarria",      pos:"Defensa",        nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Lateral izquierdo titular con 2 goles en LaLiga. Agil, solido atras y con aporte ofensivo."},
+  {num:5, n:"Luiz Felipe",        pos:"Defensa",        nac:"🇧🇷 Brasil",    stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:1}}, desc:"Central brasileno con gran calidad tecnica. Limitado por lesiones pero cuando juega da mucha tranquilidad al equipo."},
+  {num:16,n:"Nobel Mendy",        pos:"Defensa",        nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:19},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central senegales. Fortisimo fisicamente y muy solido en el juego aereo. Golazo ante el Atletico de Madrid."},
+  {num:20,n:"Ivan Balliu",        pos:"Defensa",        nac:"🇦🇱 Albania",   stats:{liga:{g:0,a:0,pj:9}, conf:{g:0,a:0,pj:2},copa:{g:0,a:0,pj:0}}, desc:"Lateral derecho alternativo. Experiencia y fiabilidad cuando Ratiu necesita descanso."},
+  {num:22,n:"Alfonso Espino",     pos:"Defensa",        nac:"🇺🇾 Uruguay",   stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:0}}, desc:"Lateral izquierdo. Valiente y comprometido en defensa y ataque. Gol importante en Anoeta ante la Real Sociedad."},
+  {num:24,n:"Florian Lejeune",    pos:"Defensa",        nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:21},conf:{g:0,a:0,pj:5},copa:{g:0,a:0,pj:1}}, desc:"Central frances y veterano del equipo. Organizador de la defensa y lider en el vestuario."},
+  {num:32,n:"Abdul Mumin",        pos:"Defensa",        nac:"🇬🇭 Ghana",     stats:{liga:{g:0,a:0,pj:12},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Central ghaes. Alto, dominante en el juego aereo y con buena salida de balon. Alternativa fiable a Lejeune y Mendy."},
+  {num:33,n:"Jozhua Vertrouwd",   pos:"Defensa",        nac:"🇧🇪 Bélgica",   stats:{liga:{g:0,a:0,pj:8}, conf:{g:0,a:0,pj:2},copa:{g:0,a:0,pj:0}}, desc:"Central belga llegado del CD Castellon. Joven con potencial y buena salida de balon."},
   // ── CENTROCAMPISTAS ──
-  {num:4,  n:"Pedro Díaz",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:18},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:0}}, desc:"Mediocentro con llegada y buen disparo. Anotó un gol importante ante el Granada y tiene cada vez más peso en el equipo."},
-  {num:6,  n:"Pathé Ciss",         pos:"Centrocampista", nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:26},conf:{g:0,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Pivote defensivo imprescindible. El mejor recuperador de balón del equipo. Su gol ante el Celta fue uno de los más importantes de la temporada."},
-  {num:7,  n:"Isi Palazón",        pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:2,pj:22},conf:{g:1,a:0,pj:7}, copa:{g:0,a:0,pj:1}}, desc:"Leyenda viva del Rayo Vallecano. Máximo goleador histórico del club. Aporta calidad, experiencia y liderazgo. 3 goles esta temporada entre LaLiga y Conference."},
-  {num:8,  n:"Óscar Trejo",        pos:"Centrocampista", nac:"🇦🇷 Argentina", stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:2}, copa:{g:1,a:0,pj:1}}, desc:"Veterano mediapunta argentino. Aporta calidad y experiencia desde el banquillo. Siempre tiene alguna jugada mágica guardada."},
-  {num:15, n:"Gerard Gumbau",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:5}, copa:{g:1,a:0,pj:1}}, desc:"Mediocentro catalán que aporta orden y equilibrio al centro del campo. Marcó un golazo en Copa del Rey esta temporada."},
-  {num:17, n:"Unai López",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:2,pj:24},conf:{g:1,a:1,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Centrocampista completo con goles en LaLiga y Conference League. Gran visión de juego, uno de los más importantes del equipo."},
-  {num:21, n:"Fran Pérez",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:17},conf:{g:3,a:0,pj:5}, copa:{g:3,a:0,pj:1}}, desc:"¡La gran sorpresa de la temporada! Hat-trick en Copa del Rey y 3 goles en Conference League. El jugador más goleador fuera de LaLiga."},
-  {num:23, n:"Óscar Valentín",     pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:22},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:1}}, desc:"Capitán del Rayo Vallecano. El corazón del vestuario. Marcó un gol histórico ante el Atlético de Madrid esta temporada."},
+  {num:4, n:"Pedro Diaz",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:18},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:0}}, desc:"Interior de calidad con llegada y buen disparo. Aporta criterio con balon. Cada vez con mas protagonismo."},
+  {num:6, n:"Pathe Ciss",         pos:"Centrocampista", nac:"🇸🇳 Senegal",   stats:{liga:{g:1,a:0,pj:26},conf:{g:0,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Pivote defensivo imprescindible. El mejor recuperador del equipo. Box-to-box fisico con gran capacidad defensiva."},
+  {num:7, n:"Isi Palazon",        pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:2,pj:22},conf:{g:1,a:0,pj:7},copa:{g:0,a:0,pj:1}}, desc:"Leyenda viva del Rayo Vallecano. Maximo goleador historico del club. Calidad, experiencia y liderazgo."},
+  {num:8, n:"Oscar Trejo",        pos:"Centrocampista", nac:"🇦🇷 Argentina", stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:2},copa:{g:1,a:0,pj:1}}, desc:"Veterano mediapunta argentino. Movilidad y recursos en los ultimos metros. Siempre tiene una jugada magica guardada."},
+  {num:14,n:"Diego Mendez",       pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:8}, conf:{g:0,a:0,pj:2},copa:{g:0,a:0,pj:0}}, desc:"Centrocampista canterano del Rayo. Joven con mucho futuro que ha ido ganando minutos esta temporada."},
+  {num:15,n:"Gerard Gumbau",      pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:20},conf:{g:0,a:0,pj:5},copa:{g:1,a:0,pj:1}}, desc:"Mediocentro que puede jugar de 6 o por delante del pivote. Destaca en distribucion. Golazo en Copa del Rey."},
+  {num:17,n:"Unai Lopez",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:2,pj:24},conf:{g:1,a:1,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Centrocampista tecnico. Se asocia bien en corto y da continuidad al juego. Goles en LaLiga y Conference."},
+  {num:21,n:"Fran Perez",         pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:2,a:0,pj:17},conf:{g:3,a:0,pj:5},copa:{g:3,a:0,pj:1}}, desc:"La gran sorpresa de la temporada. Hat-trick en Copa del Rey y 3 goles en Conference League."},
+  {num:23,n:"Oscar Valentin",     pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:1,a:0,pj:22},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Capitan del Rayo Vallecano. Mediocentro equilibrado, combina recuperacion con salida de balon. Corazon del vestuario."},
+  {num:26,n:"Pelayo",             pos:"Centrocampista", nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:3}, conf:{g:0,a:0,pj:1},copa:{g:0,a:0,pj:0}}, desc:"Centrocampista cedido del Cadiz. Joven con calidad y buenas maneras en el centro del campo."},
   // ── DELANTEROS ──
-  {num:9,  n:"Alemão",             pos:"Delantero",      nac:"🇧🇷 Brasil",    stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:4}, copa:{g:0,a:0,pj:1}}, desc:"Fichaje estrella del verano (5.5M€ del Pachuca). Frenado por una lesión inguinal grave. Solo 1 gol pero con gran calidad. Se espera que explote totalmente recuperado."},
-  {num:10, n:"Sergio Camello",     pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:20},conf:{g:1,a:0,pj:6}, copa:{g:1,a:0,pj:1}}, desc:"Delantero centro con mucho trabajo y sacrificio. Sin suerte goleadora en liga pero sus goles en Conference y Copa han sido importantes."},
-  {num:11, n:"Randy Nteka",        pos:"Delantero",      nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3}, copa:{g:0,a:0,pj:1}}, desc:"Extremo francés con menos protagonismo esta temporada. Rápido e intenso, aporta profundidad cuando entra desde el banquillo."},
-  {num:18, n:"Álvaro García",      pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:3,a:3,pj:26},conf:{g:2,a:1,pj:8}, copa:{g:0,a:0,pj:1}}, desc:"Extremo con 5 goles y 4 asistencias en todas las competiciones. Convocado por la selección española. Su doblete en la fase previa de Conference fue histórico."},
-  {num:19, n:"Jorge de Frutos",    pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:10,a:1,pj:28},conf:{g:1,a:1,pj:7}, copa:{g:1,a:0,pj:1}}, desc:"¡EL MEJOR DEL RAYO! 12 goles en todas las competiciones. 10 solo en LaLiga — nadie lo había logrado desde Raúl de Tomás en 2018/19. Debutó con la selección española."},
-  {num:25, n:"Ilias Akhomach",     pos:"Delantero",      nac:"🇲🇦 Marruecos", stats:{liga:{g:0,a:0,pj:24},conf:{g:0,a:0,pj:6}, copa:{g:0,a:0,pj:1}}, desc:"Extremo cedido por el Villarreal. El jugador más desequilibrante con 1.7 regates por partido — el mejor de la plantilla. Aún busca su primer gol pero genera muchísimas ocasiones."},
+  {num:9, n:"Alemao",             pos:"Delantero",      nac:"🇧🇷 Brasil",    stats:{liga:{g:1,a:0,pj:12},conf:{g:0,a:0,pj:4},copa:{g:0,a:0,pj:1}}, desc:"Fichaje estrella (5.5M del Pachuca). Frenado por lesion inguinal. Gran calidad cuando juega. Se espera que explote totalmente recuperado."},
+  {num:10,n:"Sergio Camello",     pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:20},conf:{g:1,a:0,pj:6},copa:{g:1,a:0,pj:1}}, desc:"Delantero centro sacrificado. Mucho trabajo y presion al rival. Sus goles en Conference y Copa han sido importantes."},
+  {num:11,n:"Randy Nteka",        pos:"Delantero",      nac:"🇫🇷 Francia",   stats:{liga:{g:0,a:0,pj:11},conf:{g:0,a:0,pj:3},copa:{g:0,a:0,pj:1}}, desc:"Centrocampista atacante poderoso en el cuerpo a cuerpo. Util para desgastar defensas desde el banquillo."},
+  {num:18,n:"Alvaro Garcia",      pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:3,a:3,pj:26},conf:{g:2,a:1,pj:8},copa:{g:0,a:0,pj:1}}, desc:"Extremo muy productivo. Gran asistente y generador de ocasiones. 5 goles y 4 asistencias. Convocado por la seleccion espanola."},
+  {num:19,n:"Jorge de Frutos",    pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:10,a:1,pj:28},conf:{g:1,a:1,pj:7},copa:{g:1,a:0,pj:1}}, desc:"EL MEJOR DEL RAYO. 12 goles en todas las competiciones. 10 solo en LaLiga. Debuto con la seleccion espanola."},
+  {num:25,n:"Ilias Akhomach",     pos:"Delantero",      nac:"🇲🇦 Marruecos", stats:{liga:{g:0,a:0,pj:24},conf:{g:0,a:0,pj:6},copa:{g:0,a:0,pj:1}}, desc:"Cedido por el Villarreal. El mas desequilibrante con 1.7 regates por partido. Aun busca su primer gol pero genera muchas ocasiones."},
+  {num:28,n:"Carlos Martin",      pos:"Delantero",      nac:"🇪🇸 España",    stats:{liga:{g:0,a:0,pj:5}, conf:{g:0,a:0,pj:1},copa:{g:0,a:0,pj:0}}, desc:"Delantero cedido del Atletico de Madrid. Joven con gol y desequilibrio. Aporta profundidad desde el banquillo."},
 ]
-
 function rPlantilla(){
   const g=document.getElementById('pgrid');
   ['Portero','Defensa','Centrocampista','Delantero'].forEach(pos=>{
