@@ -582,13 +582,7 @@ img.loaded{opacity:1;}
   <div class="hero-inner">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
       <div class="hero-eye" style="margin-bottom:0">⚽ LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span id="euroCounter" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;color:var(--oro);text-transform:uppercase"></span>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-        <span id="euroCounter" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;color:var(--oro)"></span>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span id="euroCounter" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;color:var(--oro)"></span><div id="vallecasWeather" style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.6);text-transform:uppercase"></div></div>
-      </div>
-      </div>
+      <div id="vallecasWeather" style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.6);text-transform:uppercase"></div>
     </div>
     <div class="hero-title">SIEMPRE <em>RAYO</em>,<br>SIEMPRE VALLECAS</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;">
@@ -633,10 +627,7 @@ img.loaded{opacity:1;}
 
 <!-- NOTICIAS -->
 <section id="noticias" class="section active">
-  <div class="sec-t" style="justify-content:space-between">
-    <span>Últimas Noticias <small id="newsTime"></small></span>
-    <button onclick="rNoticias()" style="background:none;border:1px solid var(--gris3);color:var(--txt3);font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--rojo)';this.style.color='var(--rojo)'" onmouseout="this.style.borderColor='var(--gris3)';this.style.color='var(--txt3)'">↻ Actualizar</button>
-  </div>
+  <div class="sec-t">Últimas Noticias <small id="newsTime"></small></div>
   <div class="api-status" id="newsStatus" style="display:none"><div class="sdot ok"></div><span>Noticias en tiempo real · Actualizado automáticamente</span></div>
   <div class="news-grid" id="newsGrid"></div>
 </section>
@@ -2271,22 +2262,24 @@ function rPredictor(){
     {
       local:'Rayo Vallecano',visitante:'AEK Atenas',
       comp:'Conference League · Cuartos Ida',fecha:'Jue 9 Abr · 21:00h · Estadio de Vallecas',
-      localForm:['E','D','V','E','E'],
-      visitanteForm:['V','V','E','V','D'],
-      localGoles:1.8, visitanteGoles:1.9,
-      localDef:0.8, visitanteDef:1.0,
-      localInfo:'Imbatibles en Vallecas en Conference (3V 0E 0D). La aficion sera el 12o jugador.',
-      visitanteInfo:'2o SuperLeague Grecia. Semifinalistas Conference 2023/24. Rebic y Lamela son sus figuras.'
+      rayoForm:['E','D','V','E','V'],
+      rivalForm:['V','V','E','V','D'],
+      rayoGoles:1.8,rivalGoles:1.9,
+      rayoDef:0.8,rivalDef:1.0,
+      rivalNombre:'AEK Atenas',
+      rivalInfo:'2o SuperLeague Grecia. Llegaron a semifinales de Conference en 2023/24. Rebic y Lamela son sus figuras.',
+      rayoInfo:'Imbatibles en Vallecas en Conference (3V 0E 0D). La aficion sera el 12o jugador.'
     },
     {
       local:'Rayo Vallecano',visitante:'Elche CF',
       comp:'LaLiga J30',fecha:'Sáb 4 Abr · Estadio de Vallecas',
-      localForm:['E','D','V','E','E'],
-      visitanteForm:['D','D','D','E','D'],
-      localGoles:1.8, visitanteGoles:0.7,
-      localDef:1.0, visitanteDef:1.4,
-      localInfo:'El Rayo DEBE ganar este partido para alejarse del descenso. Vallecas en modo fortaleza.',
-      visitanteInfo:'Penultimo clasificado. Solo 22 goles en 29 jornadas. Sin ganar fuera en toda la temporada.'
+      rayoForm:['E','D','V','E','V'],
+      rivalForm:['D','D','D','E','D'],
+      rayoGoles:1.8,rivalGoles:0.7,
+      rayoDef:1.0,rivalDef:1.4,
+      rivalNombre:'Elche CF',
+      rivalInfo:'Penultimo clasificado con 25 pts. Solo 22 goles en 29 jornadas. Sin ganar fuera en toda la temporada.',
+      rayoInfo:'El Rayo DEBE ganar este partido para alejarse del descenso. Vallecas en modo fortaleza.'
     },
   ];
 
@@ -2616,6 +2609,35 @@ var encuestaEspecial={
 
 
 // ─── DE FRUTOS WIDGET ────────────────────
+function rDeFrutos(){
+  var el=document.getElementById('deFrutosWidget');
+  if(!el)return;
+  var goles=['Osasuna','Alavés','Valladolid','Betis','Leganés','Girona','Espanyol','Atlético','Getafe','Celta','Valencia','Getafe'];
+  var jornadas=['J3','J5','J7','J9','J11','J14','J15','J18','J21','J23','J25','J26'];
+  el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:16px">'
+    +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">'
+    +'<img src="'+(fotoJugador[19]||fotoDefault)+'" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo)">'
+    +'<div style="flex:1">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:24px;letter-spacing:1px;color:var(--txt)">Jorge De Frutos</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo)">Máximo Goleador · LaLiga</div>'
+    +'</div>'
+    +'<div style="text-align:center;background:rgba(208,27,46,.1);border:2px solid var(--rojo);border-radius:10px;padding:8px 16px">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:48px;color:var(--rojo);line-height:1">12</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">⚽ Goles</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px">Partidos donde marcó:</div>'
+    +'<div style="display:flex;gap:4px;flex-wrap:wrap">'
+    +goles.map(function(rival,i){
+      return '<div style="background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:6px;padding:5px 8px;text-align:center;min-width:52px">'
+        +'<div style="font-size:14px">⚽</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:12px;color:var(--rojo)">'+jornadas[i]+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3)">'+rival+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div></div>';
+}
+
 // ─── EURO COUNTER ────────────────────────
 (function(){
   var first=new Date('2025-10-02');
@@ -2685,85 +2707,6 @@ function votarBarca(idx){
   localStorage.setItem(key+'_u',idx);
   rEncuestaBarça();
 }
-// ─── EURO COUNTER ────────────────────────
-(function(){
-  var first=new Date('2025-10-02');
-  var days=Math.floor((new Date()-first)/(864e5));
-  var el=document.getElementById('euroCounter');
-  if(el)el.textContent='🌍 '+days+' días en Europa';
-})();
-
-// ─── CONFETTI ────────────────────────────
-function confettiRayo(){
-  var cols=['#D01B2E','#FFFFFF','#C9A84C'];
-  for(var i=0;i<80;i++){(function(i){setTimeout(function(){
-    var el=document.createElement('div');
-    el.style.cssText='position:fixed;top:-10px;left:'+Math.random()*100+'vw;width:'+(Math.random()*8+3)+'px;height:'+(Math.random()*8+3)+'px;background:'+cols[Math.floor(Math.random()*3)]+';border-radius:2px;z-index:9000;pointer-events:none;animation:confettiFall '+(Math.random()*2+1)+'s linear forwards';
-    document.body.appendChild(el);setTimeout(function(){el.remove();},3000);
-  },i*25);})(i);}
-}
-// Konami code easter egg
-(function(){
-  var k=[38,38,40,40,37,39,37,39,66,65],idx=0;
-  document.addEventListener('keydown',function(e){
-    if(e.keyCode===k[idx]){idx++;if(idx===k.length){idx=0;confettiRayo();var m=document.createElement('div');m.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--rojo);color:#fff;font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:3px;padding:16px 32px;border-radius:12px;z-index:9999';m.textContent='⚡ SIEMPRE RAYO ⚡';document.body.appendChild(m);setTimeout(function(){m.remove();},2500);}}else{idx=0;}
-  });
-})();
-
-// ─── DE FRUTOS WIDGET ────────────────────
-function rDeFrutos(){
-  var el=document.getElementById('deFrutosWidget');
-  if(!el)return;
-  var goles=[
-    {j:'J3',rival:'Osasuna'},{j:'J5',rival:'Alavés'},{j:'J7',rival:'Valladolid'},
-    {j:'J9',rival:'Betis'},{j:'J11',rival:'Leganés'},{j:'J14',rival:'Girona'},
-    {j:'J15',rival:'Espanyol'},{j:'J18',rival:'Atlético'},{j:'J21',rival:'Getafe'},
-    {j:'J23',rival:'Celta'},{j:'J25',rival:'Valencia'},{j:'J26',rival:'Getafe'},
-  ];
-  el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:14px">'
-    +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">'
-    +'<img src="'+(fotoJugador[19]||fotoDefault)+'" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo)">'
-    +'<div><div style="font-family:Bebas Neue,sans-serif;font-size:26px;color:var(--txt)">Jorge De Frutos</div>'
-    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo)">Máximo Goleador · LaLiga</div></div>'
-    +'<div style="margin-left:auto;text-align:center;background:rgba(208,27,46,.1);border:2px solid var(--rojo);border-radius:10px;padding:10px 16px">'
-    +'<div style="font-family:Bebas Neue,sans-serif;font-size:48px;color:var(--rojo);line-height:1">12</div>'
-    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">⚽ Goles</div>'
-    +'</div></div>'
-    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px">Partidos donde marcó:</div>'
-    +'<div style="display:flex;gap:4px;flex-wrap:wrap">'
-    +goles.map(function(g){
-      return '<div style="background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:6px;padding:5px 8px;text-align:center;min-width:52px">'
-        +'<div style="font-size:14px">⚽</div>'
-        +'<div style="font-family:Bebas Neue,sans-serif;font-size:12px;color:var(--rojo)">'+g.j+'</div>'
-        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3)">'+g.rival+'</div>'
-        +'</div>';
-    }).join('')+'</div></div>';
-}
-
-// ─── EURO COUNTER ────────────────────────
-(function(){
-  var first=new Date('2025-10-02');
-  var days=Math.floor((new Date()-first)/(864e5));
-  var el=document.getElementById('euroCounter');
-  if(el)el.textContent='🌍 '+days+' días en Europa';
-})();
-
-// ─── CONFETTI + KONAMI ────────────────────
-function confettiRayo(){
-  var cols=['#D01B2E','#FFFFFF','#C9A84C'];
-  for(var i=0;i<80;i++){(function(i){setTimeout(function(){
-    var el=document.createElement('div');
-    el.style.cssText='position:fixed;top:-10px;left:'+Math.random()*100+'vw;width:'+(Math.random()*8+3)+'px;height:'+(Math.random()*8+3)+'px;background:'+cols[Math.floor(Math.random()*3)]+';border-radius:2px;z-index:9000;pointer-events:none;animation:confettiFall '+(Math.random()*2+1)+'s linear forwards';
-    document.body.appendChild(el);setTimeout(function(){el.remove();},3000);
-  },i*25);})(i);}
-}
-(function(){
-  var k=[38,38,40,40,37,39,37,39,66,65],idx=0;
-  document.addEventListener('keydown',function(e){
-    if(e.keyCode===k[idx]){idx++;if(idx===k.length){idx=0;confettiRayo();var m=document.createElement('div');m.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--rojo);color:#fff;font-family:Bebas Neue,sans-serif;font-size:28px;letter-spacing:3px;padding:16px 32px;border-radius:12px;z-index:9999';m.textContent='⚡ SIEMPRE RAYO ⚡';document.body.appendChild(m);setTimeout(function(){m.remove();},2500);}}else{idx=0;}
-  });
-})();
-
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2786,4 +2729,4 @@ loadTabla();
 loadSquadPhotos();
 startCountdowns();
 loadWeather();
-
+</script>
