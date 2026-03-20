@@ -489,6 +489,32 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 .red-btn:hover{transform:translateY(-2px);opacity:.9;}
 .apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(226,185,111,.2);border-radius:12px;padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+/* ═══ EPIC FINAL TOUCHES ═══ */
+/* Glow on rayo cards */
+.mc.res:hover{box-shadow:0 6px 20px rgba(208,27,46,.15);}
+.mc[style*="00c853"]:hover{box-shadow:0 6px 20px rgba(0,200,83,.15);}
+/* Smooth section transitions */
+.section.active{animation:sectionIn .4s cubic-bezier(.25,.46,.45,.94) both;}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+@keyframes sectionIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+/* News card shimmer on hover */
+.news-card::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);transition:left .5s ease;pointer-events:none;}
+.news-card{position:relative;overflow:hidden;}
+.news-card:hover::after{left:150%;}
+/* Player card glow */
+.pcard:hover{box-shadow:0 8px 24px rgba(208,27,46,.15);border-color:var(--rojo);}
+/* Score flash animation */
+@keyframes scoreFlash{0%,100%{color:var(--txt)}50%{color:var(--rojo)}}
+/* Live score pulse */
+.live-score-val{animation:scoreFlash 2s ease infinite;}
+/* Golden shimmer for trophy/logros */
+@keyframes goldShimmer{0%,100%{text-shadow:0 0 10px rgba(201,168,76,0)}50%{text-shadow:0 0 20px rgba(201,168,76,.5)}}
+.hist-year{animation:goldShimmer 3s ease infinite;}
+/* Tab bar active indicator */
+.mbt.active .mbt-icon{transform:scale(1.2);transition:transform .2s;}
+/* Smooth image load */
+img{opacity:0;transition:opacity .3s ease;}
+img.loaded{opacity:1;}
 /* EXTRAS */
 @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
 ::-webkit-scrollbar{width:6px;}
