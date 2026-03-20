@@ -470,6 +470,10 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('rival',this)">AEK</button>
       <button onclick="show('once',this)">XI Ideal</button>
       <button onclick="show('quiz',this)">Quiz</button>
+      <button onclick="show('predictor',this)">Predictor</button>
+      <button onclick="show('logros',this)">🏆 Logros</button>
+      <button onclick="show('predictor',this)">Predictor</button>
+      <button onclick="show('logros',this)">🏆</button>
       </nav>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
@@ -676,6 +680,30 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 <section id="quiz" class="section">
   <div class="sec-t">🧠 Quiz Rayo Vallecano</div>
   <div id="quizContent"></div>
+</section>
+
+<!-- PREDICTOR -->
+<section id="predictor" class="section">
+  <div class="sec-t">🔮 Predictor de Partidos</div>
+  <div id="predictorContent"></div>
+</section>
+
+<!-- LOGROS -->
+<section id="logros" class="section">
+  <div class="sec-t">🏆 Logros de la Temporada</div>
+  <div id="logrosContent"></div>
+</section>
+
+<!-- PREDICTOR -->
+<section id="predictor" class="section">
+  <div class="sec-t">🔮 Predictor de Partidos</div>
+  <div id="predictorContent"></div>
+</section>
+
+<!-- LOGROS -->
+<section id="logros" class="section">
+  <div class="sec-t">🏆 Logros de la Temporada</div>
+  <div id="logrosContent"></div>
 </section>
 
 <!-- HISTORIA -->
@@ -1528,7 +1556,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -2020,6 +2048,172 @@ function responder(idx){
   setTimeout(renderPregunta, 900);
 }
 
+// ─── PREDICTOR ───────────────────────────────
+function rPredictor(){
+  var el=document.getElementById('predictorContent');
+  if(!el)return;
+
+  var partidos=[
+    {local:'FC Barcelona',visitante:'Rayo Vallecano',comp:'LaLiga J29',fecha:'Dom 22 Mar 14:00h',estadio:'Camp Nou',
+     rayoForm:['E','D','V','E','V'],rivalForm:['V','V','V','V','E'],
+     rayoGoles:1.1,rivalGoles:2.8,rayoDef:1.0,rivalDef:0.9},
+    {local:'Rayo Vallecano',visitante:'AEK Atenas',comp:'Conference Cuartos Ida',fecha:'Jue 9 Abr 21:00h',estadio:'Vallecas',
+     rayoForm:['V','E','V','V','D'],rivalForm:['V','V','E','V','V'],
+     rayoGoles:1.8,rivalGoles:1.9,rayoDef:0.8,rivalDef:1.0},
+    {local:'Rayo Vallecano',visitante:'Elche CF',comp:'LaLiga J30',fecha:'Sáb 4 Abr',estadio:'Vallecas',
+     rayoForm:['E','V','E','V','V'],rivalForm:['D','D','E','D','D'],
+     rayoGoles:1.8,rivalGoles:0.7,rayoDef:1.0,rivalDef:1.4},
+  ];
+
+  var selIdx=0;
+
+  function calcPrediccion(p){
+    // Forma últimos 5
+    function formaPts(arr){return arr.reduce(function(s,r){return s+(r==='V'?3:r==='E'?1:0);},0);}
+    var fRayo=formaPts(p.rayoForm), fRival=formaPts(p.rivalForm);
+    var isHome=p.local==='Rayo Vallecano';
+    var ventajaCasa=isHome?0.3:-0.2;
+    var probRayo=Math.min(85,Math.max(10,Math.round(35+ventajaCasa*20+(fRayo-fRival)*2)));
+    var probEmpate=Math.round(25-(Math.abs(fRayo-fRival)*1.5));
+    var probRival=100-probRayo-probEmpate;
+    var golesRayo=isHome?p.rayoGoles:p.rayoGoles*0.85;
+    var golesRival=isHome?p.rivalGoles*0.85:p.rivalGoles;
+    return {probRayo,probEmpate,probRival,golesRayo:golesRayo.toFixed(1),golesRival:golesRival.toFixed(1)};
+  }
+
+  function renderPredictor(){
+    var p=partidos[selIdx];
+    var pred=calcPrediccion(p);
+    var isHome=p.local==='Rayo Vallecano';
+    var probW=isHome?pred.probRayo:pred.probRival;
+    var probL=isHome?pred.probRival:pred.probRayo;
+
+    // Selector partidos
+    var html='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">';
+    partidos.forEach(function(pt,i){
+      html+='<button onclick="selPredictor('+i+')" style="background:'+(i===selIdx?'var(--rojo)':'var(--gris2)')+';border:1px solid '+(i===selIdx?'var(--rojo)':'var(--gris3)')+';color:'+(i===selIdx?'#fff':'var(--txt3)')+';font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;padding:7px 14px;border-radius:20px;cursor:pointer">'+pt.comp+'</button>';
+    });
+    html+='</div>';
+
+    // Forma visual
+    function formaHTML(arr){
+      return arr.map(function(r){
+        var c=r==='V'?'#4caf50':r==='E'?'#ffc107':'var(--rojo)';
+        return '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:'+c+';margin:1px;font-family:Bebas Neue,sans-serif;font-size:11px;color:#fff;text-align:center;line-height:20px">'+r+'</span>';
+      }).join('');
+    }
+
+    // Header
+    html+='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;margin-bottom:14px">';
+    html+='<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:12px">'+p.comp+' · '+p.fecha+'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:16px">';
+    html+='<div style="text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:'+(p.local==='Rayo Vallecano'?'var(--rojo)':'var(--txt)')+'">'+p.local+'</div><div>'+formaHTML(p.rayoForm)+'</div></div>';
+    html+='<div style="font-family:Bebas Neue,sans-serif;font-size:24px;color:var(--txt3)">VS</div>';
+    html+='<div style="text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:'+(p.visitante==='Rayo Vallecano'?'var(--rojo)':'var(--txt)')+'">'+p.visitante+'</div><div>'+formaHTML(p.rivalForm)+'</div></div>';
+    html+='</div>';
+
+    // Barras probabilidad
+    html+='<div style="margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;margin-bottom:6px">';
+    html+='<span style="font-family:Bebas Neue,sans-serif;font-size:20px;color:var(--rojo)">'+probW+'%</span>';
+    html+='<span style="font-family:Barlow Condensed,sans-serif;font-size:11px;color:var(--txt3);align-self:center;text-transform:uppercase;letter-spacing:2px">Probabilidades</span>';
+    html+='<span style="font-family:Bebas Neue,sans-serif;font-size:20px;color:var(--txt3)">'+probL+'%</span>';
+    html+='</div>';
+    html+='<div style="display:flex;height:8px;border-radius:4px;overflow:hidden">';
+    html+='<div style="flex:'+probW+';background:var(--rojo)"></div>';
+    html+='<div style="flex:'+pred.probEmpate+';background:#ffc107"></div>';
+    html+='<div style="flex:'+probL+';background:var(--gris3)"></div>';
+    html+='</div>';
+    html+='<div style="display:flex;justify-content:space-between;margin-top:4px">';
+    html+='<span style="font-size:10px;color:var(--rojo)">Victoria Rayo</span>';
+    html+='<span style="font-size:10px;color:#ffc107">Empate '+pred.probEmpate+'%</span>';
+    html+='<span style="font-size:10px;color:var(--txt3)">Derrota</span>';
+    html+='</div></div>';
+
+    // Goles esperados
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+    html+='<div style="background:var(--gris2);border-radius:8px;padding:12px;text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;color:var(--rojo)">'+(isHome?pred.golesRayo:pred.golesRival)+'</div><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px">Goles esperados Rayo</div></div>';
+    html+='<div style="background:var(--gris2);border-radius:8px;padding:12px;text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;color:var(--txt3)">'+(isHome?pred.golesRival:pred.golesRayo)+'</div><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px">Goles esperados rival</div></div>';
+    html+='</div>';
+    html+='<div style="margin-top:10px;padding:8px;background:rgba(208,27,46,.06);border-radius:8px;font-size:11px;color:var(--txt3);text-align:center">Prediccion basada en forma reciente y estadisticas</div>';
+    html+='</div>';
+
+    // Votos
+    html+='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px">';
+    html+='<div style="font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt);margin-bottom:12px">Tu prediccion:</div>';
+    var voted=localStorage.getItem('voto_'+selIdx);
+    if(voted){
+      html+=renderVotos(selIdx);
+    } else {
+      html+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
+      html+='<button data-v="W" data-i="'+selIdx+'" onclick="votar_pred(parseInt(this.dataset.i),this.dataset.v)" style="background:rgba(76,175,80,.15);border:1px solid #4caf50;color:#4caf50;font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer">Gana el Rayo</button>';
+      html+='<button data-v="D" data-i="'+selIdx+'" onclick="votar_pred(parseInt(this.dataset.i),this.dataset.v)" style="background:rgba(255,193,7,.15);border:1px solid #ffc107;color:#ffc107;font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer">Empate</button>';
+      html+='<button data-v="L" data-i="'+selIdx+'" onclick="votar_pred(parseInt(this.dataset.i),this.dataset.v)" style="background:rgba(208,27,46,.15);border:1px solid var(--rojo);color:var(--rojo);font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:8px;cursor:pointer">Derrota</button>';
+      html+='</div>';
+    }
+    html+='</div>';
+
+    el.innerHTML=html;
+  }
+
+  window.selPredictor=function(i){selIdx=i;renderPredictor();};
+  window.votar_pred=function(idx,tipo){
+    if(localStorage.getItem('voto_'+idx))return;
+    localStorage.setItem('voto_'+idx,tipo);
+    var v=JSON.parse(localStorage.getItem('votos_pred_'+idx)||'{"W":0,"D":0,"L":0}');
+    v[tipo]=(v[tipo]||0)+1;
+    localStorage.setItem('votos_pred_'+idx,JSON.stringify(v));
+    renderPredictor();
+  };
+
+  renderPredictor();
+}
+
+// ─── LOGROS TEMPORADA ────────────────────────
+function rLogros(){
+  var el=document.getElementById('logrosContent');
+  if(!el)return;
+
+  var logros=[
+    {icon:'🌍',titulo:'¡Europa!',desc:'Primera vez en competición europea desde 2001. 24 años después, el Rayo vuelve a Europa.',color:'#00c853',conseguido:true},
+    {icon:'🏆',titulo:'Cuartos de Conference',desc:'El Rayo ha llegado a cuartos de final de la UEFA Conference League. Histórico.',color:'#00c853',conseguido:true},
+    {icon:'👑',titulo:'Goleador de LaLiga',desc:'Jorge de Frutos, con 10 goles en LaLiga, lidera la tabla de goleadores del equipo.',color:'var(--oro)',conseguido:true},
+    {icon:'🇪🇸',titulo:'Internacionales',desc:'Álvaro García y Jorge de Frutos convocados por la Selección Española.',color:'var(--rojo)',conseguido:true},
+    {icon:'⚡',titulo:'Goleada histórica',desc:'6-1 al CD Yuncos en Copa del Rey. La mayor goleada del Rayo en mucho tiempo.',color:'var(--rojo)',conseguido:true},
+    {icon:'💪',titulo:'Imbatibles en Conference',desc:'Fase de grupos perfecta: 6 victorias de 6, 16 goles y solo 5 encajados.',color:'#00c853',conseguido:true},
+    {icon:'🔮',titulo:'Semifinales Conference',desc:'¿Podrá el Rayo llegar a las semifinales de la Conference League?',color:'var(--txt3)',conseguido:false},
+    {icon:'🏅',titulo:'Top 10 LaLiga',desc:'Terminar la temporada en el top 10 de LaLiga EA Sports.',color:'var(--txt3)',conseguido:false},
+    {icon:'🌟',titulo:'Final de Conference',desc:'El sueño: llegar a la final de Wrocław el 27 de mayo. ¿Por qué no?',color:'var(--txt3)',conseguido:false},
+  ];
+
+  var conseguidos=logros.filter(function(l){return l.conseguido;}).length;
+  var total=logros.length;
+
+  el.innerHTML=
+    // Progreso general
+    '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:16px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:28px;color:var(--txt)">'+conseguidos+' / '+total+' Logros</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:22px;color:var(--oro)">'+Math.round(conseguidos/total*100)+'%</div>'
+    +'</div>'
+    +'<div style="height:8px;background:var(--gris2);border-radius:4px;overflow:hidden">'
+    +'<div style="width:'+Math.round(conseguidos/total*100)+'%;height:100%;background:linear-gradient(90deg,var(--rojo),var(--oro));border-radius:4px;transition:width 1s ease"></div>'
+    +'</div>'
+    +'</div>'
+
+    // Lista de logros
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">'
+    +logros.map(function(l){
+      return '<div style="background:var(--gris);border:1px solid '+(l.conseguido?l.color:'var(--brd)')+';border-radius:12px;padding:16px;opacity:'+(l.conseguido?'1':'0.5')+';position:relative;overflow:hidden">'
+        +(l.conseguido?'<div style="position:absolute;top:10px;right:10px;font-size:16px">✅</div>':'<div style="position:absolute;top:10px;right:10px;font-size:16px">🔒</div>')
+        +'<div style="font-size:32px;margin-bottom:8px">'+l.icon+'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:18px;letter-spacing:1px;color:'+(l.conseguido?l.color:'var(--txt3)')+';margin-bottom:4px">'+l.titulo+'</div>'
+        +'<div style="font-size:12px;color:var(--txt3);line-height:1.5">'+l.desc+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2031,6 +2225,8 @@ rStats();
 rRival();
 rOnce();
 rQuiz();
+rPredictor();
+rLogros();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
