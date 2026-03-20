@@ -231,7 +231,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .mc:hover{border-color:var(--rojo);transform:translateY(-2px);box-shadow:0 4px 16px rgba(208,27,46,.08);}
 .mc.res{border-left:3px solid var(--rojo);}
 .mc.nxt{border-left:3px solid var(--oro);}
-.mc.conf{border-left:3px solid var(--azul);}
+.mc.conf{border-left:3px solid #00c853;}
 .mc.live{border-left:3px solid #4caf50;box-shadow:0 0 18px rgba(76,175,80,.12);}
 .teams{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
 .tn{font-family:'Barlow Condensed';font-size:14px;font-weight:700;letter-spacing:1px;flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt);}
@@ -1061,72 +1061,80 @@ function renderCopaHistory(){
 
 // ─── FALLBACKS ───────────────────────────────
 function fallbackPartidos(){
-  // Datos reales de rayovallecano.es y ESPN - temporada 2025-26
-  const datos=[
-    // LALIGA - resultados reales
-    {loc:"Rayo Vallecano",vis:"Levante UD",    gL:1,gV:1,f:"16 Mar 2026",comp:"LaLiga",j:"J28",r:"draw"},
-    {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference League",j:"Octavos ida",r:"win"},
-    {loc:"Sevilla FC",    vis:"Rayo Vallecano",gL:1,gV:1,f:"08 Mar 2026",comp:"LaLiga",j:"J27",r:"draw"},
-    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",j:"Octavos vuelta",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Getafe CF",     gL:1,gV:1,f:"01 Mar 2026",comp:"LaLiga",j:"J26",r:"draw"},
-    {loc:"Real Madrid",   vis:"Rayo Vallecano",gL:3,gV:1,f:"22 Feb 2026",comp:"LaLiga",j:"J25",r:"loss"},
-    {loc:"Rayo Vallecano",vis:"Villarreal CF", gL:2,gV:0,f:"15 Feb 2026",comp:"LaLiga",j:"J24",r:"win"},
-    {loc:"Valencia CF",   vis:"Rayo Vallecano",gL:0,gV:1,f:"08 Feb 2026",comp:"LaLiga",j:"J23",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Real Oviedo",   gL:3,gV:0,f:"01 Feb 2026",comp:"LaLiga",j:"J22",r:"win"},
-    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:1,f:"25 Ene 2026",comp:"LaLiga",j:"J21",r:"draw"},
-    {loc:"Real Betis",    vis:"Rayo Vallecano",gL:1,gV:1,f:"18 Ene 2026",comp:"LaLiga",j:"J20",r:"draw"},
-    {loc:"Rayo Vallecano",vis:"Atl. Madrid",   gL:3,gV:0,f:"11 Ene 2026",comp:"LaLiga",j:"J19",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Alavés",        gL:2,gV:1,f:"21 Dic 2025",comp:"LaLiga",j:"J18",r:"win"},
-    {loc:"Girona FC",     vis:"Rayo Vallecano",gL:1,gV:3,f:"07 Dic 2025",comp:"LaLiga",j:"J17",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Mallorca",      gL:1,gV:1,f:"30 Nov 2025",comp:"LaLiga",j:"J16",r:"draw"},
-    {loc:"Elche CF",      vis:"Rayo Vallecano",gL:4,gV:0,f:"23 Nov 2025",comp:"LaLiga",j:"J15",r:"loss"},
-    {loc:"Rayo Vallecano",vis:"Real Betis",    gL:0,gV:0,f:"09 Nov 2025",comp:"LaLiga",j:"J14",r:"draw"},
-    {loc:"Espanyol",      vis:"Rayo Vallecano",gL:0,gV:2,f:"02 Nov 2025",comp:"LaLiga",j:"J13",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Osasuna",       gL:1,gV:3,f:"26 Oct 2025",comp:"LaLiga",j:"J12",r:"loss"},
-    {loc:"Villarreal CF", vis:"Rayo Vallecano",gL:4,gV:0,f:"09 Nov 2025",comp:"LaLiga",j:"J11",r:"loss"},
-    {loc:"Rayo Vallecano",vis:"Alavés",        gL:1,gV:0,f:"19 Oct 2025",comp:"LaLiga",j:"J10",r:"win"},
-    {loc:"Levante UD",    vis:"Rayo Vallecano",gL:0,gV:3,f:"05 Oct 2025",comp:"LaLiga",j:"J9",r:"win"},
-    {loc:"Real Sociedad", vis:"Rayo Vallecano",gL:0,gV:1,f:"28 Sep 2025",comp:"LaLiga",j:"J8",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Sevilla FC",    gL:0,gV:1,f:"21 Sep 2025",comp:"LaLiga",j:"J7",r:"loss"},
-    {loc:"Atl. Madrid",   vis:"Rayo Vallecano",gL:3,gV:2,f:"14 Sep 2025",comp:"LaLiga",j:"J6",r:"loss"},
-    {loc:"Rayo Vallecano",vis:"Celta",         gL:1,gV:1,f:"31 Ago 2025",comp:"LaLiga",j:"J5",r:"draw"},
-    {loc:"CA Osasuna",    vis:"Rayo Vallecano",gL:2,gV:0,f:"24 Ago 2025",comp:"LaLiga",j:"J4",r:"loss"},
-    {loc:"Rayo Vallecano",vis:"FC Barcelona",  gL:1,gV:1,f:"17 Ago 2025",comp:"LaLiga",j:"J3",r:"draw"},
-    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:0,f:"10 Ago 2025",comp:"LaLiga",j:"J2",r:"loss"},
-    {loc:"Girona FC",     vis:"Rayo Vallecano",gL:1,gV:3,f:"03 Ago 2025",comp:"LaLiga",j:"J1",r:"win"},
-    // Conference League
-    {loc:"Rayo Vallecano",vis:"Shkendija",     gL:2,gV:0,f:"02 Oct 2025",comp:"Conference League",j:"J1",r:"win"},
-    {loc:"BK Hacken",     vis:"Rayo Vallecano",gL:2,gV:2,f:"23 Oct 2025",comp:"Conference League",j:"J2",r:"draw"},
-    {loc:"Rayo Vallecano",vis:"Lech Poznan",   gL:3,gV:2,f:"06 Nov 2025",comp:"Conference League",j:"J3",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Drita",         gL:3,gV:0,f:"28 Nov 2025",comp:"Conference League",j:"J4",r:"win"},
-    {loc:"Omonia",        vis:"Rayo Vallecano",gL:0,gV:2,f:"11 Dic 2025",comp:"Conference League",j:"J5",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Jagiellonia",   gL:2,gV:1,f:"18 Dic 2025",comp:"Conference League",j:"J6",r:"win"},
-    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference League",j:"Octavos vuelta",r:"win"},
-    {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference League",j:"Octavos ida",r:"win"},
-    // Copa del Rey
-    {loc:"CD Yuncos",     vis:"Rayo Vallecano",gL:1,gV:6,f:"31 Oct 2025",comp:"Copa del Rey",j:"J3",r:"win"},
+  var datos=[
+    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference",  j:"1/8 Vuelta",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Levante UD",    gL:1,gV:1,f:"16 Mar 2026",comp:"LaLiga",      j:"J28",r:"draw"},
+    {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference",  j:"1/8 Ida",  r:"win"},
+    {loc:"Sevilla FC",    vis:"Rayo Vallecano",gL:1,gV:1,f:"08 Mar 2026",comp:"LaLiga",      j:"J27",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Getafe CF",     gL:1,gV:1,f:"01 Mar 2026",comp:"LaLiga",      j:"J26",r:"draw"},
+    {loc:"Real Madrid",   vis:"Rayo Vallecano",gL:3,gV:1,f:"22 Feb 2026",comp:"LaLiga",      j:"J25",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Villarreal CF", gL:2,gV:0,f:"15 Feb 2026",comp:"LaLiga",      j:"J24",r:"win"},
+    {loc:"Valencia CF",   vis:"Rayo Vallecano",gL:0,gV:1,f:"08 Feb 2026",comp:"LaLiga",      j:"J23",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Real Oviedo",   gL:3,gV:0,f:"01 Feb 2026",comp:"LaLiga",      j:"J22",r:"win"},
+    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:1,f:"25 Ene 2026",comp:"LaLiga",      j:"J21",r:"draw"},
+    {loc:"Real Betis",    vis:"Rayo Vallecano",gL:1,gV:1,f:"18 Ene 2026",comp:"LaLiga",      j:"J20",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Atletico Madrid",gL:3,gV:0,f:"11 Ene 2026",comp:"LaLiga",     j:"J19",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Dep. Alaves",   gL:2,gV:1,f:"21 Dic 2025",comp:"LaLiga",      j:"J18",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Jagiellonia",   gL:2,gV:1,f:"18 Dic 2025",comp:"Conference",  j:"GJ6", r:"win"},
+    {loc:"Omonia",        vis:"Rayo Vallecano",gL:0,gV:2,f:"11 Dic 2025",comp:"Conference",  j:"GJ5", r:"win"},
+    {loc:"Rayo Vallecano",vis:"Villarreal CF", gL:2,gV:0,f:"07 Dic 2025",comp:"LaLiga",      j:"J17",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Mallorca",      gL:1,gV:1,f:"30 Nov 2025",comp:"LaLiga",      j:"J16",r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Drita",         gL:3,gV:0,f:"28 Nov 2025",comp:"Conference",  j:"GJ4", r:"win"},
+    {loc:"Espanyol",      vis:"Rayo Vallecano",gL:0,gV:2,f:"23 Nov 2025",comp:"LaLiga",      j:"J13",r:"win"},
+    {loc:"Villarreal CF", vis:"Rayo Vallecano",gL:4,gV:0,f:"09 Nov 2025",comp:"LaLiga",      j:"J11",r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Lech Poznan",   gL:3,gV:2,f:"06 Nov 2025",comp:"Conference",  j:"GJ3", r:"win"},
+    {loc:"Rayo Vallecano",vis:"Osasuna",       gL:1,gV:3,f:"02 Nov 2025",comp:"LaLiga",      j:"J12",r:"loss"},
+    {loc:"CD Yuncos",     vis:"Rayo Vallecano",gL:1,gV:6,f:"31 Oct 2025",comp:"Copa del Rey",j:"R3",  r:"win"},
+    {loc:"BK Hacken",     vis:"Rayo Vallecano",gL:2,gV:2,f:"23 Oct 2025",comp:"Conference",  j:"GJ2", r:"draw"},
+    {loc:"Rayo Vallecano",vis:"Dep. Alaves",   gL:1,gV:0,f:"19 Oct 2025",comp:"LaLiga",      j:"J10",r:"win"},
+    {loc:"Levante UD",    vis:"Rayo Vallecano",gL:0,gV:3,f:"05 Oct 2025",comp:"LaLiga",      j:"J9", r:"win"},
+    {loc:"Rayo Vallecano",vis:"Shkendija",     gL:2,gV:0,f:"02 Oct 2025",comp:"Conference",  j:"GJ1", r:"win"},
+    {loc:"Real Sociedad", vis:"Rayo Vallecano",gL:0,gV:1,f:"28 Sep 2025",comp:"LaLiga",      j:"J8", r:"win"},
+    {loc:"Rayo Vallecano",vis:"Sevilla FC",    gL:0,gV:1,f:"21 Sep 2025",comp:"LaLiga",      j:"J7", r:"loss"},
+    {loc:"Atletico Madrid",vis:"Rayo Vallecano",gL:3,gV:2,f:"14 Sep 2025",comp:"LaLiga",     j:"J6", r:"loss"},
+    {loc:"Rayo Vallecano",vis:"Celta",         gL:1,gV:1,f:"31 Ago 2025",comp:"LaLiga",      j:"J5", r:"draw"},
+    {loc:"CA Osasuna",    vis:"Rayo Vallecano",gL:2,gV:0,f:"24 Ago 2025",comp:"LaLiga",      j:"J4", r:"loss"},
+    {loc:"Rayo Vallecano",vis:"FC Barcelona",  gL:1,gV:1,f:"17 Ago 2025",comp:"LaLiga",      j:"J3", r:"draw"},
+    {loc:"Athletic Club", vis:"Rayo Vallecano",gL:1,gV:0,f:"10 Ago 2025",comp:"LaLiga",      j:"J2", r:"loss"},
+    {loc:"Girona FC",     vis:"Rayo Vallecano",gL:1,gV:3,f:"03 Ago 2025",comp:"LaLiga",      j:"J1", r:"win"},
   ];
 
-  document.getElementById('listRes').innerHTML=datos.map(p=>{
-    const isRayoHome=p.loc==='Rayo Vallecano';
-    const isRayoAway=p.vis==='Rayo Vallecano';
-    const bc=p.r==='win'?'bw':p.r==='draw'?'bd':'bl';
-    const bt=p.r==='win'?'Victoria':p.r==='draw'?'Empate':'Derrota';
-    const ic=p.comp.includes('Conference');
-    const cc=ic?'color:var(--azul)':p.comp.includes('Copa')?'color:var(--oro)':'color:var(--rojo)';
-    // md defined inline
-    var div=document.createElement('div');
-    div.className='mc res';
-    div.dataset.md=JSON.stringify({home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp+' '+p.j,fecha:p.f,hora:'',finished:true,homeRv:isRayoHome,awayRv:isRayoAway,isConf:ic});
-    div.onclick=function(){openPartido(encodeURIComponent(this.dataset.md));};
-    div.innerHTML='<div class="teams"><div class="tn '+(isRayoHome?'rv':'')+' ">'+p.loc+'</div><div class="ms">'+p.gL+' — '+p.gV+'</div><div class="tn lft '+(isRayoAway?'rv':'')+' ">'+p.vis+'</div></div><div class="mi"><div class="mc-comp" style="'+cc+'">'+p.comp+' · '+p.j+'</div><div class="mc-date">'+p.f+'</div><span class="badge '+bc+'">'+bt+'</span></div>';
-    return div.outerHTML;
-  }).join('');
+  function getColor(comp){
+    if(comp==="Conference") return "color:#00c853";
+    if(comp==="Copa del Rey") return "color:var(--oro)";
+    return "color:var(--rojo)";
+  }
+  function getBorderClass(comp){
+    if(comp==="Conference") return "conf";
+    return "res";
+  }
 
-  document.getElementById('matchCount').textContent=datos.length+' partidos';
-  var nt=document.getElementById('nmTitle'); if(nt) nt.textContent='Rayo vs AEK Atenas — Cuartos Conference';
-  var ns=document.getElementById('nmSub'); if(ns) ns.textContent='Jueves 9 Abril · Vallecas · Conference League';
+  document.getElementById("listRes").innerHTML=datos.map(function(p){
+    var isHome=p.loc==="Rayo Vallecano";
+    var isAway=p.vis==="Rayo Vallecano";
+    var bc=p.r==="win"?"bw":p.r==="draw"?"bd":"bl";
+    var bt=p.r==="win"?"Victoria":p.r==="draw"?"Empate":"Derrota";
+    var d={home:p.loc,away:p.vis,gH:p.gL,gA:p.gV,comp:p.comp+" "+p.j,fecha:p.f,hora:"",finished:true,homeRv:isHome,awayRv:isAway,isConf:p.comp==="Conference"};
+    var el=document.createElement("div");
+    el.className="mc "+getBorderClass(p.comp);
+    el.style.cssText=p.comp==="Conference"?"border-left:3px solid #00c853":"";
+    el.dataset.md=JSON.stringify(d);
+    el.onclick=function(){openPartido(encodeURIComponent(this.dataset.md));};
+    el.innerHTML="<div class=\"teams\">"
+      +"<div class=\"tn "+(isHome?"rv":"")+"\">"+(isHome?"<span style=\"color:var(--rojo)\">⚡</span> ":"")+p.loc+"</div>"
+      +"<div class=\"ms\">"+p.gL+" — "+p.gV+"</div>"
+      +"<div class=\"tn lft "+(isAway?"rv":"")+"\">"+(isAway?"<span style=\"color:var(--rojo)\">⚡</span> ":"")+p.vis+"</div>"
+      +"</div><div class=\"mi\">"
+      +"<div class=\"mc-comp\" style=\""+getColor(p.comp)+"\">"+p.comp+" · "+p.j+"</div>"
+      +"<div class=\"mc-date\">"+p.f+"</div>"
+      +"<span class=\"badge "+bc+"\">"+bt+"</span>"
+      +"</div>";
+    return el.outerHTML;
+  }).join("");
 
+  document.getElementById("matchCount").textContent=datos.length+" partidos";
+  var nt=document.getElementById("nmTitle"); if(nt) nt.textContent="FC Barcelona vs Rayo Vallecano";
+  var ns=document.getElementById("nmSub"); if(ns) ns.textContent="Sab 21 Mar · Camp Nou · LaLiga J29";
 }
 
 function fallbackTabla(){
