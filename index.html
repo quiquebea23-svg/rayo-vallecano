@@ -1143,7 +1143,7 @@ function renderCopaHistory(){
 // ─── FALLBACKS ───────────────────────────────
 function fallbackPartidos(){
   var datos=[
-    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:1,gV:0,f:"19 Mar 2026",comp:"Conference",  j:"1/8 Vuelta",r:"win"},
+    {loc:"Rayo Vallecano",vis:"Samsunspor",    gL:0,gV:1,f:"19 Mar 2026",comp:"Conference",  j:"1/8 Vuelta (Global 3-2 ✅)",r:"loss"},
     {loc:"Rayo Vallecano",vis:"Levante UD",    gL:1,gV:1,f:"16 Mar 2026",comp:"LaLiga",      j:"J28",r:"draw"},
     {loc:"Samsunspor",    vis:"Rayo Vallecano",gL:1,gV:3,f:"13 Mar 2026",comp:"Conference",  j:"1/8 Ida",  r:"win"},
     {loc:"Sevilla FC",    vis:"Rayo Vallecano",gL:1,gV:1,f:"08 Mar 2026",comp:"LaLiga",      j:"J27",r:"draw"},
@@ -1884,10 +1884,11 @@ function rOnce(){
 }
 
 // ─── QUIZ RAYO ────────────────────────────────
-var quizPreguntas=[
+// BANCO DE PREGUNTAS — 25 preguntas, se eligen 10 al azar cada vez
+var quizBanco=[
   {p:'¿En qué año fue fundado el Rayo Vallecano?',ops:['1920','1924','1930','1918'],ok:1},
-  {p:'¿Cuántos goles ha marcado Jorge de Frutos en LaLiga esta temporada?',ops:['8','9','10','12'],ok:2},
-  {p:'¿Cuál es el estadio del Rayo Vallecano?',ops:['Wanda Metropolitano','Estadio de Vallecas','Civitas Metropolitano','Campo del Manzanares'],ok:1},
+  {p:'¿Cuántos goles ha marcado De Frutos en LaLiga esta temporada?',ops:['8','9','10','12'],ok:2},
+  {p:'¿Cuál es el estadio del Rayo Vallecano?',ops:['Wanda Metropolitano','Estadio de Vallecas','Civitas Metropolitano','La Peineta'],ok:1},
   {p:'¿Qué dorsal lleva Augusto Batalla?',ops:['1','12','13','25'],ok:2},
   {p:'¿Contra quién juega el Rayo en cuartos de Conference?',ops:['Olympiacos','PAOK','AEK Atenas','Panathinaikos'],ok:2},
   {p:'¿Qué equipo eliminó el Rayo en octavos de Conference?',ops:['BK Häcken','Samsunspor','Lech Poznan','Shkendija'],ok:1},
@@ -1895,14 +1896,33 @@ var quizPreguntas=[
   {p:'¿Quién es el entrenador del Rayo Vallecano?',ops:['Míchel','Andoni Iraola','Íñigo Pérez','Álvaro Arbeloa'],ok:2},
   {p:'¿Qué resultado hizo el Rayo ante el Atlético de Madrid en enero?',ops:['1-0','2-0','3-0','3-1'],ok:2},
   {p:'¿De qué país es Ilias Akhomach?',ops:['España','Argelia','Marruecos','Francia'],ok:2},
+  {p:'¿Cuál fue el resultado de la ida contra el Samsunspor en Turquía?',ops:['1-2','1-3','0-2','2-3'],ok:1},
+  {p:'¿Cuál fue el resultado de la vuelta contra el Samsunspor en Vallecas?',ops:['1-0','0-0','0-1','2-1'],ok:2},
+  {p:'¿Qué barrio de Madrid es el Rayo Vallecano?',ops:['Carabanchel','Vallecas','Móstoles','Leganés'],ok:1},
+  {p:'¿Cuánta capacidad tiene el Estadio de Vallecas?',ops:['10.000','14.700','20.000','8.500'],ok:1},
+  {p:'¿Qué dorsal lleva Jorge de Frutos?',ops:['7','10','19','11'],ok:2},
+  {p:'¿De qué país es Andrei Rațiu, el lateral derecho del Rayo?',ops:['Hungría','Polonia','Rumanía','Bulgaria'],ok:2},
+  {p:'¿Contra qué equipo marcó el Rayo 3-0 en enero de 2026?',ops:['Real Madrid','Valencia','Atletico Madrid','Sevilla'],ok:2},
+  {p:'¿Qué competición europea juega el Rayo esta temporada?',ops:['Champions League','Europa League','Conference League','Liga Conferencia B'],ok:2},
+  {p:'¿Cuántos goles marcó Fran Pérez en Copa del Rey?',ops:['1','2','3','4'],ok:2},
+  {p:'¿Qué jugador es el capitán del Rayo?',ops:['Isi Palazón','Pathé Ciss','Óscar Valentín','Florian Lejeune'],ok:2},
+  {p:'¿De qué equipo llegó Alemão al Rayo?',ops:['Flamengo','Pachuca','Santos','Corinthians'],ok:1},
+  {p:'¿Cuál es el apodo de la afición del Rayo?',ops:['Los Búhos','Los Rayistas','La Franja','Los Franjiverdes'],ok:2},
+  {p:'¿En qué ciudad está el estadio del AEK Atenas?',ops:['Salónica','Patras','Atenas','Pireo'],ok:2},
+  {p:'¿Cuántos puntos tiene el Rayo en LaLiga tras 28 jornadas?',ops:['36','38','42','30'],ok:2},
+  {p:'¿Qué resultado hizo el Rayo en la J1 contra el Girona?',ops:['0-1','1-3 (visitante)','2-0','1-1'],ok:1},
 ];
 
-var quizIdx=0, quizPuntos=0, quizRespondidas=0;
+var quizPreguntas=[];
+var quizIdx=0, quizPuntos=0;
 
 function rQuiz(){
   var el=document.getElementById('quizContent');
   if(!el)return;
-  quizIdx=0; quizPuntos=0; quizRespondidas=0;
+  // Mezclar y coger 10 preguntas aleatorias
+  var mezcladas=[...quizBanco].sort(function(){return Math.random()-.5;});
+  quizPreguntas=mezcladas.slice(0,10);
+  quizIdx=0; quizPuntos=0;
   renderPregunta();
 }
 
@@ -1912,8 +1932,8 @@ function renderPregunta(){
   if(quizIdx>=quizPreguntas.length){
     // Resultado final
     var pct=Math.round(quizPuntos/quizPreguntas.length*100);
-    var emoji=pct>=80?'🏆':pct>=60?'⚡':pct>=40?'👍':'💪';
-    var msg=pct>=80?'¡Eres un auténtico rayista!':pct>=60?'¡Buen nivel rayista!':pct>=40?'Vas aprendiendo...':'Sigue viendo más partidos del Rayo 😄';
+    var emoji=pct===100?'🏆':pct>=80?'⚡':pct>=60?'😄':pct>=40?'👍':'💪';
+    var msg=pct===100?'¡PERFECTO! ¡Eres el mayor rayista de Vallecas!':pct>=80?'¡Eres un auténtico rayista! ⚡🔴':pct>=60?'¡Buen nivel! Sabes bastante del Rayo':pct>=40?'Vas aprendiendo, sigue viendo partidos':'¡A ver más partidos del Rayo! 😄';
     el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:16px;padding:32px;text-align:center">'
       +'<div style="font-size:60px;margin-bottom:16px">'+emoji+'</div>'
       +'<div style="font-family:Bebas Neue,sans-serif;font-size:40px;letter-spacing:2px;color:var(--rojo);margin-bottom:8px">'+quizPuntos+' / '+quizPreguntas.length+'</div>'
