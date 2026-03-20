@@ -515,9 +515,7 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 .hist-year{animation:goldShimmer 3s ease infinite;}
 /* Tab bar active indicator */
 .mbt.active .mbt-icon{transform:scale(1.2);transition:transform .2s;}
-/* Smooth image load */
-img{opacity:0;transition:opacity .3s ease;}
-img.loaded{opacity:1;}
+/* Images visible by default */
 /* EXTRAS */
 @keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
 ::-webkit-scrollbar{width:6px;}
@@ -560,7 +558,8 @@ img.loaded{opacity:1;}
     </nav>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input class="search-input" id="searchInput" type="text" placeholder="Buscar..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';doSearch('');}">
+      <input class="search-input" id="searchInput" type="text" placeholder="Buscar..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';doSearch('');hideSearch();}">
+      <div class="search-results" id="searchResults"></div>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
@@ -607,7 +606,51 @@ img.loaded{opacity:1;}
         </div>
       </div>
     </div>
+    <!-- STATS BAR -->
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--rojo)">12</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Goles<br>De Frutos</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-family:'Bebas Neue';font-size:22px;color:#00c853">6/6</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Victorias<br>Conference</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--oro)" id="heroPos">13º</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Posición<br>LaLiga</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--azul)">CF</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Cuartos<br>Conference</div>
+      </div>
+    </div>
     <!-- ALINEACION PROBABLE -->
+    <!-- STATS BAR -->
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;margin-bottom:4px;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--rojo)">12</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Goles<br>De Frutos</div>
+      </div>
+      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-family:'Bebas Neue';font-size:26px;color:#00c853">6/6</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Victorias<br>Conference</div>
+      </div>
+      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--oro)">13º</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">LaLiga<br>Posición</div>
+      </div>
+      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--azul)">⬡CF</div>
+        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Cuartos<br>Conference</div>
+      </div>
+    </div>
     <div id="encuestaEspecialWrap" style="margin-top:12px"></div>
     <div id="alineacionWrap" style="margin-top:14px;background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:10px;padding:12px 16px;display:inline-block;max-width:100%">
       <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:8px">⚽ Alineación probable vs Barça · Dom 22 Mar 14:00h</div>
@@ -1471,12 +1514,15 @@ function fallbackTabla(){
 
 // ─── NOTICIAS ────────────────────────────────
 const noticias=[
-  {tag:"Conference League 🎉",t:"¡CUARTOS! El Rayo elimina al Samsunspor y hace historia en Europa",desc:"El Rayo pasa a cuartos con un global de 4-1. Una noche histórica en Vallecas que la afición no olvidará jamás.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",desc:"El Rayo firmó una actuación brillante a domicilio. Alemão marcó dos goles y Álvaro García puso el tercero.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"LaLiga",t:"Empate en Getafe (0-0): el Rayo sólido a domicilio esta temporada",desc:"Un punto que demuestra la solidez defensiva del equipo de Iñigo Pérez fuera de Vallecas.",f:"1 Mar 2026",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",desc:"El extremo marroquí sigue creciendo y ya es pieza clave tanto en el Rayo como en su selección.",f:"18 Mar 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
-  {tag:"LaLiga",t:"Rayo vence al Osasuna 2-1 con goles de De Frutos y Alemão en Vallecas",desc:"Victoria importante en casa que permite al Rayo alejarse de los puestos de descenso.",f:"22 Feb 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
-  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://www.relevo.com/futbol/rayo-vallecano"},
+  {tag:"Conference League 🎉",t:"¡CUARTOS! El Rayo elimina al Samsunspor y hace historia en Europa",desc:"El Rayo pasa a cuartos con un global de 4-1. Una noche histórica en Vallecas que la afición no olvidará jamás.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80",link:"https://unionrayo.com"},
+  {tag:"Conference League",t:"Victoria histórica en Turquía: doblete de Alemão para el 1-3 en Samsun",desc:"El Rayo firmó una actuación brillante a domicilio. Alemão marcó dos goles y Álvaro García puso el tercero.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80",link:"https://unionrayo.com"},
+  {tag:"LaLiga",t:"Barça vs Rayo este domingo: Íñigo Pérez prepara la sorpresa en el Camp Nou",desc:"El técnico rayista confía en sus hombres para conseguir un resultado positivo ante el líder.",f:"20 Mar 2026",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Plantilla",t:"Akhomach convocado por Marruecos sub-23: la joya del Rayo brilla internacionalmente",desc:"El extremo marroquí sigue creciendo y ya es pieza clave tanto en el Rayo como en su selección.",f:"18 Mar 2026",img:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80",link:"https://unionrayo.com"},
+  {tag:"LaLiga",t:"De Frutos, 12 goles: el mejor De Frutos de la historia del Rayo",desc:"El extremo sevillano está viviendo la mejor temporada de su carrera. Récord goleador personal.",f:"15 Mar 2026",img:"https://images.unsplash.com/photo-1540379708242-14a809fcef22?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Historia",t:"24 años después: la temporada más épica en la historia del Rayo Vallecano",desc:"LaLiga y Conference League al mismo tiempo. El club obrero de Vallecas vive un sueño histórico.",f:"5 Mar 2026",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80",link:"https://unionrayo.com"},
+  {tag:"Conference League",t:"AEK Atenas: el rival en cuartos que viene con Rebić y Lamela",desc:"El conjunto griego es semifinalista de la Competition en 2024. Peligroso pero asequible para el Rayo.",f:"19 Mar 2026",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80",link:"https://unionrayo.com"},
+  {tag:"LaLiga",t:"Rayo 3-0 Atlético: una victoria para enmarcar en Vallecas",desc:"Noches como estas son las que hacen grande a este club. Vallecas rugió con una goleada histórica.",f:"11 Ene 2026",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80",link:"https://www.as.com/tag/rayo_vallecano/"},
+  {tag:"Plantilla",t:"Rațiu, el lateral derecho más en forma de LaLiga",desc:"El rumano está siendo uno de los mejores laterales de la competición. Valorado en 18 millones.",f:"10 Mar 2026",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80",link:"https://unionrayo.com"},
 ];
 async function rNoticias(){
   const grid=document.getElementById('newsGrid');
@@ -1591,27 +1637,28 @@ function toggleNotif(btn){
 
 // ─── HISTORIA ────────────────────────────────
 const historia=[
-  {year:"1924",titulo:"Fundación del club",badge:"Origen",texto:"El Rayo Vallecano es fundado el 29 de mayo de 1924 como modesto club de fútbol del barrio obrero de Vallecas, en Madrid. Nace como símbolo de la clase trabajadora de uno de los barrios más humildes de la capital.",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=500&q=70"},
-  {year:"1947",titulo:"Primera división por primera vez",badge:"Hito histórico",texto:"El Rayo asciende por primera vez a Primera División, un logro increíble para un club de barrio. La afición de Vallecas, fiel y apasionada, llena el campo para celebrar uno de los momentos más importantes de su historia.",img:""},
-  {year:"1977",titulo:"Inauguración del Estadio de Vallecas",badge:"Casa del Rayo",texto:"Se inaugura el actual Estadio de Vallecas, casa del Rayo hasta hoy. El estadio, enclavado en pleno barrio y con capacidad para 14.700 espectadores, es uno de los más auténticos y peculiares del fútbol español.",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=70"},
-  {year:"1991",titulo:"La bandera de la igualdad",badge:"Identidad única",texto:"El Rayo fue el primer club europeo en lucir una bandera LGBTQ+ en su estadio, convirtiéndose en símbolo de tolerancia e inclusión en el fútbol. Una identidad que el club lleva con orgullo hasta hoy y que le diferencia del resto.",img:""},
-  {year:"2003",titulo:"Temporada en Primera con Míchel",badge:"Era dorada",texto:"Bajo la dirección de Míchel, el Rayo vive una de sus mejores épocas en Primera División, consolidándose en la élite y fichando jugadores internacionales. La afición disfruta de un fútbol brillante y ofensivo que deja huella.",img:""},
-  {year:"2011",titulo:"Regreso épico a Primera División",badge:"Resurrección",texto:"Tras años en categorías inferiores, el Rayo regresa a Primera División con una plantilla joven y hambrienta. El club se convierte en referente del fútbol de ataque y en favorito de la afición neutral por su estilo valiente.",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&q=70"},
-  {year:"2014",titulo:"El año de las camisetas solidarias",badge:"Valores",texto:"El Rayo lanza camisetas con mensajes solidarios contra los desahucios en plena crisis económica española. El club se convierte en símbolo de resistencia social y sus camisetas se venden por todo el mundo como objetos de culto.",img:""},
-  {year:"2019",titulo:"Descenso y lucha por volver",badge:"Resiliencia",texto:"El Rayo desciende a Segunda División tras una dura temporada pero la afición no abandona al equipo. Vallecas demuestra que su amor por el club va más allá de la categoría. Dos años después regresan a Primera.",img:""},
-  {year:"2025",titulo:"¡Europa por primera vez en 24 años!",badge:"🌍 Historia",texto:"El Rayo Vallecano se clasifica para la UEFA Conference League 2025/26, su primera competición europea desde 2001. Un logro histórico para el club obrero de Vallecas que ahora juega con los mejores equipos de Europa.",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=500&q=70"},
-  {year:"2026",titulo:"¡CUARTOS DE FINAL! El sueño europeo continúa",badge:"🏆 Presente",texto:"El Rayo Vallecano elimina al Samsunspor turco en los octavos de final de la Conference League y se mete en cuartos. Vallecas celebra una noche histórica mientras el equipo sigue soñando con llegar más lejos en Europa.",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=500&q=70"},
+  {year:"1924",titulo:"Fundación del club",badge:"Origen",texto:"El Rayo Vallecano es fundado el 29 de mayo de 1924 como modesto club de fútbol del barrio obrero de Vallecas, en Madrid. Nace como símbolo de la clase trabajadora de uno de los barrios más humildes de la capital.",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=600&q=80"},
+  {year:"1947",titulo:"Primera división por primera vez",badge:"Hito histórico",texto:"El Rayo asciende por primera vez a Primera División, un logro increíble para un club de barrio. La afición de Vallecas, fiel y apasionada, llena el campo para celebrar uno de los momentos más importantes de su historia.",img:"https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600&q=80"},
+  {year:"1977",titulo:"Inauguración del Estadio de Vallecas",badge:"Casa del Rayo",texto:"Se inaugura el actual Estadio de Vallecas, casa del Rayo hasta hoy. El estadio, enclavado en pleno barrio y con capacidad para 14.700 espectadores, es uno de los más auténticos y peculiares del fútbol español.",img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80"},
+  {year:"1991",titulo:"La bandera de la igualdad",badge:"Identidad única",texto:"El Rayo fue el primer club europeo en lucir una bandera LGBTQ+ en su estadio, convirtiéndose en símbolo de tolerancia e inclusión en el fútbol. Una identidad que el club lleva con orgullo hasta hoy y que le diferencia del resto.",img:"https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=80"},
+  {year:"2003",titulo:"Temporada en Primera con Míchel",badge:"Era dorada",texto:"Bajo la dirección de Míchel, el Rayo vive una de sus mejores épocas en Primera División, consolidándose en la élite y fichando jugadores internacionales. La afición disfruta de un fútbol brillante y ofensivo que deja huella.",img:"https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80"},
+  {year:"2011",titulo:"Regreso épico a Primera División",badge:"Resurrección",texto:"Tras años en categorías inferiores, el Rayo regresa a Primera División con una plantilla joven y hambrienta. El club se convierte en referente del fútbol de ataque y en favorito de la afición neutral por su estilo valiente.",img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80"},
+  {year:"2014",titulo:"El año de las camisetas solidarias",badge:"Valores",texto:"El Rayo lanza camisetas con mensajes solidarios contra los desahucios en plena crisis económica española. El club se convierte en símbolo de resistencia social y sus camisetas se venden por todo el mundo como objetos de culto.",img:"https://images.unsplash.com/photo-1540379708242-14a809fcef22?w=600&q=80"},
+  {year:"2019",titulo:"Descenso y lucha por volver",badge:"Resiliencia",texto:"El Rayo desciende a Segunda División tras una dura temporada pero la afición no abandona al equipo. Vallecas demuestra que su amor por el club va más allá de la categoría. Dos años después regresan a Primera.",img:"https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=80"},
+  {year:"2025",titulo:"¡Europa por primera vez en 24 años!",badge:"🌍 Historia",texto:"El Rayo Vallecano se clasifica para la UEFA Conference League 2025/26, su primera competición europea desde 2001. Un logro histórico para el club obrero de Vallecas que ahora juega con los mejores equipos de Europa.",img:"https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80"},
+  {year:"2026",titulo:"¡CUARTOS DE FINAL! El sueño europeo continúa",badge:"🏆 Presente",texto:"El Rayo Vallecano elimina al Samsunspor turco en los octavos de final de la Conference League y se mete en cuartos. Vallecas celebra una noche histórica mientras el equipo sigue soñando con llegar más lejos en Europa.",img:"https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=80"},
 ];
 
 function rHistoria(){
-  document.getElementById('histTimeline').innerHTML=historia.map((h,i)=>`
-    <div class="hist-item" style="animation-delay:${i*0.08}s">
-      <div class="hist-badge">${h.badge}</div>
-      <div class="hist-year">${h.year}</div>
-      <div class="hist-title">${h.titulo}</div>
-      <div class="hist-text">${h.texto}</div>
-      ${h.img?`<img class="hist-img" src="${h.img}" alt="${h.titulo}" loading="lazy" onerror="this.style.display='none'">`:''}
-    </div>`).join('');
+  document.getElementById('histTimeline').innerHTML=historia.map(function(h,i){
+    return '<div class="hist-item" style="animation-delay:'+(i*0.08)+'s">'
+      +'<div class="hist-badge">'+h.badge+'</div>'
+      +'<div class="hist-year">'+h.year+'</div>'
+      +'<div class="hist-title">'+h.titulo+'</div>'
+      +'<div class="hist-text">'+h.texto+'</div>'
+      +(h.img?'<img class="hist-img" src="'+h.img+'" alt="'+h.titulo+'" loading="lazy">':'')
+      +'</div>';
+  }).join('');
 }
 
 // ─── PLANTILLA ───────────────────────────────
