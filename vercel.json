@@ -2,10 +2,25 @@
   "version": 2,
   "builds": [
     { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "sitemap.xml", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/football.js" },
+    { "src": "/api/football", "dest": "/api/football.js" },
+    { "src": "/api/match", "dest": "/api/match.js" },
+    { "src": "/api/fixtures", "dest": "/api/fixtures.js" },
+    { "src": "/api/squad", "dest": "/api/squad.js" },
+    { "src": "/api/news", "dest": "/api/news.js" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
     { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    }
   ]
 }
