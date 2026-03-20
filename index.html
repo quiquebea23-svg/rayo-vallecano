@@ -2714,15 +2714,18 @@ setInterval(function(){
 // ─── LOADING SCREEN ───────────────────────
 (function(){
   var loadEl=document.getElementById('loadScreen');
+  if(!loadEl)return;
+  // Hide after max 1.5 seconds no matter what
+  function hideLoad(){
+    loadEl.style.opacity='0';
+    setTimeout(function(){loadEl.style.display='none';},400);
+  }
   var loadBar=document.getElementById('loadBar');
-  var prog=0;
-  var iv=setInterval(function(){
-    prog+=Math.random()*18;
-    if(prog>=100){prog=100;clearInterval(iv);
-      setTimeout(function(){if(loadEl){loadEl.style.opacity='0';setTimeout(function(){loadEl.style.display='none';},500);}},300);
-    }
-    if(loadBar)loadBar.style.width=prog+'%';
-  },60);
+  if(loadBar)loadBar.style.width='100%';
+  setTimeout(hideLoad, 1200);
+  // Also hide when page is ready
+  if(document.readyState==='complete'){setTimeout(hideLoad,300);}
+  else{window.addEventListener('load',function(){setTimeout(hideLoad,300);});}
 })();
 </script>
 <!-- MODAL COMPARADOR -->
