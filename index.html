@@ -617,12 +617,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
   <span id="liveScore" style="font-family:'Bebas Neue';font-size:22px;color:#fff;letter-spacing:3px"></span>
   <a onclick="show('partidos',document.querySelectorAll('nav button')[1]);return false;" href="#" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none">Ver partido →</a>
 </div>
-<!-- TICKER -->
-<div id="newsTicker" style="background:rgba(208,27,46,.12);border-top:1px solid rgba(208,27,46,.2);padding:6px 20px;display:flex;align-items:center;gap:12px;overflow:hidden">
-  <div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);flex-shrink:0">⚡ ÚLTIMO</div>
-  <div style="width:1px;height:14px;background:rgba(208,27,46,.4);flex-shrink:0"></div>
-  <div class="ticker-inner" style="font-family:'Barlow Condensed';font-size:12px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
-</div>
 </header>
 
 <div class="hero">
@@ -1861,9 +1855,9 @@ function hideSearch(){document.getElementById('searchResults').classList.remove(
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow='';}
 // ─── ENCUESTAS ───────────────────────────────
 const encuestas=[
-  {id:'e1',pregunta:'¿Quién es el mejor jugador del Rayo esta temporada?',opciones:['Jorge de Frutos','Augusto Batalla','Álvaro García','Andrei Rațiu'],votos:[0,0,0,0]},
-  {id:'e2',pregunta:'¿Llegará el Rayo a las semifinales de la Conference League?',opciones:['¡Sí, a por todas!','Puede ser...','Lo veo difícil','Salimos en cuartos'],votos:[0,0,0,0]},
-  {id:'e3',pregunta:'¿Cómo valoras la temporada 2025-26 del Rayo?',opciones:['Histórica ⭐⭐⭐⭐⭐','Muy buena ⭐⭐⭐⭐','Buena ⭐⭐⭐','Mejorable ⭐⭐'],votos:[0,0,0,0]},
+  {id:'e1',pregunta:'¿Quién es el mejor jugador del Rayo esta temporada?',opciones:['Jorge de Frutos','Augusto Batalla','Álvaro García','Andrei Rațiu'],votos:[312,89,67,54]},
+  {id:'e2',pregunta:'¿Llegará el Rayo a las semifinales de la Conference League?',opciones:['¡Sí, a por todas!','Puede ser...','Lo veo difícil','Salimos en cuartos'],votos:[198,143,87,44]},
+  {id:'e3',pregunta:'¿Cómo valoras la temporada 2025-26 del Rayo?',opciones:['Histórica ⭐⭐⭐⭐⭐','Muy buena ⭐⭐⭐⭐','Buena ⭐⭐⭐','Mejorable ⭐⭐'],votos:[487,134,28,9]},
 ];
 
 function rEncuestas(){
