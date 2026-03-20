@@ -13,11 +13,15 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://rayo-vallecano.vercel.app">
 <meta property="og:image" content="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1200&q=80">
+<meta name="theme-color" content="#D01B2E">
+<link rel="icon" href="https://media.api-sports.io/football/teams/728.png" type="image/png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rayo Vallecano — La Franja">
 <meta name="twitter:description" content="Resultados, clasificación y toda la actualidad del Rayo Vallecano">
 <meta name="google-site-verification" content="oGaUJbXufXCis5UfFNs5UtsIq40-A3nNB21lIAsBe_M" />
 <link rel="canonical" href="https://rayo-vallecano.vercel.app">
+<meta name="theme-color" content="#D01B2E">
+<link rel="icon" href="https://media.api-sports.io/football/teams/728.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -492,6 +496,8 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 /* Gradient RAYO text */
 .hero-title em{background:linear-gradient(135deg,#ff3347,#D01B2E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 </style>
+<meta name="theme-color" content="#D01B2E">
+<link rel="icon" href="https://media.api-sports.io/football/teams/728.png" type="image/png">
 </head>
 <body>
 
@@ -522,7 +528,6 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('quiz',this)">Quiz</button>
       <button onclick="show('galeria',this)">📸</button>
       <button onclick="show('alineacion',this)">🔧 XI</button>
-      <button onclick="show('tweets',this)">🐦</button>
       <button onclick="show('predictor',this)">Predictor</button>
       <button onclick="show('logros',this)">🏆 Logros</button>
       </nav>
@@ -552,8 +557,8 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
   </button>
   <div class="hero-inner">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-      <div class="hero-eye" style="margin-bottom:0">LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
-      <div id="vallecasWeather" style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:var(--txt3);text-transform:uppercase"></div>
+      <div class="hero-eye" style="margin-bottom:0">⚽ LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
+      <div id="vallecasWeather" style="font-family:'Barlow Condensed';font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.6);text-transform:uppercase"></div>
     </div>
     <div class="hero-title">SIEMPRE <em>RAYO</em>,<br>SIEMPRE VALLECAS</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;">
@@ -850,37 +855,7 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
   <div id="alineacionContent"></div>
 </section>
 
-<!-- TWEETS -->
-<section id="tweets" class="section">
-  <div class="sec-t">🐦 Generador de Tweets</div>
-  <div id="tweetsContent">
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:20px">
-      <div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px">
-        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--txt);margin-bottom:6px">Antes del Barça 🆚</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet para hype antes del partido de mañana en el Camp Nou</div>
-        <button onclick="generarTweet('prePartido')" style="background:#000;border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
-      </div>
-      <div style="background:var(--gris);border:1px solid #00c853;border-radius:12px;padding:18px">
-        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:#00c853;margin-bottom:6px">Noche Europea 🌍</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet para el AEK Atenas en Vallecas el 9 de abril</div>
-        <button onclick="generarTweet('preAEK')" style="background:#00c853;border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
-      </div>
-      <div style="background:var(--gris);border:1px solid var(--rojo);border-radius:12px;padding:18px">
-        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--rojo);margin-bottom:6px">¡GOOOOL! ⚡</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet de celebración cuando el Rayo marque un gol</div>
-        <button onclick="generarTweet('gol')" style="background:var(--rojo);border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
-      </div>
-      <div style="background:var(--gris);border:1px solid var(--oro);border-radius:12px;padding:18px">
-        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;color:var(--oro);margin-bottom:6px">¡VICTORIA! 🏆</div>
-        <div style="font-size:12px;color:var(--txt3);margin-bottom:14px;line-height:1.5">Tweet de celebración cuando el Rayo gane un partido</div>
-        <button onclick="generarTweet('victoria')" style="background:linear-gradient(135deg,var(--rojo),var(--oro));border:none;color:#fff;font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%">𝕏 Tuitear ahora</button>
-      </div>
-    </div>
-    <div style="background:rgba(208,27,46,.06);border:1px solid rgba(208,27,46,.2);border-radius:10px;padding:14px;font-size:12px;color:var(--txt3)">
-      💡 Al pulsar "Tuitear ahora" se abrirá Twitter con el tweet listo para publicar desde tu cuenta <strong style="color:var(--txt)">@LaFranjaRayo</strong>. Solo tienes que pulsar "Publicar".
-    </div>
-  </div>
-</section>
+
 
 <!-- HISTORIA -->
 <section id="historia" class="section">
@@ -1732,7 +1707,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros','galeria','alineacion','tweets'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros','galeria','alineacion'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -2713,7 +2688,6 @@ setInterval(function(){
   <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()"><span class="mmb-icon">🏆</span><span class="mmb-label">Logros</span></button>
   <button class="mmb" onclick="mobileNav('galeria',null);closeMobileMore()"><span class="mmb-icon">📸</span><span class="mmb-label">Momentos</span></button>
   <button class="mmb" onclick="mobileNav('alineacion',null);closeMobileMore()"><span class="mmb-icon">🔧</span><span class="mmb-label">Mi XI</span></button>
-  <button class="mmb" onclick="mobileNav('tweets',null);closeMobileMore()"><span class="mmb-icon">🐦</span><span class="mmb-label">Tweets</span></button>
   <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()"><span class="mmb-icon">🗳️</span><span class="mmb-label">Encuestas</span></button>
   <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
   <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
