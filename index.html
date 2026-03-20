@@ -532,6 +532,48 @@ img.loaded{opacity:1;}
 </head>
 <body>
 
+<header style="position:sticky;top:0;z-index:200;background:var(--header);border-bottom:1px solid var(--gris2);backdrop-filter:blur(12px);">
+<div class="h-inner">
+  <div class="logo" onclick="show('noticias',document.querySelector('nav button'))" style="cursor:pointer">
+    <img src="https://media.api-sports.io/football/teams/728.png" style="width:32px;height:32px;object-fit:contain" onerror="this.style.display='none'">
+    <div>
+      <h1>RAYO VALLECANO</h1>
+      <span>VALLECAS · ESPAÑA</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <nav>
+      <button class="active" onclick="show('noticias',this)">Noticias</button>
+      <button onclick="show('partidos',this)">Partidos</button>
+      <button onclick="show('tabla',this)">Tabla</button>
+      <button onclick="show('plantilla',this)">Plantilla</button>
+      <button onclick="show('videos',this)">Vídeos</button>
+      <button onclick="show('historia',this)">Historia</button>
+      <button onclick="show('encuestas',this)">Encuestas</button>
+      <button onclick="show('tienda',this)">Tienda</button>
+      <button onclick="show('stats',this)">Stats</button>
+      <button onclick="show('rival',this)">AEK</button>
+      <button onclick="show('once',this)">XI Ideal</button>
+      <button onclick="show('quiz',this)">Quiz</button>
+      <button onclick="show('predictor',this)">Predictor</button>
+      <button onclick="show('logros',this)">🏆 Logros</button>
+    </nav>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="Buscar..." oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){this.value='';doSearch('');}">
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+  </div>
+</div>
+<!-- LIVE MATCH BAR -->
+<div id="liveBar" style="display:none;background:#4caf50;padding:8px 20px;align-items:center;justify-content:center;gap:16px;">
+  <div class="dot" style="background:#fff;flex-shrink:0"></div>
+  <span id="liveRival" style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff"></span>
+  <span id="liveScore" style="font-family:'Bebas Neue';font-size:22px;color:#fff;letter-spacing:3px"></span>
+  <a onclick="show('partidos',document.querySelectorAll('nav button')[1]);return false;" href="#" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none">Ver partido →</a>
+</div>
+</header>
+
 <div class="hero">
   <div class="hero-bar"></div>
   <button onclick="shareWeb()" style="position:absolute;top:12px;right:16px;background:rgba(208,27,46,.2);border:1px solid rgba(208,27,46,.5);color:#fff;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:20px;cursor:pointer;z-index:10;transition:all .2s" onmouseover="this.style.background='rgba(208,27,46,.5)'" onmouseout="this.style.background='rgba(208,27,46,.2)'">
