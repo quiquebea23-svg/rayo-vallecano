@@ -1855,9 +1855,9 @@ function hideSearch(){document.getElementById('searchResults').classList.remove(
 function closeModal(id){document.getElementById(id).classList.remove('on');document.body.style.overflow='';}
 // ─── ENCUESTAS ───────────────────────────────
 const encuestas=[
-  {id:'e1',pregunta:'¿Quién es el mejor jugador del Rayo esta temporada?',opciones:['Jorge de Frutos','Augusto Batalla','Álvaro García','Andrei Rațiu'],votos:[312,89,67,54]},
-  {id:'e2',pregunta:'¿Llegará el Rayo a las semifinales de la Conference League?',opciones:['¡Sí, a por todas!','Puede ser...','Lo veo difícil','Salimos en cuartos'],votos:[198,143,87,44]},
-  {id:'e3',pregunta:'¿Cómo valoras la temporada 2025-26 del Rayo?',opciones:['Histórica ⭐⭐⭐⭐⭐','Muy buena ⭐⭐⭐⭐','Buena ⭐⭐⭐','Mejorable ⭐⭐'],votos:[487,134,28,9]},
+  {id:'e1',pregunta:'¿Quién es el mejor jugador del Rayo esta temporada?',opciones:['Jorge de Frutos','Augusto Batalla','Álvaro García','Andrei Rațiu'],votos:[87,24,18,14]},
+  {id:'e2',pregunta:'¿Llegará el Rayo a las semifinales de la Conference League?',opciones:['¡Sí, a por todas!','Puede ser...','Lo veo difícil','Salimos en cuartos'],votos:[52,38,23,12]},
+  {id:'e3',pregunta:'¿Cómo valoras la temporada 2025-26 del Rayo?',opciones:['Histórica ⭐⭐⭐⭐⭐','Muy buena ⭐⭐⭐⭐','Buena ⭐⭐⭐','Mejorable ⭐⭐'],votos:[134,37,8,3]},
 ];
 
 function rEncuestas(){
@@ -3231,63 +3231,6 @@ loadTabla();
 loadSquadPhotos();
 startCountdowns();
 loadWeather();
-</script>
-
-<!-- MODAL COMPARADOR -->
-<div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
-  <div class="modal" style="max-width:480px;">
-    <button class="modal-close" onclick="document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;">✕</button>
-    <div id="compContent" style="padding:20px"></div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer style="background:var(--gris);border-top:1px solid var(--gris2);padding:28px 20px;text-align:center;margin-top:20px">
-  <div style="max-width:1100px;margin:0 auto">
-    <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:4px;color:var(--txt);margin-bottom:4px">⚡ LA FRANJA</div>
-    <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--txt3);margin-bottom:16px">La web de la afición rayista · rayo-vallecano.vercel.app</div>
-    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px">
-      <a href="https://twitter.com/LaFranjaRayo" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">𝕏 @LaFranjaRayo</a>
-      <a href="https://www.rayovallecano.es" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">Web Oficial</a>
-    </div>
-    <div style="font-size:10px;color:#2a2a2a">Web no oficial · Hecha con ❤️ desde Vallecas · © 2026 La Franja</div>
-  </div>
-</footer>
-
-<!-- MOBILE BOTTOM TAB BAR -->
-<div id="mobileTabBar">
-  <button class="mbt active" onclick="mobileNav('noticias',this)"><span class="mbt-icon">📰</span><span class="mbt-label">Noticias</span></button>
-  <button class="mbt" onclick="mobileNav('partidos',this)"><span class="mbt-icon">⚽</span><span class="mbt-label">Partidos</span></button>
-  <button class="mbt" onclick="mobileNav('plantilla',this)"><span class="mbt-icon">👥</span><span class="mbt-label">Plantilla</span></button>
-  <button class="mbt" onclick="mobileNav('tabla',this)"><span class="mbt-icon">📊</span><span class="mbt-label">Tabla</span></button>
-  <button class="mbt" onclick="toggleMobileMore(this)"><span class="mbt-icon">☰</span><span class="mbt-label">Más</span></button>
-</div>
-
-<!-- MORE MENU -->
-<div id="mobileMore">
-  <button class="mmb" onclick="mobileNav('videos',null);closeMobileMore()"><span class="mmb-icon">🎬</span><span class="mmb-label">Vídeos</span></button>
-  <button class="mmb" onclick="mobileNav('historia',null);closeMobileMore()"><span class="mmb-icon">📖</span><span class="mmb-label">Historia</span></button>
-  <button class="mmb" onclick="mobileNav('stats',null);closeMobileMore()"><span class="mmb-icon">📈</span><span class="mmb-label">Stats</span></button>
-  <button class="mmb" onclick="mobileNav('rival',null);closeMobileMore()"><span class="mmb-icon">🦅</span><span class="mmb-label">AEK</span></button>
-  <button class="mmb" onclick="mobileNav('once',null);closeMobileMore()"><span class="mmb-icon">⚽</span><span class="mmb-label">XI Ideal</span></button>
-  <button class="mmb" onclick="mobileNav('quiz',null);closeMobileMore()"><span class="mmb-icon">🧠</span><span class="mmb-label">Quiz</span></button>
-  <button class="mmb" onclick="mobileNav('predictor',null);closeMobileMore()"><span class="mmb-icon">🔮</span><span class="mmb-label">Predictor</span></button>
-  <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()"><span class="mmb-icon">🏆</span><span class="mmb-label">Logros</span></button>
-  <button class="mmb" onclick="mobileNav('galeria',null);closeMobileMore()"><span class="mmb-icon">📸</span><span class="mmb-label">Momentos</span></button>
-  <button class="mmb" onclick="mobileNav('alineacion',null);closeMobileMore()"><span class="mmb-icon">🔧</span><span class="mmb-label">Mi XI</span></button>
-  <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()"><span class="mmb-icon">🗳️</span><span class="mmb-label">Encuestas</span></button>
-  <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
-  <button class="mmb" onclick="mobileNav('mapa',null);closeMobileMore()"><span class="mmb-icon">📍</span><span class="mmb-label">Vallecas</span></button>
-  <button class="mmb" onclick="mobileNav('momentos',null);closeMobileMore()"><span class="mmb-icon">🌟</span><span class="mmb-label">Momentos</span></button>
-  <button class="mmb" onclick="mobileNav('termometro',null);closeMobileMore()"><span class="mmb-icon">🌡️</span><span class="mmb-label">Forma</span></button>
-  <button class="mmb" onclick="mobileNav('calculadora',null);closeMobileMore()"><span class="mmb-icon">🧮</span><span class="mmb-label">Calculadora</span></button>
-  <button class="mmb" onclick="mobileNav('entrenadores',null);closeMobileMore()"><span class="mmb-icon">👔</span><span class="mmb-label">Místers</span></button>
-  <button class="mmb" onclick="mobileNav('cifras',null);closeMobileMore()"><span class="mmb-icon">🔢</span><span class="mmb-label">Cifras</span></button>
-  <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
-</div>
-
-</body>
-</html// ─── CALCULADORA POSICIÓN FINAL ─────────────
 function rCalculadora(){
   var el=document.getElementById('calcContent');
   if(!el)return;
@@ -3377,5 +3320,60 @@ function rCalculadora(){
   });
 
   calcRender(7);
-}
->
+}</script>
+
+<!-- MODAL COMPARADOR -->
+<div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;">✕</button>
+    <div id="compContent" style="padding:20px"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:var(--gris);border-top:1px solid var(--gris2);padding:28px 20px;text-align:center;margin-top:20px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:4px;color:var(--txt);margin-bottom:4px">⚡ LA FRANJA</div>
+    <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--txt3);margin-bottom:16px">La web de la afición rayista · rayo-vallecano.vercel.app</div>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px">
+      <a href="https://twitter.com/LaFranjaRayo" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">𝕏 @LaFranjaRayo</a>
+      <a href="https://www.rayovallecano.es" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">Web Oficial</a>
+    </div>
+    <div style="font-size:10px;color:#2a2a2a">Web no oficial · Hecha con ❤️ desde Vallecas · © 2026 La Franja</div>
+  </div>
+</footer>
+
+<!-- MOBILE BOTTOM TAB BAR -->
+<div id="mobileTabBar">
+  <button class="mbt active" onclick="mobileNav('noticias',this)"><span class="mbt-icon">📰</span><span class="mbt-label">Noticias</span></button>
+  <button class="mbt" onclick="mobileNav('partidos',this)"><span class="mbt-icon">⚽</span><span class="mbt-label">Partidos</span></button>
+  <button class="mbt" onclick="mobileNav('plantilla',this)"><span class="mbt-icon">👥</span><span class="mbt-label">Plantilla</span></button>
+  <button class="mbt" onclick="mobileNav('tabla',this)"><span class="mbt-icon">📊</span><span class="mbt-label">Tabla</span></button>
+  <button class="mbt" onclick="toggleMobileMore(this)"><span class="mbt-icon">☰</span><span class="mbt-label">Más</span></button>
+</div>
+
+<!-- MORE MENU -->
+<div id="mobileMore">
+  <button class="mmb" onclick="mobileNav('videos',null);closeMobileMore()"><span class="mmb-icon">🎬</span><span class="mmb-label">Vídeos</span></button>
+  <button class="mmb" onclick="mobileNav('historia',null);closeMobileMore()"><span class="mmb-icon">📖</span><span class="mmb-label">Historia</span></button>
+  <button class="mmb" onclick="mobileNav('stats',null);closeMobileMore()"><span class="mmb-icon">📈</span><span class="mmb-label">Stats</span></button>
+  <button class="mmb" onclick="mobileNav('rival',null);closeMobileMore()"><span class="mmb-icon">🦅</span><span class="mmb-label">AEK</span></button>
+  <button class="mmb" onclick="mobileNav('once',null);closeMobileMore()"><span class="mmb-icon">⚽</span><span class="mmb-label">XI Ideal</span></button>
+  <button class="mmb" onclick="mobileNav('quiz',null);closeMobileMore()"><span class="mmb-icon">🧠</span><span class="mmb-label">Quiz</span></button>
+  <button class="mmb" onclick="mobileNav('predictor',null);closeMobileMore()"><span class="mmb-icon">🔮</span><span class="mmb-label">Predictor</span></button>
+  <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()"><span class="mmb-icon">🏆</span><span class="mmb-label">Logros</span></button>
+  <button class="mmb" onclick="mobileNav('galeria',null);closeMobileMore()"><span class="mmb-icon">📸</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="mobileNav('alineacion',null);closeMobileMore()"><span class="mmb-icon">🔧</span><span class="mmb-label">Mi XI</span></button>
+  <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()"><span class="mmb-icon">🗳️</span><span class="mmb-label">Encuestas</span></button>
+  <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
+  <button class="mmb" onclick="mobileNav('mapa',null);closeMobileMore()"><span class="mmb-icon">📍</span><span class="mmb-label">Vallecas</span></button>
+  <button class="mmb" onclick="mobileNav('momentos',null);closeMobileMore()"><span class="mmb-icon">🌟</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="mobileNav('termometro',null);closeMobileMore()"><span class="mmb-icon">🌡️</span><span class="mmb-label">Forma</span></button>
+  <button class="mmb" onclick="mobileNav('calculadora',null);closeMobileMore()"><span class="mmb-icon">🧮</span><span class="mmb-label">Calculadora</span></button>
+  <button class="mmb" onclick="mobileNav('entrenadores',null);closeMobileMore()"><span class="mmb-icon">👔</span><span class="mmb-label">Místers</span></button>
+  <button class="mmb" onclick="mobileNav('cifras',null);closeMobileMore()"><span class="mmb-icon">🔢</span><span class="mmb-label">Cifras</span></button>
+  <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
+</div>
+
+</body>
+</html// ─── CALCULADORA POSICIÓN FINAL ─────────────
