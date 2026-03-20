@@ -1438,47 +1438,64 @@ const noticias=[
 ];
 async function rNoticias(){
   const grid=document.getElementById('newsGrid');
-  const statusEl=document.getElementById('newsStatus');
-  if(statusEl)statusEl.style.display='flex';
-  grid.innerHTML=Array(6).fill('<div class="skeleton" style="height:280px;border-radius:12px"></div>').join('');
-  const fallbackImgs=[
-    'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=70',
-    'https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=70',
-    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=70',
-    'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=70',
-    'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=70',
-    'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=70',
-  ];
+  if(!grid)return;
+
+  // MOSTRAR FALLBACK INMEDIATAMENTE - siempre visible
+  function showFallback(){
+    grid.innerHTML=noticias.map(function(n){
+      return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener">'
+        +'<img class="news-img" src="'+n.img+'" alt="noticia" loading="lazy">'
+        +'<div class="news-body">'
+        +'<div class="news-tag">'+n.tag+'</div>'
+        +'<div class="news-title">'+n.t+'</div>'
+        +'<div class="news-desc">'+n.desc+'</div>'
+        +'<div class="news-meta">'+n.f+'</div>'
+        +'</div></a>';
+    }).join('');
+  }
+
+  // Mostrar fallback ahora mismo sin esperar
+  showFallback();
+
+  // Intentar cargar RSS en paralelo
   try {
-    const r=await fetch('/api/news');
+    const controller=new AbortController();
+    const timeout=setTimeout(function(){controller.abort();},5000);
+    const r=await fetch('/api/news',{signal:controller.signal});
+    clearTimeout(timeout);
+    if(!r.ok)return;
     const data=await r.json();
     const items=data.items||[];
-    if(statusEl)statusEl.style.display='none';
-    if(items.length>0){
-      grid.innerHTML=items.map(function(n,i){
-        var fecha=n.pubDate?new Date(n.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'}):'';
-        var hora=n.pubDate?new Date(n.pubDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'';
-        var fuente=n.link&&n.link.includes('as.com')?'AS':n.link&&n.link.includes('marca')?'Marca':n.link&&n.link.includes('mundodeportivo')?'Mundo Deportivo':n.link&&n.link.includes('unionrayo')?'Union Rayo':'Deportes';
-        var img=n.img||fallbackImgs[i%fallbackImgs.length];
-        var card='<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener">';
-        card+='<img class="news-img" src="'+img+'" alt="titulo" loading="lazy">';
-        card+='<div class="news-body">';
-        card+='<div class="news-tag">'+fuente+'</div>';
-        card+='<div class="news-title">'+n.title+'</div>';
-        if(n.description)card+='<div class="news-desc">'+n.description+'</div>';
-        card+='<div class="news-meta">'+fecha+(hora?' - '+hora:'')+'</div>';
-        card+='</div></a>';
-        return card;
-      }).join('');
-    } else {
-      grid.innerHTML=noticias.map(function(n){return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener"><img class="news-img" src="'+n.img+'" alt="noticia" loading="lazy"><div class="news-body"><div class="news-tag">'+n.tag+'</div><div class="news-title">'+n.t+'</div><div class="news-desc">'+n.desc+'</div><div class="news-meta">'+n.f+'</div></div></a>';}).join('');
-    }
+    if(items.length<3)return; // No suficientes, mantener fallback
+
+    const fallbackImgs=[
+      'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=70',
+      'https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=70',
+      'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=70',
+      'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=70',
+      'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=70',
+      'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=70',
+    ];
+
+    grid.innerHTML=items.map(function(n,i){
+      var fecha=n.pubDate?new Date(n.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'}):'';
+      var hora=n.pubDate?new Date(n.pubDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'';
+      var fuente=n.link&&n.link.includes('as.com')?'AS':n.link&&n.link.includes('marca')?'Marca':n.link&&n.link.includes('mundodeportivo')?'Mundo Deportivo':n.link&&n.link.includes('unionrayo')?'Union Rayo':'Deportes';
+      var img=n.img||fallbackImgs[i%fallbackImgs.length];
+      return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener">'
+        +'<img class="news-img" src="'+img+'" alt="noticia" loading="lazy">'
+        +'<div class="news-body">'
+        +'<div class="news-tag">'+fuente+'</div>'
+        +'<div class="news-title">'+n.title+'</div>'
+        +(n.description?'<div class="news-desc">'+n.description+'</div>':'')
+        +'<div class="news-meta">'+fecha+(hora?' · '+hora:'')+'</div>'
+        +'</div></a>';
+    }).join('');
   } catch(e) {
-    if(statusEl)statusEl.style.display='none';
-    grid.innerHTML=noticias.map(function(n){return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener"><img class="news-img" src="'+n.img+'" alt="noticia" loading="lazy"><div class="news-body"><div class="news-tag">'+n.tag+'</div><div class="news-title">'+n.t+'</div><div class="news-desc">'+n.desc+'</div><div class="news-meta">'+n.f+'</div></div></a>';}).join('');
+    // Ya tenemos el fallback mostrado, no hacer nada
+    console.log('RSS no disponible, usando noticias guardadas');
   }
 }
-
 // ─── VÍDEOS ──────────────────────────────────
 const videos=[
   {tag:"Conference League",t:"¡GOLAZO de Alemão! Rayo Vallecano 1-3 en Samsunspor",desc:"El delantero brasileño pone el tercer gol del Rayo con un derechazo imparable en el fondo de la red.",f:"12 Mar 2026",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=600&q=80",url:"https://www.youtube.com/results?search_query=Rayo+Vallecano+Conference+League+2026"},
