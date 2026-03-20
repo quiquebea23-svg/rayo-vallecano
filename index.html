@@ -555,6 +555,8 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('quiz',this)">Quiz</button>
       <button onclick="show('predictor',this)">Predictor</button>
       <button onclick="show('logros',this)">🏆 Logros</button>
+      <button onclick="show('mapa',this)">📍 Vallecas</button>
+      <button onclick="show('momentos',this)">🌟 Momentos</button>
     </nav>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
@@ -606,51 +608,7 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
         </div>
       </div>
     </div>
-    <!-- STATS BAR -->
-    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;margin-bottom:4px">
-      <div style="display:flex;align-items:center;gap:6px">
-        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--rojo)">12</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Goles<br>De Frutos</div>
-      </div>
-      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <div style="font-family:'Bebas Neue';font-size:22px;color:#00c853">6/6</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Victorias<br>Conference</div>
-      </div>
-      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--oro)" id="heroPos">13º</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Posición<br>LaLiga</div>
-      </div>
-      <div style="width:1px;background:rgba(255,255,255,.1)"></div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <div style="font-family:'Bebas Neue';font-size:22px;color:var(--azul)">CF</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5)">Cuartos<br>Conference</div>
-      </div>
-    </div>
     <!-- ALINEACION PROBABLE -->
-    <!-- STATS BAR -->
-    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;margin-bottom:4px;align-items:center">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--rojo)">12</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Goles<br>De Frutos</div>
-      </div>
-      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-family:'Bebas Neue';font-size:26px;color:#00c853">6/6</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Victorias<br>Conference</div>
-      </div>
-      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--oro)">13º</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">LaLiga<br>Posición</div>
-      </div>
-      <div style="width:1px;height:30px;background:rgba(255,255,255,.15)"></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="font-family:'Bebas Neue';font-size:26px;color:var(--azul)">⬡CF</div>
-        <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.3">Cuartos<br>Conference</div>
-      </div>
-    </div>
     <div id="encuestaEspecialWrap" style="margin-top:12px"></div>
     <div id="alineacionWrap" style="margin-top:14px;background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:10px;padding:12px 16px;display:inline-block;max-width:100%">
       <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:8px">⚽ Alineación probable vs Barça · Dom 22 Mar 14:00h</div>
@@ -924,6 +882,24 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 </section>
 
 
+
+<!-- MAPA ESTADIO -->
+<section id="mapa" class="section">
+  <div class="sec-t">📍 Estadio de Vallecas</div>
+  <div id="mapaContent"></div>
+</section>
+
+<!-- COMPARADOR RIVALES -->
+<section id="comparRivales" class="section">
+  <div class="sec-t">⚔️ Comparativa de Rivales</div>
+  <div id="comparRivalesContent"></div>
+</section>
+
+<!-- MOMENTOS ÉPICOS -->
+<section id="momentos" class="section">
+  <div class="sec-t">🌟 Momentos Épicos</div>
+  <div id="momentosContent"></div>
+</section>
 
 <!-- HISTORIA -->
 <section id="historia" class="section">
@@ -1796,7 +1772,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros','galeria','alineacion'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz','predictor','logros','galeria','alineacion','mapa','momentos','comparRivales'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -2754,6 +2730,156 @@ function votarBarca(idx){
   localStorage.setItem(key+'_u',idx);
   rEncuestaBarça();
 }
+// ─── MOBILE NAV ──────────────────────────────
+function mobileNav(id,btn){
+  closeMobileMore();
+  show(id,null);
+  document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.mbt').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleMobileMore(btn){
+  var m=document.getElementById('mobileMore');
+  if(m.classList.contains('on')){m.classList.remove('on');if(btn)btn.classList.remove('active');}
+  else{m.classList.add('on');if(btn)btn.classList.add('active');}
+}
+function closeMobileMore(){
+  var m=document.getElementById('mobileMore');
+  if(m)m.classList.remove('on');
+}
+document.addEventListener('click',function(e){
+  var m=document.getElementById('mobileMore'),b=document.getElementById('mobileTabBar');
+  if(m&&m.classList.contains('on')&&!m.contains(e.target)&&b&&!b.contains(e.target))closeMobileMore();
+});
+
+// ─── MODO PARTIDO EN VIVO ÉPICO ─────────────
+function activarModoLive(rival, scoreRayo, scoreRival, minuto){
+  document.body.classList.add('live-mode');
+  var header = document.querySelector('header');
+  if(header) header.style.borderBottomColor = '#4caf50';
+  var bar = document.getElementById('liveBar');
+  if(bar){
+    bar.style.display='flex';
+    document.getElementById('liveRival').textContent = '🔴 EN VIVO vs '+rival;
+    document.getElementById('liveScore').textContent = scoreRayo+' — '+scoreRival;
+  }
+}
+
+// ─── GENERADOR TARJETA COMPARTE TU PREDICCIÓN ─
+function compartirPrediccion(resultado){
+  var base='#RayoVallecano #BarcaRayo';
+  var url='';
+  if(resultado==='W') url='https://twitter.com/intent/tweet?text='+encodeURIComponent('⚡🔴 Creo que el Rayo gana al Barça mañana! '+base+' rayo-vallecano.vercel.app');
+  else if(resultado==='D') url='https://twitter.com/intent/tweet?text='+encodeURIComponent('🤝 Creo que habrá empate en el Camp Nou! '+base+' rayo-vallecano.vercel.app');
+  else url='https://twitter.com/intent/tweet?text='+encodeURIComponent('😅 Creo que perderemos pero siempre con el Rayo! '+base+' rayo-vallecano.vercel.app');
+  window.open(url,'_blank');
+}
+
+// ─── MAPA DE VALLECAS INTERACTIVO ────────────
+function rMapa(){
+  var el = document.getElementById('mapaContent');
+  if(!el) return;
+  el.innerHTML =
+    '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;margin-bottom:14px">'
+    +'<div style="padding:16px 18px;border-bottom:1px solid var(--gris2)">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:2px;color:var(--txt);margin-bottom:4px">📍 Estadio de Vallecas</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">Calle del Payaso Fofó, s/n · 28018 Madrid · Aforo: 14.700</div>'
+    +'</div>'
+    +'<iframe src="https://maps.google.com/maps?q=Estadio+de+Vallecas,+Madrid&output=embed" width="100%" height="300" style="border:none;display:block" loading="lazy"></iframe>'
+    +'<div style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px">'
+    +[
+      {icon:'🚇',t:'Metro',d:'Línea 1 — Portazgo o Buenos Aires'},
+      {icon:'🚌',t:'Bus',d:'Líneas 10, 54, 140, 143'},
+      {icon:'🚗',t:'Coche',d:'Autovía A-3 salida 8'},
+      {icon:'🎫',t:'Entradas',d:'entradas.rayovallecano.es'},
+    ].map(function(x){
+      return '<div style="background:var(--gris2);border-radius:8px;padding:10px;display:flex;align-items:center;gap:8px">'
+        +'<span style="font-size:20px">'+x.icon+'</span>'
+        +'<div><div style="font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--txt)">'+x.t+'</div>'
+        +'<div style="font-size:11px;color:var(--txt3)">'+x.d+'</div></div></div>';
+    }).join('')
+    +'</div></div>'
+    // Próximos en casa
+    +'<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:16px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:10px">🏟️ Próximos partidos en Vallecas</div>'
+    +[
+      {comp:'LaLiga J30',rival:'Elche CF',fecha:'Sáb 4 Abr',hora:'16:15h',c:'var(--rojo)'},
+      {comp:'Conference League · Cuartos Ida',rival:'AEK Atenas',fecha:'Jue 9 Abr',hora:'21:00h',c:'#00c853'},
+      {comp:'LaLiga J33',rival:'Espanyol',fecha:'Mar 21 Abr',hora:'Por confirmar',c:'var(--rojo)'},
+    ].map(function(p){
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gris2)">'
+        +'<div><div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:'+p.c+';margin-bottom:2px">'+p.comp+'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--txt)">Rayo Vallecano vs '+p.rival+'</div></div>'
+        +'<div style="text-align:right"><div style="font-size:12px;color:var(--txt2)">'+p.fecha+'</div><div style="font-family:Bebas Neue,sans-serif;font-size:16px;color:'+p.c+'">'+p.hora+'</div></div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── COMPARADOR DE RIVALES ───────────────────
+function rComparadorRivales(){
+  var el = document.getElementById('comparRivalesContent');
+  if(!el) return;
+
+  var equipos = [
+    {n:'Rayo Vallecano', pts:36, gf:31, gc:28, forma:['E','D','V','E','E'], color:'var(--rojo)', pos:13},
+    {n:'FC Barcelona',   pts:73, gf:79, gc:28, forma:['V','V','V','V','V'], color:'#004D98', pos:1},
+    {n:'AEK Atenas',     pts:58, gf:52, gc:21, forma:['V','V','E','V','D'], color:'#FFD700', pos:2},
+    {n:'Elche CF',       pts:25, gf:22, gc:48, forma:['D','D','D','E','D'], color:'#007A33', pos:19},
+  ];
+
+  el.innerHTML = '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">'
+    +'<thead><tr style="border-bottom:2px solid var(--brd)">'
+    +'<th style="text-align:left;padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3)">Equipo</th>'
+    +'<th style="padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Pos</th>'
+    +'<th style="padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Pts</th>'
+    +'<th style="padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">GF</th>'
+    +'<th style="padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">GC</th>'
+    +'<th style="padding:10px;font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Forma</th>'
+    +'</tr></thead><tbody>'
+    +equipos.map(function(e){
+      var isRayo = e.n === 'Rayo Vallecano';
+      return '<tr style="border-bottom:1px solid var(--gris2);'+(isRayo?'background:rgba(208,27,46,.05)':'')+'">'
+        +'<td style="padding:12px 10px"><span style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;color:'+e.color+'">'+(isRayo?'⚡ ':'')+e.n+'</span></td>'
+        +'<td style="padding:12px 10px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--txt2)">'+e.pos+'º</td>'
+        +'<td style="padding:12px 10px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:18px;color:'+(isRayo?'var(--rojo)':'var(--txt)')+'">'+e.pts+'</td>'
+        +'<td style="padding:12px 10px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:16px;color:var(--txt2)">'+e.gf+'</td>'
+        +'<td style="padding:12px 10px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:16px;color:var(--txt2)">'+e.gc+'</td>'
+        +'<td style="padding:12px 10px;text-align:center">'
+        +e.forma.map(function(r){var c=r==='V'?'#4caf50':r==='E'?'#ffc107':'var(--rojo)';return '<span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:'+c+';margin:1px;font-family:Bebas Neue,sans-serif;font-size:10px;color:#fff;text-align:center;line-height:18px">'+r+'</span>';}).join('')
+        +'</td></tr>';
+    }).join('')
+    +'</tbody></table></div>'
+    +'<div style="margin-top:10px;font-size:11px;color:var(--txt3);text-align:center">Comparativa con rivales próximos · LaLiga J28</div>';
+}
+
+// ─── MOMENTOS ÉPICOS AMPLIADOS ───────────────
+function rMomentos(){
+  var el = document.getElementById('momentosContent');
+  if(!el) return;
+  var momentos = [
+    {n:1, emoji:'🏟️', color:'#00c853', titulo:'Primer partido en Europa', sub:'Rayo 2-0 Shkendija · Oct 2025', desc:'14.700 almas en Vallecas. Lágrimas, banderas y un rugido que se oyó en toda España. El Rayo en Europa 24 años después.'},
+    {n:2, emoji:'⚡', color:'var(--rojo)', titulo:'Goleada al Atlético', sub:'Rayo 3-0 Atlético · Ene 2026', desc:'Tres goles al Atleti. Uno de los mejores resultados en décadas. Vallecas rugió como nunca. Noche histórica.'},
+    {n:3, emoji:'👑', color:'var(--oro)', titulo:'De Frutos a la Roja', sub:'Convocado por España · Sep 2025', desc:'Solo el 6º jugador del Rayo en toda su historia en ser convocado con la selección española absoluta.'},
+    {n:4, emoji:'🇹🇷', color:'#00c853', titulo:'Épica en Turquía', sub:'Samsunspor 1-3 Rayo · Mar 2026', desc:'Alemão doblete en campo turco. El Rayo demostró que es un equipo europeo de verdad. Sin miedo.'},
+    {n:5, emoji:'🏆', color:'var(--rojo)', titulo:'6-1 en Copa', sub:'Yuncos 1-6 Rayo · Oct 2025', desc:'Fran Pérez marcó tres goles. La mayor goleada del Rayo en Copa del Rey en muchos años.'},
+    {n:6, emoji:'🌍', color:'var(--oro)', titulo:'¡Cuartos de Conference!', sub:'Global 3-2 al Samsunspor · Mar 2026', desc:'Con derrota en casa pero con la cabeza alta. El Rayo en cuartos de final europeos. HISTÓRICO.'},
+  ];
+
+  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">'
+    +momentos.map(function(m){
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-left:4px solid '+m.color+';border-radius:12px;padding:18px;position:relative">'
+        +'<div style="position:absolute;top:12px;right:14px;font-family:Bebas Neue,sans-serif;font-size:36px;color:rgba(255,255,255,.05);line-height:1">0'+m.n+'</div>'
+        +'<div style="font-size:36px;margin-bottom:10px">'+m.emoji+'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:19px;letter-spacing:1px;color:'+m.color+';margin-bottom:3px">'+m.titulo+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:8px">'+m.sub+'</div>'
+        +'<div style="font-size:13px;color:var(--txt2);line-height:1.6">'+m.desc+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2769,6 +2895,9 @@ rPredictor();
 rLogros();
 rGaleria();
 rAlineacion();
+rMapa();
+rComparadorRivales();
+rMomentos();
 rEncuestaBarça();
 rDeFrutos();
 loadPartidos();
@@ -2777,3 +2906,42 @@ loadSquadPhotos();
 startCountdowns();
 loadWeather();
 </script>
+
+<!-- MODAL COMPARADOR -->
+<div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
+  <div class="modal" style="max-width:480px;">
+    <button class="modal-close" onclick="document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;">✕</button>
+    <div id="compContent" style="padding:20px"></div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM TAB BAR -->
+<div id="mobileTabBar">
+  <button class="mbt active" onclick="mobileNav('noticias',this)"><span class="mbt-icon">📰</span><span class="mbt-label">Noticias</span></button>
+  <button class="mbt" onclick="mobileNav('partidos',this)"><span class="mbt-icon">⚽</span><span class="mbt-label">Partidos</span></button>
+  <button class="mbt" onclick="mobileNav('plantilla',this)"><span class="mbt-icon">👥</span><span class="mbt-label">Plantilla</span></button>
+  <button class="mbt" onclick="mobileNav('tabla',this)"><span class="mbt-icon">📊</span><span class="mbt-label">Tabla</span></button>
+  <button class="mbt" onclick="toggleMobileMore(this)"><span class="mbt-icon">☰</span><span class="mbt-label">Más</span></button>
+</div>
+
+<!-- MORE MENU -->
+<div id="mobileMore">
+  <button class="mmb" onclick="mobileNav('videos',null);closeMobileMore()"><span class="mmb-icon">🎬</span><span class="mmb-label">Vídeos</span></button>
+  <button class="mmb" onclick="mobileNav('historia',null);closeMobileMore()"><span class="mmb-icon">📖</span><span class="mmb-label">Historia</span></button>
+  <button class="mmb" onclick="mobileNav('stats',null);closeMobileMore()"><span class="mmb-icon">📈</span><span class="mmb-label">Stats</span></button>
+  <button class="mmb" onclick="mobileNav('rival',null);closeMobileMore()"><span class="mmb-icon">🦅</span><span class="mmb-label">AEK</span></button>
+  <button class="mmb" onclick="mobileNav('once',null);closeMobileMore()"><span class="mmb-icon">⚽</span><span class="mmb-label">XI Ideal</span></button>
+  <button class="mmb" onclick="mobileNav('quiz',null);closeMobileMore()"><span class="mmb-icon">🧠</span><span class="mmb-label">Quiz</span></button>
+  <button class="mmb" onclick="mobileNav('predictor',null);closeMobileMore()"><span class="mmb-icon">🔮</span><span class="mmb-label">Predictor</span></button>
+  <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()"><span class="mmb-icon">🏆</span><span class="mmb-label">Logros</span></button>
+  <button class="mmb" onclick="mobileNav('galeria',null);closeMobileMore()"><span class="mmb-icon">📸</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="mobileNav('alineacion',null);closeMobileMore()"><span class="mmb-icon">🔧</span><span class="mmb-label">Mi XI</span></button>
+  <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()"><span class="mmb-icon">🗳️</span><span class="mmb-label">Encuestas</span></button>
+  <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
+  <button class="mmb" onclick="mobileNav('mapa',null);closeMobileMore()"><span class="mmb-icon">📍</span><span class="mmb-label">Vallecas</span></button>
+  <button class="mmb" onclick="mobileNav('momentos',null);closeMobileMore()"><span class="mmb-icon">🌟</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
+</div>
+
+</body>
+</html>
