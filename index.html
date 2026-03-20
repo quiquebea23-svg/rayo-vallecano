@@ -613,7 +613,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
 </div>
 </header>
 
-<div class="hero">
+<div class="hero" style="position:relative">
   <div class="hero-bar"></div>
   <button onclick="shareWeb()" style="position:absolute;top:12px;right:16px;background:rgba(208,27,46,.2);border:1px solid rgba(208,27,46,.5);color:#fff;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:20px;cursor:pointer;z-index:10;transition:all .2s" onmouseover="this.style.background='rgba(208,27,46,.5)'" onmouseout="this.style.background='rgba(208,27,46,.2)'">
     🔗 Compartir
@@ -963,6 +963,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
 <section id="entrenadores" class="section">
   <div class="sec-t">👔 Historial de Entrenadores</div>
   <div id="entrenContent"></div>
+</section>
+
+<!-- CÁNTICOS -->
+<section id="canticos" class="section">
+  <div class="sec-t">🎵 Cánticos Rayistas</div>
+  <div id="canticosContent"></div>
+</section>
+
+<!-- LIVE STATS -->
+<section id="livestats" class="section">
+  <div class="sec-t">📊 Stats Completas de Temporada</div>
+  <div id="liveStatsContent"></div>
 </section>
 
 <!-- HISTORIA -->
@@ -2390,6 +2402,8 @@ function rPredictor(){
     };
   }
 
+  window._renderPredictor=function(newIdx){if(newIdx!==undefined)selIdx=newIdx;
+  renderPredictor();};
   function renderPredictor(){
     var p=partidos[selIdx];
     var pred=calcPrediccion(p);
@@ -2469,17 +2483,27 @@ function rPredictor(){
     el.innerHTML=html;
   }
 
-  window.selPredictor=function(i){selIdx=i;renderPredictor();};
-  window.votar_pred=function(idx,tipo){
-    if(localStorage.getItem('voto_'+idx))return;
-    localStorage.setItem('voto_'+idx,tipo);
-    var v=JSON.parse(localStorage.getItem('votos_pred_'+idx)||'{"W":0,"D":0,"L":0}');
-    v[tipo]=(v[tipo]||0)+1;
-    localStorage.setItem('votos_pred_'+idx,JSON.stringify(v));
-    renderPredictor();
-  };
-
   renderPredictor();
+}
+
+// Predictor global functions
+function selPredictor(i){
+  // Find the selIdx in closure - re-call rPredictor with new index
+  var el=document.getElementById('predictorContent');
+  if(!el)return;
+  // Store selected index in DOM
+  el.dataset.selIdx=i;
+  // Re-render by calling the stored render function
+  if(window._renderPredictor)window._renderPredictor(i);
+}
+
+function votar_pred(idx,tipo){
+  if(localStorage.getItem('voto_'+idx))return;
+  localStorage.setItem('voto_'+idx,tipo);
+  var v=JSON.parse(localStorage.getItem('votos_pred_'+idx)||'{"W":0,"D":0,"L":0}');
+  v[tipo]=(v[tipo]||0)+1;
+  localStorage.setItem('votos_pred_'+idx,JSON.stringify(v));
+  if(window._renderPredictor)window._renderPredictor(idx);
 }
 
 // ─── LOGROS TEMPORADA ────────────────────────
@@ -3161,6 +3185,178 @@ function rEntrenadores(){
   }
 })();
 
+// ─── TORMENTA ELÉCTRICA ⚡ ──────────────────
+(function(){
+  // Crear canvas de tormenta sobre el hero
+  setTimeout(function(){
+    var hero = document.querySelector('.hero');
+    if(!hero) return;
+    var canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;opacity:0;transition:opacity .3s';
+    canvas.width = hero.offsetWidth || 1200;
+    canvas.height = hero.offsetHeight || 400;
+    hero.appendChild(canvas);
+    var ctx = canvas.getContext('2d');
+
+    function drawLightning(x1, y1, x2, y2, branches){
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      var segments = 8;
+      var dx = (x2-x1)/segments, dy = (y2-y1)/segments;
+      var points = [[x1,y1]];
+      for(var i=1;i<segments;i++){
+        var ox = x1+dx*i + (Math.random()-0.5)*60;
+        var oy = y1+dy*i + (Math.random()-0.5)*20;
+        points.push([ox,oy]);
+      }
+      points.push([x2,y2]);
+      ctx.moveTo(points[0][0],points[0][1]);
+      for(var j=1;j<points.length;j++) ctx.lineTo(points[j][0],points[j][1]);
+      ctx.strokeStyle='rgba(255,200,50,0.9)';
+      ctx.lineWidth=2;
+      ctx.shadowColor='rgba(208,27,46,1)';
+      ctx.shadowBlur=12;
+      ctx.stroke();
+      // Ramas
+      if(branches>0){
+        var mid=Math.floor(points.length/2);
+        var bx=points[mid][0], by=points[mid][1];
+        drawLightning(bx,by,bx+(Math.random()-0.5)*120,by+80,0);
+      }
+    }
+
+    function storm(){
+      canvas.style.opacity='1';
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      // Flash de fondo
+      ctx.fillStyle='rgba(208,27,46,0.04)';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      // 2-4 rayos simultáneos
+      var count = Math.floor(Math.random()*3)+2;
+      for(var i=0;i<count;i++){
+        var x = Math.random()*canvas.width;
+        drawLightning(x, 0, x+(Math.random()-0.5)*100, canvas.height*0.6, 1);
+      }
+      // Desvanecer
+      setTimeout(function(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        canvas.style.opacity='0';
+      }, 80+Math.random()*60);
+    }
+
+    // Tormenta al cargar: 5 ráfagas rápidas
+    var flashes = 0;
+    var stormInterval = setInterval(function(){
+      storm();
+      flashes++;
+      if(flashes >= 6) clearInterval(stormInterval);
+    }, 200 + Math.random()*300);
+
+    // Luego cada 8-15 segundos un rayo suelto
+    setInterval(function(){
+      setTimeout(storm, Math.random()*2000);
+    }, 8000 + Math.random()*7000);
+
+  }, 400);
+})();
+
+// ─── CONTADOR DE RACHA ───────────────────────
+function updateRachaWidget(){
+  var el = document.getElementById('rachaWidget');
+  if(!el) return;
+  // Últimos 5 partidos
+  var ultimos = ['E','D','V','E','E'];
+  var pts = ultimos.reduce(function(s,r){return s+(r==='V'?3:r==='E'?1:0);},0);
+  var colores = {V:'#4caf50', E:'#ffc107', D:'var(--rojo)'};
+  el.innerHTML =
+    '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-right:4px">Forma</div>'
+    +ultimos.map(function(r){
+      return '<div style="width:32px;height:32px;border-radius:8px;background:'+colores[r]+';display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:16px;color:#fff;font-weight:700">'+r+'</div>';
+    }).join('')
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:24px;color:var(--oro);margin-left:8px">'+pts+'/15</div>'
+    +'</div>';
+}
+
+// ─── GENERADOR DE CÁNTICOS ───────────────────
+function rCanticos(){
+  var el = document.getElementById('canticosContent');
+  if(!el) return;
+  var canticos = [
+    {titulo:'El clásico de Vallecas', letra:'⚡ Rayo, Rayo, Rayo / Siempre con tu afición / El barrio te apoya / Con todo el corazón ⚡', tipo:'Cántico'},
+    {titulo:'Himno de la Conference', letra:'🌍 ¡Europa, Europa! / El Rayo ya está aquí / Vallecas hace historia / ¡Vamos a ganar aquí! 🌍', tipo:'Europa'},
+    {titulo:'A por el AEK', letra:'⚡ AEK tiembla / Que llega el Rayo / Desde Vallecas / Te vamos a ganar ⚡', tipo:'Conference'},
+    {titulo:'Para De Frutos', letra:'👑 De Frutos, De Frutos / Nuestro mejor jugador / Doce goles lleva / Es el mejor goleador 👑', tipo:'Jugador'},
+    {titulo:'El aliento eterno', letra:'🔴 Siempre Rayo, siempre Rayo / Nunca te abandonaremos / En primera o en segunda / Contigo siempre estaremos 🔴', tipo:'Afición'},
+    {titulo:'La noche europea', letra:'🌟 Esta noche en Vallecas / Se escribe la historia / El Rayo va a Europa / Y gana con gloria 🌟', tipo:'Europa'},
+  ];
+
+  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">'
+    +canticos.map(function(c){
+      var typeColors = {Europa:'#00c853', Conference:'var(--azul)', Jugador:'var(--oro)', Afición:'var(--rojo)', Cántico:'var(--rojo)'};
+      var col = typeColors[c.tipo] || 'var(--rojo)';
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:14px;padding:18px;position:relative;overflow:hidden">'
+        +'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+col+'"></div>'
+        +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+        +'<span style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:'+col+'">'+c.tipo+'</span>'
+        +'<button onclick="compartirCantico(this)" data-letra="'+c.letra.replace(/"/g,"'")+'" style="background:none;border:1px solid var(--gris3);color:var(--txt3);font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:6px;cursor:pointer">𝕏 Tuitear</button>'
+        +'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:18px;letter-spacing:1px;color:var(--txt);margin-bottom:10px">'+c.titulo+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:600;line-height:1.8;color:var(--txt2);letter-spacing:.5px;border-left:3px solid '+col+';padding-left:12px">'+c.letra+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+function compartirCantico(btn){
+  var extra=' #RayoVallecano #Vallecas ⚡🔴 rayo-vallecano.vercel.app';
+  window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(btn.dataset.letra+extra),'_blank');
+}
+
+// ─── LIVE STATS WIDGET ───────────────────────
+function rLiveStats(){
+  var el = document.getElementById('liveStatsContent');
+  if(!el) return;
+
+  var stats = [
+    {label:'Goles marcados (todas competiciones)', val:54, max:80, color:'var(--rojo)', icon:'⚽'},
+    {label:'Goles encajados', val:34, max:80, color:'#ffc107', icon:'🥅'},
+    {label:'Porterías a cero', val:8, max:20, color:'#4caf50', icon:'🧤'},
+    {label:'Tarjetas amarillas', val:67, max:100, color:'#ffc107', icon:'🟨'},
+    {label:'Tarjetas rojas', val:4, max:10, color:'var(--rojo)', icon:'🟥'},
+    {label:'Córners a favor', val:112, max:200, color:'var(--azul)', icon:'🚩'},
+    {label:'Victorias en casa', val:8, max:19, color:'#00c853', icon:'🏠'},
+    {label:'Victorias fuera', val:3, max:19, color:'#4caf50', icon:'✈️'},
+    {label:'Minutos jugados De Frutos', val:2340, max:2772, color:'var(--oro)', icon:'👑'},
+    {label:'Paradas Batalla', val:87, max:150, color:'var(--azul)', icon:'🧤'},
+  ];
+
+  el.innerHTML = '<div style="display:flex;flex-direction:column;gap:10px">'
+    +stats.map(function(s){
+      var pct = Math.round(s.val/s.max*100);
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:14px 16px">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+        +'<div style="display:flex;align-items:center;gap:8px">'
+        +'<span style="font-size:18px">'+s.icon+'</span>'
+        +'<span style="font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;color:var(--txt)">'+s.label+'</span>'
+        +'</div>'
+        +'<span style="font-family:Bebas Neue,sans-serif;font-size:22px;color:'+s.color+'">'+s.val+'</span>'
+        +'</div>'
+        +'<div style="height:6px;background:var(--gris2);border-radius:3px;overflow:hidden">'
+        +'<div style="width:0%;height:100%;background:'+s.color+';border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1)" data-w="'+pct+'"></div>'
+        +'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+
+  // Animate bars after render
+  setTimeout(function(){
+    el.querySelectorAll('[data-w]').forEach(function(bar){
+      bar.style.width = bar.dataset.w + '%';
+    });
+  }, 100);
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -3327,6 +3523,8 @@ function rCalculadora(){
   <button class="mmb" onclick="mobileNav('calculadora',null);closeMobileMore()"><span class="mmb-icon">🧮</span><span class="mmb-label">Calculadora</span></button>
   <button class="mmb" onclick="mobileNav('entrenadores',null);closeMobileMore()"><span class="mmb-icon">👔</span><span class="mmb-label">Místers</span></button>
   <button class="mmb" onclick="mobileNav('cifras',null);closeMobileMore()"><span class="mmb-icon">🔢</span><span class="mmb-label">Cifras</span></button>
+  <button class="mmb" onclick="mobileNav('canticos',null);closeMobileMore()"><span class="mmb-icon">🎵</span><span class="mmb-label">Cánticos</span></button>
+  <button class="mmb" onclick="mobileNav('livestats',null);closeMobileMore()"><span class="mmb-icon">📊</span><span class="mmb-label">Stats+</span></button>
   <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
 </div>
 
