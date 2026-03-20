@@ -447,8 +447,8 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
   .mbt-icon{font-size:20px;line-height:1;}
   .mbt-label{font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
   /* More menu */
+  /* More menu hidden by default */
   #mobileMore{display:none;position:fixed;bottom:68px;left:0;right:0;background:var(--gris);border-top:1px solid var(--gris2);z-index:249;padding:12px;box-shadow:0 -8px 24px rgba(0,0,0,.3);}
-  #mobileMore.on{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .mmb{background:var(--gris2);border:1px solid var(--gris3);border-radius:10px;padding:10px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--txt2);}
   .mmb:active{background:rgba(208,27,46,.1);border-color:var(--rojo);}
   .mmb-icon{font-size:22px;}
@@ -2500,77 +2500,6 @@ setInterval(function(){
     <div style="padding:20px 20px 0;font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;color:var(--txt)">⚖️ Comparar Jugadores</div>
     <div style="padding:16px 20px 24px;" id="compContent"></div>
   </div>
-</div>
-<!-- MOBILE BOTTOM TAB BAR -->
-<div id="mobileTabBar">
-  <button class="mbt active" onclick="mobileNav('noticias',this)">
-    <span class="mbt-icon">📰</span>
-    <span class="mbt-label">Noticias</span>
-  </button>
-  <button class="mbt" onclick="mobileNav('partidos',this)">
-    <span class="mbt-icon">⚽</span>
-    <span class="mbt-label">Partidos</span>
-  </button>
-  <button class="mbt" onclick="mobileNav('plantilla',this)">
-    <span class="mbt-icon">👥</span>
-    <span class="mbt-label">Plantilla</span>
-  </button>
-  <button class="mbt" onclick="mobileNav('tabla',this)">
-    <span class="mbt-icon">📊</span>
-    <span class="mbt-label">Tabla</span>
-  </button>
-  <button class="mbt" onclick="toggleMobileMore(this)">
-    <span class="mbt-icon">☰</span>
-    <span class="mbt-label">Más</span>
-  </button>
-</div>
-
-<!-- MORE MENU -->
-<div id="mobileMore">
-  <button class="mmb" onclick="mobileNav('videos',null);closeMobileMore()">
-    <span class="mmb-icon">🎬</span>
-    <span class="mmb-label">Vídeos</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('historia',null);closeMobileMore()">
-    <span class="mmb-icon">📖</span>
-    <span class="mmb-label">Historia</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('stats',null);closeMobileMore()">
-    <span class="mmb-icon">📈</span>
-    <span class="mmb-label">Stats</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('rival',null);closeMobileMore()">
-    <span class="mmb-icon">🦅</span>
-    <span class="mmb-label">AEK</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('once',null);closeMobileMore()">
-    <span class="mmb-icon">⚽</span>
-    <span class="mmb-label">XI Ideal</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('quiz',null);closeMobileMore()">
-    <span class="mmb-icon">🧠</span>
-    <span class="mmb-label">Quiz</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('predictor',null);closeMobileMore()">
-    <span class="mmb-icon">🔮</span>
-    <span class="mmb-label">Predictor</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('logros',null);closeMobileMore()">
-    <span class="mmb-icon">🏆</span>
-    <span class="mmb-label">Logros</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('encuestas',null);closeMobileMore()">
-    <span class="mmb-icon">🗳️</span>
-    <span class="mmb-label">Encuestas</span>
-  </button>
-  <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()">
-    <span class="mmb-icon">🛍️</span>
-    <span class="mmb-label">Tienda</span>
-  </button>
-  <button class="mmb" onclick="toggleTheme();closeMobileMore()">
-    <span class="mmb-icon" id="mobileThemeIcon">🌙</span>
-    <span class="mmb-label">Tema</span>
-  </button>
 </div>
 
 <!-- MOBILE BOTTOM TAB BAR -->
