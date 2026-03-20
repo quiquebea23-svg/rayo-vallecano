@@ -464,6 +464,8 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('tienda',this)">Tienda</button>
       <button onclick="show('stats',this)">Stats</button>
       <button onclick="show('rival',this)">AEK</button>
+      <button onclick="show('once',this)">XI Ideal</button>
+      <button onclick="show('quiz',this)">Quiz</button>
       </nav>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
@@ -632,6 +634,18 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 <section id="rival" class="section">
   <div class="sec-t">Próximo Rival — AEK Atenas</div>
   <div id="rivalContent"></div>
+</section>
+
+<!-- XI IDEAL -->
+<section id="once" class="section">
+  <div class="sec-t">⚽ XI Ideal de la Temporada</div>
+  <div id="onceContent"></div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="section">
+  <div class="sec-t">🧠 Quiz Rayo Vallecano</div>
+  <div id="quizContent"></div>
 </section>
 
 <!-- HISTORIA -->
@@ -1459,7 +1473,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival','once','quiz'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -1787,6 +1801,150 @@ function shareWeb(){
   }
 }
 
+// ─── XI IDEAL ────────────────────────────────
+function rOnce(){
+  var el=document.getElementById('onceContent');
+  if(!el)return;
+
+  var once=[
+    {pos:'POR',x:50,y:88,n:'Batalla',num:13,nota:9.2},
+    {pos:'LD', x:80,y:70,n:'Rațiu',  num:2, nota:8.8},
+    {pos:'DC', x:63,y:72,n:'Lejeune',num:24,nota:7.9},
+    {pos:'DC', x:37,y:72,n:'Mendy',  num:16,nota:7.7},
+    {pos:'LI', x:20,y:70,n:'Chavarría',num:3,nota:7.8},
+    {pos:'MCD',x:50,y:55,n:'P. Ciss',num:6, nota:8.1},
+    {pos:'MC', x:30,y:42,n:'U. López',num:17,nota:7.6},
+    {pos:'MC', x:70,y:42,n:'O. Valentín',num:23,nota:7.5},
+    {pos:'EI', x:15,y:28,n:'Akhomach',num:25,nota:7.4},
+    {pos:'ED', x:85,y:28,n:'Álvaro',num:18,nota:8.0},
+    {pos:'DC', x:50,y:18,n:'De Frutos',num:19,nota:9.5},
+  ];
+
+  var svg='<div style="position:relative;width:100%;max-width:500px;margin:0 auto 20px">'
+    +'<svg viewBox="0 0 100 100" style="width:100%;border-radius:12px;display:block">'
+    // Campo de fútbol
+    +'<rect width="100" height="100" fill="#1a5c2a"/>'
+    +'<rect x="5" y="5" width="90" height="90" fill="none" stroke="rgba(255,255,255,.3)" stroke-width=".5"/>'
+    // Líneas del campo
+    +'<line x1="5" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<circle cx="50" cy="50" r="15" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<circle cx="50" cy="50" r="1" fill="rgba(255,255,255,.4)"/>'
+    // Áreas
+    +'<rect x="25" y="5" width="50" height="18" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<rect x="35" y="5" width="30" height="9" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<rect x="25" y="77" width="50" height="18" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    +'<rect x="35" y="86" width="30" height="9" fill="none" stroke="rgba(255,255,255,.25)" stroke-width=".4"/>'
+    // Porterías
+    +'<rect x="40" y="2" width="20" height="4" fill="none" stroke="rgba(255,255,255,.5)" stroke-width=".5"/>'
+    +'<rect x="40" y="94" width="20" height="4" fill="none" stroke="rgba(255,255,255,.5)" stroke-width=".5"/>';
+
+  once.forEach(function(p){
+    var foto=fotoJugador[p.num]||fotoDefault;
+    var esRv=true;
+    svg+='<g style="cursor:pointer">'
+      +'<circle cx="'+p.x+'" cy="'+p.y+'" r="5" fill="#D01B2E" stroke="#fff" stroke-width=".8"/>'
+      +'<text x="'+p.x+'" y="'+(p.y+.4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue" font-size="2.8" fill="#fff">'+p.num+'</text>'
+      +'<text x="'+p.x+'" y="'+(p.y+7)+'" text-anchor="middle" font-family="Barlow Condensed" font-size="2.8" fill="#fff" font-weight="bold">'+p.n+'</text>'
+      +'<rect x="'+(p.x-4)+'" y="'+(p.y+8.5)+'" width="8" height="2.5" rx="1" fill="rgba(0,0,0,.5)"/>'
+      +'<text x="'+p.x+'" y="'+(p.y+10)+'" text-anchor="middle" font-family="Bebas Neue" font-size="2.2" fill="#FFD700">'+p.nota+'</text>'
+      +'</g>';
+  });
+
+  svg+='</svg></div>';
+
+  // Tabla resumen XI
+  var tabla='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:14px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:12px">Sistema: 4-2-3-1 · Media nota: 8.0</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">'
+    +once.map(function(p){
+      return '<div style="background:var(--gris2);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px">'
+        +'<img src="'+(fotoJugador[p.num]||fotoDefault)+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid var(--rojo)" onerror="this.src=fotoDefault">'
+        +'<div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:12px;font-weight:700;color:var(--txt)">'+p.n+'</div>'
+        +'<div style="font-size:10px;color:var(--txt3)">'+p.pos+' · <span style="color:var(--oro)">'+p.nota+'</span></div>'
+        +'</div>'
+        +'</div>';
+    }).join('')
+    +'</div></div>';
+
+  el.innerHTML=svg+tabla;
+}
+
+// ─── QUIZ RAYO ────────────────────────────────
+var quizPreguntas=[
+  {p:'¿En qué año fue fundado el Rayo Vallecano?',ops:['1920','1924','1930','1918'],ok:1},
+  {p:'¿Cuántos goles ha marcado Jorge de Frutos en LaLiga esta temporada?',ops:['8','9','10','12'],ok:2},
+  {p:'¿Cuál es el estadio del Rayo Vallecano?',ops:['Wanda Metropolitano','Estadio de Vallecas','Civitas Metropolitano','Campo del Manzanares'],ok:1},
+  {p:'¿Qué dorsal lleva Augusto Batalla?',ops:['1','12','13','25'],ok:2},
+  {p:'¿Contra quién juega el Rayo en cuartos de Conference?',ops:['Olympiacos','PAOK','AEK Atenas','Panathinaikos'],ok:2},
+  {p:'¿Qué equipo eliminó el Rayo en octavos de Conference?',ops:['BK Häcken','Samsunspor','Lech Poznan','Shkendija'],ok:1},
+  {p:'¿Cuántos goles marcó el Rayo a Yuncos en Copa del Rey?',ops:['3','4','5','6'],ok:3},
+  {p:'¿Quién es el entrenador del Rayo Vallecano?',ops:['Míchel','Andoni Iraola','Íñigo Pérez','Álvaro Arbeloa'],ok:2},
+  {p:'¿Qué resultado hizo el Rayo ante el Atlético de Madrid en enero?',ops:['1-0','2-0','3-0','3-1'],ok:2},
+  {p:'¿De qué país es Ilias Akhomach?',ops:['España','Argelia','Marruecos','Francia'],ok:2},
+];
+
+var quizIdx=0, quizPuntos=0, quizRespondidas=0;
+
+function rQuiz(){
+  var el=document.getElementById('quizContent');
+  if(!el)return;
+  quizIdx=0; quizPuntos=0; quizRespondidas=0;
+  renderPregunta();
+}
+
+function renderPregunta(){
+  var el=document.getElementById('quizContent');
+  if(!el)return;
+  if(quizIdx>=quizPreguntas.length){
+    // Resultado final
+    var pct=Math.round(quizPuntos/quizPreguntas.length*100);
+    var emoji=pct>=80?'🏆':pct>=60?'⚡':pct>=40?'👍':'💪';
+    var msg=pct>=80?'¡Eres un auténtico rayista!':pct>=60?'¡Buen nivel rayista!':pct>=40?'Vas aprendiendo...':'Sigue viendo más partidos del Rayo 😄';
+    el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:16px;padding:32px;text-align:center">'
+      +'<div style="font-size:60px;margin-bottom:16px">'+emoji+'</div>'
+      +'<div style="font-family:Bebas Neue,sans-serif;font-size:40px;letter-spacing:2px;color:var(--rojo);margin-bottom:8px">'+quizPuntos+' / '+quizPreguntas.length+'</div>'
+      +'<div style="font-family:Barlow Condensed,sans-serif;font-size:20px;font-weight:700;color:var(--txt);margin-bottom:6px">'+msg+'</div>'
+      +'<div style="font-size:13px;color:var(--txt3);margin-bottom:24px">'+pct+'% de aciertos</div>'
+      +'<button onclick="rQuiz()" style="background:var(--rojo);border:none;color:#fff;font-family:Bebas Neue,sans-serif;font-size:18px;letter-spacing:2px;padding:12px 32px;border-radius:10px;cursor:pointer">↩ Volver a Jugar</button>'
+      +'</div>';
+    return;
+  }
+  var q=quizPreguntas[quizIdx];
+  el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:20px;margin-bottom:12px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px">Pregunta '+(quizIdx+1)+' de '+quizPreguntas.length+'</div>'
+    +'<div style="background:var(--gris2);border-radius:8px;height:4px;margin-bottom:16px;overflow:hidden">'
+    +'<div style="width:'+((quizIdx/quizPreguntas.length)*100)+'%;height:100%;background:var(--rojo);transition:width .3s"></div>'
+    +'</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:1px;color:var(--txt);margin-bottom:18px;line-height:1.2">'+q.p+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:8px">'
+    +q.ops.map(function(op,i){
+      var b='<button data-i="'+i+'" onclick="responder(parseInt(this.dataset.i))" style="background:var(--gris2);border:1px solid var(--gris3);color:var(--txt);font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:600;padding:13px 16px;border-radius:10px;cursor:pointer;text-align:left;width:100%;margin-bottom:4px">';
+      b+='<span style="color:var(--rojo);margin-right:8px">'+String.fromCharCode(65+i)+'.</span>'+op+'</button>';
+      return b;
+    }).join('')
+    +'</div></div>';
+}
+
+function responder(idx){
+  var q=quizPreguntas[quizIdx];
+  var correcto=idx===q.ok;
+  if(correcto)quizPuntos++;
+  quizIdx++;
+
+  // Flash feedback
+  var el=document.getElementById('quizContent');
+  var btns=el.querySelectorAll('button');
+  btns.forEach(function(btn,i){
+    btn.disabled=true;
+    btn.onmouseover=null; btn.onmouseout=null;
+    if(i===q.ok) btn.style.cssText='background:rgba(76,175,80,.2);border-color:#4caf50;color:#4caf50;font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:600;padding:13px 16px;border-radius:10px;border-width:2px;width:100%;text-align:left;cursor:default;transition:none';
+    else if(i===idx&&!correcto) btn.style.cssText='background:rgba(208,27,46,.2);border-color:var(--rojo);color:var(--rojo);font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:600;padding:13px 16px;border-radius:10px;border-width:2px;width:100%;text-align:left;cursor:default;transition:none';
+  });
+
+  setTimeout(renderPregunta, 900);
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -1796,6 +1954,8 @@ rVideos();
 rHistoria();
 rStats();
 rRival();
+rOnce();
+rQuiz();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
