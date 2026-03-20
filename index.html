@@ -18,7 +18,10 @@
 <meta name="twitter:description" content="Resultados, clasificación y toda la actualidad del Rayo Vallecano">
 <meta name="google-site-verification" content="oGaUJbXufXCis5UfFNs5UtsIq40-A3nNB21lIAsBe_M" />
 <link rel="canonical" href="https://rayo-vallecano.vercel.app">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 /* TEMAS */
 [data-theme="dark"]{--bg:#0A0A0A;--gris:#161616;--gris2:#222;--gris3:#333;--txt:#F5F0E8;--txt2:#aaa;--txt3:#555;--brd:#222;}
@@ -104,7 +107,7 @@
 [data-theme="light"] .api-status{color:#9C8C7E;}
 /* Pills y filtros */
 [data-theme="light"] .pill{background:#F0EBE1;border-color:#D4C9BB;color:#9C8C7E;}
-[data-theme="light"] .pill:hover{border-color:var(--rojo);color:var(--rojo);}
+[data-theme="light"] .pill:hover{border-color:var(--rojo);color:var(--rojo);} .pill.active-filter{border-color:var(--rojo);color:var(--rojo);background:rgba(208,27,46,.08);}
 /* Esqueletos */
 [data-theme="light"] .skeleton{background:linear-gradient(90deg,#E8E0D4 25%,#F0EBE1 50%,#E8E0D4 75%);}
 /* Historia */
@@ -144,8 +147,8 @@
 .hero-title{font-size:clamp(44px,8vw,88px);letter-spacing:5px;}
 .pname{font-size:14px;}
 .news-title{font-size:16px;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;} .news-card,.pcard,.mc,.vid-card,.tienda-card{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
+body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;scroll-behavior:smooth;}
 
 /* HEADER */
 header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;top:0;z-index:300;backdrop-filter:blur(10px);}
@@ -180,7 +183,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .theme-btn:hover{border-color:var(--rojo);}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,rgba(0,0,0,0.88) 0%,rgba(26,0,6,0.92) 60%,rgba(0,0,0,0.88) 100%),url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=1400&q=80") center/cover no-repeat;padding:40px 20px 30px;position:relative;overflow:hidden;}
+.hero{background:linear-gradient(135deg,rgba(0,0,0,0.88) 0%,rgba(26,0,6,0.92) 60%,rgba(0,0,0,0.88) 100%),url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=70") center/cover no-repeat;padding:40px 20px 30px;position:relative;overflow:hidden;}
 [data-theme="light"] .hero{background:linear-gradient(135deg,#f4f4f4 0%,#ffe5e5 60%,#f4f4f4 100%);}
 .hero::before{content:'RV';position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue';font-size:240px;color:rgba(208,27,46,.04);pointer-events:none;}
 .hero-bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rojo);}
@@ -200,7 +203,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .section{display:none;}
 .section.active{display:block;animation:fu .35s ease;}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.sec-t{font-family:'Bebas Neue';font-size:24px;letter-spacing:3px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px;color:var(--txt);}
+.sec-t{font-family:'Bebas Neue';font-size:26px;letter-spacing:3px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--brd);display:flex;align-items:center;gap:10px;color:var(--txt);}
 .sec-t::before{content:'';width:4px;height:24px;background:var(--rojo);border-radius:2px;flex-shrink:0;}
 .sec-t small{font-family:'Barlow Condensed';font-size:11px;font-weight:600;letter-spacing:2px;color:var(--txt3);}
 
@@ -217,10 +220,10 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
 .news-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;display:block;}
 .news-card:hover{transform:translateY(-4px);border-color:var(--rojo);box-shadow:0 8px 24px rgba(208,27,46,.1);}
-.news-img{width:100%;height:150px;object-fit:cover;display:block;background:var(--gris2);}
+.news-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--gris2);}
 .news-body{padding:12px;}
 .news-tag{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:5px;}
-.news-title{font-family:'Barlow Condensed';font-size:15px;font-weight:700;color:var(--txt);line-height:1.3;margin-bottom:5px;}
+.news-title{font-family:'Barlow Condensed';font-size:16px;font-weight:700;color:var(--txt);line-height:1.3;margin-bottom:6px;letter-spacing:.3px;}
 .news-desc{font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:6px;}
 .news-meta{font-size:11px;color:var(--txt3);}
 
@@ -228,7 +231,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .frow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .pill{background:var(--gris2);border:1px solid var(--gris3);color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:1px;padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .2s;}
 .pill:hover{border-color:var(--rojo);color:var(--rojo);}
-.mc{background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;transition:all .2s;cursor:pointer;}
+.mc{background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;cursor:pointer;}
 .mc:hover{border-color:var(--rojo);transform:translateY(-2px);box-shadow:0 4px 16px rgba(208,27,46,.08);}
 .mc.res{border-left:3px solid var(--rojo);}
 .mc.nxt{border-left:3px solid var(--oro);}
@@ -1231,35 +1234,44 @@ const noticias=[
 ];
 async function rNoticias(){
   const grid=document.getElementById('newsGrid');
-  // Mostrar skeleton mientras carga
+  const statusEl=document.getElementById('newsStatus');
+  if(statusEl)statusEl.style.display='flex';
   grid.innerHTML=Array(6).fill('<div class="skeleton" style="height:280px;border-radius:12px"></div>').join('');
+  const fallbackImgs=[
+    'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=70',
+    'https://images.unsplash.com/photo-1551958219-acbc6a0aeef4?w=600&q=70',
+    'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=70',
+    'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=600&q=70',
+    'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=70',
+    'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=600&q=70',
+  ];
   try {
     const r=await fetch('/api/news');
     const data=await r.json();
     const items=data.items||[];
+    if(statusEl)statusEl.style.display='none';
     if(items.length>0){
-      grid.innerHTML=items.map((n,i)=>{
-        const fecha=n.pubDate?new Date(n.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'}):'';
-        const hora=n.pubDate?new Date(n.pubDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'';
-        const fuente=n.link.includes('as.com')?'AS':n.link.includes('marca')?'Marca':n.link.includes('mundodeportivo')?'Mundo Deportivo':n.link.includes('unionrayo')?'Unión Rayo':'Deportes';
-        const img=n.img||noticias[i%noticias.length]?.img||'';
-        return `<a class="news-card" href="${n.link}" target="_blank" rel="noopener">
-          ${img?`<img class="news-img" src="${img}" alt="${n.title}" loading="lazy" onerror="this.style.background='var(--gris2)';this.style.display='none'">`:'<div class="news-img" style="display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,var(--gris2),#1a0006)">⚡</div>'}
-          <div class="news-body">
-            <div class="news-tag">${fuente}</div>
-            <div class="news-title">${n.title}</div>
-            ${n.description?`<div class="news-desc">${n.description}</div>`:''}
-            <div class="news-meta">${fecha}${hora?' · '+hora:''}h</div>
-          </div>
-        </a>`;
+      grid.innerHTML=items.map(function(n,i){
+        var fecha=n.pubDate?new Date(n.pubDate).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric',timeZone:'Europe/Madrid'}):'';
+        var hora=n.pubDate?new Date(n.pubDate).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'';
+        var fuente=n.link&&n.link.includes('as.com')?'AS':n.link&&n.link.includes('marca')?'Marca':n.link&&n.link.includes('mundodeportivo')?'Mundo Deportivo':n.link&&n.link.includes('unionrayo')?'Union Rayo':'Deportes';
+        var img=n.img||fallbackImgs[i%fallbackImgs.length];
+        var card='<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener">';
+        card+='<img class="news-img" src="'+img+'" alt="titulo" loading="lazy">';
+        card+='<div class="news-body">';
+        card+='<div class="news-tag">'+fuente+'</div>';
+        card+='<div class="news-title">'+n.title+'</div>';
+        if(n.description)card+='<div class="news-desc">'+n.description+'</div>';
+        card+='<div class="news-meta">'+fecha+(hora?' - '+hora:'')+'</div>';
+        card+='</div></a>';
+        return card;
       }).join('');
     } else {
-      // Fallback a noticias estáticas
-      grid.innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+      grid.innerHTML=noticias.map(function(n){return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener"><img class="news-img" src="'+n.img+'" alt="noticia" loading="lazy"><div class="news-body"><div class="news-tag">'+n.tag+'</div><div class="news-title">'+n.t+'</div><div class="news-desc">'+n.desc+'</div><div class="news-meta">'+n.f+'</div></div></a>';}).join('');
     }
   } catch(e) {
-    // Fallback a noticias estáticas si falla la API
-    grid.innerHTML=noticias.map(n=>`<a class="news-card" href="${n.link}" target="_blank" rel="noopener"><img class="news-img" src="${n.img}" alt="${n.t}" loading="lazy" onerror="this.style.display='none'"><div class="news-body"><div class="news-tag">${n.tag}</div><div class="news-title">${n.t}</div><div class="news-desc">${n.desc}</div><div class="news-meta">${n.f}</div></div></a>`).join('');
+    if(statusEl)statusEl.style.display='none';
+    grid.innerHTML=noticias.map(function(n){return '<a class="news-card" href="'+n.link+'" target="_blank" rel="noopener"><img class="news-img" src="'+n.img+'" alt="noticia" loading="lazy"><div class="news-body"><div class="news-tag">'+n.tag+'</div><div class="news-title">'+n.t+'</div><div class="news-desc">'+n.desc+'</div><div class="news-meta">'+n.f+'</div></div></a>';}).join('');
   }
 }
 
@@ -1962,6 +1974,7 @@ loadTabla();
 loadSquadPhotos();
 startCountdowns();
 loadWeather();
+window.addEventListener('scroll',function(){var b=document.getElementById('backToTop');if(b)b.style.display=window.scrollY>400?'block':'none';});
 </script>
 <!-- MODAL COMPARADOR -->
 <div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
@@ -1979,5 +1992,5 @@ loadWeather();
     <div style="padding:16px 20px 24px;" id="compContent"></div>
   </div>
 </div>
-</body>
-</html>
+<!-- BACK TO TOP -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;position:fixed;bottom:24px;right:24px;background:var(--rojo);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:18px;z-index:400;box-shadow:0 4px 16px rgba(208,27,46,.4);transition:all .2s">↑</button>
