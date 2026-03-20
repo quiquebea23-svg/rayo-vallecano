@@ -142,6 +142,7 @@
 [data-theme="light"] .overlay{background:rgba(28,20,16,.82);}
 
 :root{--rojo:#D01B2E;--rojo-dark:#9b0f1e;--oro:#C9A84C;--azul:#4a8fff;}
+::selection{background:rgba(208,27,46,.3);color:var(--txt);}
 /* Tipografía mejorada */
 .sec-t{font-size:28px;letter-spacing:4px;}
 .hero-title{font-size:clamp(44px,8vw,88px);letter-spacing:5px;}
@@ -149,6 +150,10 @@
 .news-title{font-size:16px;}
 *{margin:0;padding:0;box-sizing:border-box;} .news-card,.pcard,.mc,.vid-card,.tienda-card{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
 body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;scroll-behavior:smooth;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--rojo);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--rojo-dark);}
 
 /* HEADER */
 header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;top:0;z-index:300;backdrop-filter:blur(10px);}
@@ -178,7 +183,7 @@ header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;
 nav{display:flex;gap:1px;}
 nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 nav button:hover{color:var(--txt);}
-nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
+nav button.active{color:var(--rojo);border-bottom:2px solid var(--rojo);}
 .theme-btn{background:var(--gris2);border:1px solid var(--gris3);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px;color:var(--txt);transition:all .2s;flex-shrink:0;letter-spacing:1px;}
 .theme-btn:hover{border-color:var(--rojo);}
 
@@ -197,6 +202,8 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .nm-sub{font-size:12px;color:var(--txt3);margin-top:2px;}
 .dot{width:8px;height:8px;background:#ff3e3e;border-radius:50%;animation:pulse 1.2s ease infinite;flex-shrink:0;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
 
 /* CONTENT */
 .content{max-width:1100px;margin:0 auto;padding:24px 16px 60px;}
@@ -204,7 +211,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .section.active{display:block;animation:fu .35s ease;}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .sec-t{font-family:'Bebas Neue';font-size:26px;letter-spacing:3px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--brd);display:flex;align-items:center;gap:10px;color:var(--txt);}
-.sec-t::before{content:'';width:4px;height:24px;background:var(--rojo);border-radius:2px;flex-shrink:0;}
+.sec-t::before{content:'';width:4px;height:100%;min-height:24px;background:linear-gradient(to bottom,var(--rojo),var(--rojo-dark));border-radius:2px;flex-shrink:0;}
 .sec-t small{font-family:'Barlow Condensed';font-size:11px;font-weight:600;letter-spacing:2px;color:var(--txt3);}
 
 /* STATUS */
@@ -218,7 +225,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 
 /* NEWS */
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
-.news-card{background:var(--gris);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;display:block;}
+.news-card{background:var(--gris);border:1px solid var(--brd);border-top:3px solid var(--rojo);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;display:block;}
 .news-card:hover{transform:translateY(-4px);border-color:var(--rojo);box-shadow:0 8px 24px rgba(208,27,46,.1);}
 .news-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--gris2);}
 .news-body{padding:12px;}
@@ -247,7 +254,7 @@ nav button.active{color:var(--rojo);border-bottom-color:var(--rojo);}
 .mc-comp{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:2px;}
 .mc-date{font-size:11px;color:var(--txt3);}
 .badge{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;display:inline-block;margin-top:4px;}
-.bw{background:rgba(76,175,80,.15);color:#4caf50;}.bd{background:rgba(255,193,7,.15);color:#ffc107;}.bl{background:rgba(208,27,46,.15);color:var(--rojo);}.bn{background:rgba(201,168,76,.15);color:var(--oro);}.blive{background:rgba(76,175,80,.15);color:#4caf50;}
+.bw{background:rgba(76,175,80,.15);color:#4caf50;}.bd{background:rgba(255,193,7,.15);color:#ffc107;}.bl{background:rgba(208,27,46,.15);color:var(--rojo);}.bn{background:rgba(201,168,76,.15);color:var(--oro);animation:badgePulse 2s ease infinite;}.blive{background:rgba(76,175,80,.15);color:#4caf50;}
 
 /* TABLA */
 .tw{overflow-x:auto;}
@@ -267,7 +274,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 .posh{grid-column:1/-1;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--rojo);padding:6px 0 3px;border-bottom:1px solid var(--brd);margin-top:6px;}
 .pcard{background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:12px 10px;text-align:center;transition:all .2s;cursor:pointer;}
 .pcard:hover{border-color:var(--rojo);transform:translateY(-3px);box-shadow:0 6px 18px rgba(208,27,46,.1);}
-.pnum{font-family:'Bebas Neue';font-size:34px;color:rgba(208,27,46,.2);line-height:1;}
+.pnum{font-family:'Bebas Neue';font-size:38px;color:rgba(208,27,46,.15);line-height:1;letter-spacing:-1px;}
 .pname{font-family:'Barlow Condensed';font-size:13px;font-weight:700;color:var(--txt);letter-spacing:1px;margin-bottom:3px;line-height:1.2;}
 .ppos{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);font-family:'Barlow Condensed';}
 .pnat{font-size:11px;color:var(--txt3);margin-top:3px;}
@@ -301,7 +308,7 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 .hist-badge{display:inline-block;background:rgba(208,27,46,.12);border:1px solid rgba(208,27,46,.3);color:var(--rojo);font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
 
 /* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 .overlay.on{display:flex;}
 .modal{background:var(--gris);border:1px solid var(--gris2);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fu .25s ease;position:relative;}
 .modal-close{position:absolute;top:12px;right:12px;background:var(--gris2);border:none;color:var(--txt3);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:10;}
@@ -441,6 +448,14 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 .red-btn:hover{transform:translateY(-2px);opacity:.9;}
 .apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(226,185,111,.2);border-radius:12px;padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+/* EXTRAS */
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--rojo);border-radius:3px;}
+::selection{background:rgba(208,27,46,.25);color:var(--txt);}
+/* Gradient RAYO text */
+.hero-title em{background:linear-gradient(135deg,#ff3347,#D01B2E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 </style>
 </head>
 <body>
@@ -554,6 +569,99 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 <!-- PARTIDOS -->
 <section id="partidos" class="section">
   <div class="sec-t">Partidos <small id="pTime"></small></div>
+
+  <!-- PROXIMOS PARTIDOS FIJOS SIEMPRE ARRIBA -->
+  <div style="margin-bottom:20px;">
+    <div style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;display:flex;align-items:center;gap:8px;"><div class="dot"></div> Próximos Partidos</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+
+      <!-- BARCA -->
+      <div class="mc nxt" style="border-left:3px solid var(--rojo);cursor:default">
+        <div class="teams">
+          <div class="tn">FC Barcelona</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft rv">⚡ Rayo Vallecano</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:var(--rojo)">⚽ LaLiga EA Sports · J29</div>
+          <div class="mc-date">Dom 22 Mar 2026 · 14:00h · Camp Nou</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+      <!-- ELCHE -->
+      <div class="mc nxt" style="border-left:3px solid var(--rojo);cursor:default">
+        <div class="teams">
+          <div class="tn rv">⚡ Rayo Vallecano</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft">Elche CF</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:var(--rojo)">⚽ LaLiga EA Sports · J30</div>
+          <div class="mc-date">Sáb 4 Abr 2026 · Vallecas</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+      <!-- AEK IDA -->
+      <div class="mc" style="border-left:3px solid #00c853;cursor:default">
+        <div class="teams">
+          <div class="tn rv">⚡ Rayo Vallecano</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft">AEK Atenas</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:#00c853">🌍 Conference League · Cuartos Ida</div>
+          <div class="mc-date">Jue 9 Abr 2026 · 21:00h · Vallecas</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+      <!-- MALLORCA -->
+      <div class="mc nxt" style="border-left:3px solid var(--rojo);cursor:default">
+        <div class="teams">
+          <div class="tn">Mallorca</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft rv">⚡ Rayo Vallecano</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:var(--rojo)">⚽ LaLiga EA Sports · J31</div>
+          <div class="mc-date">Sáb 11 Abr 2026</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+      <!-- AEK VUELTA -->
+      <div class="mc" style="border-left:3px solid #00c853;cursor:default">
+        <div class="teams">
+          <div class="tn">AEK Atenas</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft rv">⚡ Rayo Vallecano</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:#00c853">🌍 Conference League · Cuartos Vuelta</div>
+          <div class="mc-date">Jue 16 Abr 2026 · 21:00h · Atenas</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+      <!-- ESPANYOL -->
+      <div class="mc nxt" style="border-left:3px solid var(--rojo);cursor:default">
+        <div class="teams">
+          <div class="tn rv">⚡ Rayo Vallecano</div>
+          <div class="ms vs">VS</div>
+          <div class="tn lft">Espanyol</div>
+        </div>
+        <div class="mi">
+          <div class="mc-comp" style="color:var(--rojo)">⚽ LaLiga EA Sports · J33</div>
+          <div class="mc-date">Mar 21 Abr 2026 · Vallecas</div>
+          <span class="badge bn">Próximo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="api-status"><div class="sdot ld" id="pDot"></div><span id="pStatus">Cargando datos en tiempo real…</span></div>
   <div id="seasonSummary" style="display:none;background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:18px;">
     <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px;">Temporada 2025/26 — Todas las competiciones</div>
