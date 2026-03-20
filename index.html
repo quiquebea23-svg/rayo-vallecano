@@ -498,12 +498,6 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 /* TICKER */
 .ticker-inner{transition:all .4s ease;}
 .cifra-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
-/* MODO ESTADIO */
-body.estadio-mode{background:#000 !important;}
-body.estadio-mode .content{background:transparent;}
-body.estadio-mode .news-card,body.estadio-mode .mc,body.estadio-mode .pcard{background:rgba(255,255,255,.03) !important;border-color:rgba(255,255,255,.06) !important;}
-body.estadio-mode header{background:rgba(0,0,0,.95) !important;}
-@keyframes stadiumLight{0%,100%{opacity:.6}50%{opacity:1}}
 /* Cards de jugadores hover grande */
 .pcard{position:relative;}
 .pcard .foto-grande{display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:120px;height:120px;border-radius:12px;object-fit:cover;border:3px solid var(--rojo);box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:50;pointer-events:none;}
@@ -621,7 +615,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
 
 <div class="hero">
   <div class="hero-bar"></div>
-  <button onclick="toggleEstadio()" id="btnEstadio" style="position:absolute;top:12px;right:130px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 12px;border-radius:20px;cursor:pointer;z-index:10;transition:all .2s">🏟️ Modo estadio</button>
   <button onclick="shareWeb()" style="position:absolute;top:12px;right:16px;background:rgba(208,27,46,.2);border:1px solid rgba(208,27,46,.5);color:#fff;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:20px;cursor:pointer;z-index:10;transition:all .2s" onmouseover="this.style.background='rgba(208,27,46,.5)'" onmouseout="this.style.background='rgba(208,27,46,.2)'">
     🔗 Compartir
   </button>
@@ -3080,58 +3073,20 @@ function startNewsTicker(){
   setInterval(next,4000);
 }
 
-// ─── CURSOR PERSONALIZADO ────────────────────
-(function(){
-  var cursor=document.createElement('div');
-  cursor.id='customCursor';
-  cursor.style.cssText='position:fixed;width:20px;height:20px;pointer-events:none;z-index:99999;transition:transform .1s ease;font-size:16px;line-height:1;top:0;left:0;transform:translate(-50%,-50%)';
-  cursor.textContent='⚡';
-  document.body.appendChild(cursor);
-  document.addEventListener('mousemove',function(e){
-    cursor.style.left=e.clientX+'px';
-    cursor.style.top=e.clientY+'px';
-  });
-  document.addEventListener('mousedown',function(){cursor.style.transform='translate(-50%,-50%) scale(1.5)';});
-  document.addEventListener('mouseup',function(){cursor.style.transform='translate(-50%,-50%) scale(1)';});
-  // Hide on mobile
-  if('ontouchstart' in window)cursor.style.display='none';
-  else document.body.style.cursor='none';
-})();
-
 // ─── CONFETTI AL CARGAR ───────────────────────
 (function(){
   setTimeout(function(){
-    var cols=['#D01B2E','#FFFFFF','#C9A84C','#4a8fff'];
-    for(var i=0;i<60;i++){(function(i){setTimeout(function(){
+    for(var i=0;i<30;i++){(function(i){setTimeout(function(){
       var el=document.createElement('div');
-      var size=Math.random()*8+4;
-      el.style.cssText='position:fixed;top:-20px;left:'+Math.random()*100+'vw;width:'+size+'px;height:'+size+'px;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()>0.5?'50%':'2px')+';z-index:9000;pointer-events:none;animation:confettiFall '+(Math.random()*2.5+1.5)+'s linear forwards';
+      var size=Math.random()*20+14;
+      var dur=Math.random()*2+1.5;
+      el.style.cssText='position:fixed;top:-40px;left:'+Math.random()*100+'vw;font-size:'+size+'px;z-index:9000;pointer-events:none;animation:confettiFall '+dur+'s linear forwards;opacity:'+(Math.random()*0.5+0.5)+';filter:drop-shadow(0 0 6px rgba(208,27,46,.8))';
+      el.textContent='⚡';
       document.body.appendChild(el);
-      setTimeout(function(){el.remove();},4000);
-    },i*40);})(i);}
-  },800);
+      setTimeout(function(){el.remove();},dur*1000+200);
+    },i*60);})(i);}
+  },500);
 })();
-
-// ─── MODO ESTADIO ─────────────────────────────
-var estadioMode=false;
-function toggleEstadio(){
-  estadioMode=!estadioMode;
-  var btn=document.getElementById('btnEstadio');
-  if(estadioMode){
-    document.body.classList.add('estadio-mode');
-    if(btn)btn.textContent='🌙 Modo normal';
-    // Efecto de luces
-    var overlay=document.createElement('div');
-    overlay.id='estadioOverlay';
-    overlay.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,150,.03) 0%,transparent 60%);animation:stadiumLight 4s ease infinite';
-    document.body.appendChild(overlay);
-  } else {
-    document.body.classList.remove('estadio-mode');
-    if(btn)btn.textContent='🏟️ Modo estadio';
-    var ov=document.getElementById('estadioOverlay');
-    if(ov)ov.remove();
-  }
-}
 
 
 // ─── HISTORIAL ENTRENADORES ───────────────────
