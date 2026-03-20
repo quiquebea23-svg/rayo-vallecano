@@ -378,6 +378,14 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 .apuestas-btn:hover{opacity:.85;}
 .apuestas-legal{font-size:10px;color:#444;margin-top:8px;text-align:center;}
 
+/* STATS */
+.stat-bar-fill{animation:barGrow .8s ease both;}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+/* LIVE MODE */
+body.live-mode header{border-bottom-color:#4caf50 !important;}
+body.live-mode .hero-bar{background:#4caf50 !important;}
+.live-score{font-family:'Bebas Neue';font-size:44px;letter-spacing:4px;color:#4caf50;animation:pulse 1.5s ease infinite;}
+
 /* MOBILE */
 @media(max-width:640px){
   .logo h1{font-size:16px;letter-spacing:2px;}
@@ -454,6 +462,8 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
         <button onclick="show('historia',this)">Historia</button>
       <button onclick="show('encuestas',this)">Encuestas</button>
       <button onclick="show('tienda',this)">Tienda</button>
+      <button onclick="show('stats',this)">Stats</button>
+      <button onclick="show('rival',this)">AEK</button>
       </nav>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
@@ -462,6 +472,9 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
 
 <div class="hero">
   <div class="hero-bar"></div>
+  <button onclick="shareWeb()" style="position:absolute;top:12px;right:16px;background:rgba(208,27,46,.2);border:1px solid rgba(208,27,46,.5);color:#fff;font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:20px;cursor:pointer;z-index:10;transition:all .2s" onmouseover="this.style.background='rgba(208,27,46,.5)'" onmouseout="this.style.background='rgba(208,27,46,.2)'">
+    🔗 Compartir
+  </button>
   <div class="hero-inner">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
       <div class="hero-eye" style="margin-bottom:0">LaLiga EA Sports · 🌍 UEFA Conference League 2025/26</div>
@@ -609,6 +622,18 @@ table.tb{width:100%;border-collapse:collapse;font-size:13px;}
   <div id="tiendaContent"></div>
 </section>
 
+<!-- ESTADÍSTICAS EQUIPO -->
+<section id="stats" class="section">
+  <div class="sec-t">Estadísticas del Equipo</div>
+  <div id="statsContent"></div>
+</section>
+
+<!-- RIVAL AEK -->
+<section id="rival" class="section">
+  <div class="sec-t">Próximo Rival — AEK Atenas</div>
+  <div id="rivalContent"></div>
+</section>
+
 <!-- HISTORIA -->
 <section id="historia" class="section">
   <div class="sec-t">Historia del Rayo Vallecano</div>
@@ -682,6 +707,37 @@ async function apiFetch(endpoint){
 }
 
 // ─── PARTIDOS ────────────────────────────────
+function calcRacha(matches){
+  var sorted=[...matches].sort((a,b)=>new Date(b.utcDate)-new Date(a.utcDate));
+  var streak='',count=0,last=null;
+  for(var m of sorted){
+    var hRv=m.homeTeam.id===RAYO_ID;
+    var gH=m.score?.fullTime?.home??0,gA=m.score?.fullTime?.away??0;
+    var res=gH===gA?'D':(hRv&&gH>gA)||(!hRv&&gA>gH)?'W':'L';
+    if(last===null)last=res;
+    if(res===last)count++;
+    else break;
+  }
+  if(last==='W')return count+'V';
+  if(last==='D')return count+'E';
+  if(last==='L')return count+'D';
+  return '-';
+}
+
+function calcRacha(matches){
+  var sorted=[...matches].sort(function(a,b){return new Date(b.utcDate)-new Date(a.utcDate);});
+  var count=0,last=null;
+  for(var m of sorted){
+    var hRv=m.homeTeam.id===RAYO_ID;
+    var gH=m.score&&m.score.fullTime?m.score.fullTime.home||0:0;
+    var gA=m.score&&m.score.fullTime?m.score.fullTime.away||0:0;
+    var res=gH===gA?'E':(hRv&&gH>gA)||(!hRv&&gA>gH)?'V':'D';
+    if(last===null)last=res;
+    if(res===last)count++;
+    else break;
+  }
+  return last?count+last:'-';
+}
 async function loadPartidos(){
   try{
     const [fin,sch]=await Promise.all([
@@ -709,10 +765,17 @@ async function loadPartidos(){
       else if((hRv&&gH>gA)||(!hRv&&gA>gH))wins++;
       else losses++;
     });
-    document.getElementById('seasonStats').innerHTML=[
-      ['Jugados',finished.length,'var(--txt)'],['Victorias',wins,'#4caf50'],['Empates',draws,'#ffc107'],
-      ['Derrotas',losses,'var(--rojo)'],['GF',gf,'var(--txt)'],['GC',ga,'var(--txt)'],['Pts',wins*3+draws,'var(--oro)']
-    ].map(([l,v,c])=>`<div style="background:var(--gris2);border-radius:8px;padding:10px 6px;text-align:center"><div style="font-family:'Bebas Neue';font-size:24px;color:${c}">${v}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3)">${l}</div></div>`).join('');
+    const allStats=[
+        ['Jugados',finished.length,'var(--txt)'],
+        ['Victorias',wins,'#4caf50'],
+        ['Empates',draws,'#ffc107'],
+        ['Derrotas',losses,'var(--rojo)'],
+        ['Goles F.',gf,'var(--txt)'],
+        ['Goles C.',ga,'var(--txt)'],
+        ['Puntos',wins*3+draws,'var(--oro)'],
+        ['Racha',calcRacha(finished),'var(--azul)']
+      ];
+      document.getElementById('seasonStats').innerHTML=allStats.map(([l,v,c])=>`<div style="background:var(--gris2);border-radius:8px;padding:10px 6px;text-align:center"><div style="font-family:'Bebas Neue';font-size:24px;color:${c}">${v}</div><div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3)">${l}</div></div>`).join('');
     document.getElementById('seasonSummary').style.display='block';
     const comps=[...new Set(finished.map(m=>m.competition?.name).filter(Boolean))];
     const frow=document.getElementById('frow');
@@ -1396,7 +1459,7 @@ function handleSearch(i){
   const m=res._matches[i];
   hideSearch();
   document.getElementById('searchInput').value='';
-  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda'].indexOf(m.section)];
+  const btn=document.querySelectorAll('nav button')[['noticias','partidos','tabla','plantilla','videos','historia','encuestas','tienda','stats','rival'].indexOf(m.section)];
   show(m.section,btn);
   if(m.jugador)setTimeout(()=>openJugador(m.jugador),300);
   else if(m.link)setTimeout(()=>window.open(m.link,'_blank'),300);
@@ -1566,6 +1629,164 @@ function show(id,btn){
   if(btn)btn.classList.add('active');
 }
 
+// ─── STATS DEL EQUIPO ────────────────────────
+function rStats(){
+  var el=document.getElementById('statsContent');
+  if(!el)return;
+
+  // Stats reales temporada 2025-26 (todas competiciones)
+  var ligaStats={pj:28,v:11,e:9,d:8,gf:31,gc:28,pts:42};
+  var confStats={pj:8,v:7,e:1,d:0,gf:17,gc:5};
+  var copaStats={pj:1,v:1,e:0,d:0,gf:6,gc:1};
+
+  var goleadores=[
+    {n:'Jorge de Frutos', g:12, a:2, f:'👑'},
+    {n:'Fran Pérez',      g:8,  a:0, f:'⭐'},
+    {n:'Álvaro García',   g:5,  a:4, f:'🌟'},
+    {n:'Isi Palazón',     g:3,  a:2, f:''},
+    {n:'Pep Chavarría',   g:2,  a:0, f:''},
+    {n:'Nobel Mendy',     g:1,  a:0, f:''},
+    {n:'Pathé Ciss',      g:1,  a:0, f:''},
+    {n:'Unai López',      g:2,  a:3, f:''},
+    {n:'Óscar Valentín',  g:1,  a:0, f:''},
+    {n:'Sergio Camello',  g:2,  a:0, f:''},
+  ];
+
+  var forma=['V','V','E','D','V','E','E','D','V','V'];
+  var formaHTML=forma.map(function(r){
+    var c=r==='V'?'#4caf50':r==='E'?'#ffc107':'var(--rojo)';
+    return '<div style="width:28px;height:28px;border-radius:50%;background:'+c+';display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:13px;color:#fff;font-weight:700">'+r+'</div>';
+  }).join('');
+
+  el.innerHTML=
+    // FORMA RECIENTE
+    '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:14px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3);margin-bottom:10px">Últimos 10 partidos</div>'
+    +'<div style="display:flex;gap:6px;flex-wrap:wrap">'+formaHTML+'</div>'
+    +'</div>'
+
+    // RESUMEN COMPETICIONES
+    +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">'
+    +[
+      {label:'⚽ LaLiga',pj:ligaStats.pj,v:ligaStats.v,e:ligaStats.e,d:ligaStats.d,gf:ligaStats.gf,gc:ligaStats.gc,pts:ligaStats.pts,c:'var(--rojo)'},
+      {label:'🌍 Conference',pj:confStats.pj,v:confStats.v,e:confStats.e,d:confStats.d,gf:confStats.gf,gc:confStats.gc,pts:'-',c:'#00c853'},
+      {label:'🏆 Copa',pj:copaStats.pj,v:copaStats.v,e:copaStats.e,d:copaStats.d,gf:copaStats.gf,gc:copaStats.gc,pts:'-',c:'var(--oro)'},
+    ].map(function(s){
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:14px;text-align:center">'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:'+s.c+';margin-bottom:10px">'+s.label+'</div>'
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'
+        +[['PJ',s.pj],['Victorias',s.v],['Empates',s.e],['Derrotas',s.d],['Goles F.',s.gf],['Goles C.',s.gc]].map(function(x){
+          return '<div style="background:var(--gris2);border-radius:6px;padding:6px 4px;text-align:center">'
+            +'<div style="font-family:Bebas Neue,sans-serif;font-size:20px;color:var(--txt)">'+x[1]+'</div>'
+            +'<div style="font-family:Barlow Condensed,sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt3)">'+x[0]+'</div>'
+            +'</div>';
+        }).join('')
+        +'</div></div>';
+    }).join('')
+    +'</div>'
+
+    // TABLA GOLEADORES
+    +'<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px">'
+    +'<div class="sec-t" style="font-size:18px;margin-bottom:14px">⚽ Tabla de Goleadores</div>'
+    +goleadores.map(function(p,i){
+      var maxG=goleadores[0].g;
+      var pct=Math.round(p.g/maxG*100);
+      return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gris2)">'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--txt3);min-width:24px;text-align:center">'+(i+1)+'</div>'
+        +'<div style="flex:1">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'
+        +'<span style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;color:var(--txt)">'+p.f+' '+p.n+'</span>'
+        +'<span style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--rojo)">'+p.g+'G  <span style="color:var(--azul);font-size:15px">'+p.a+'A</span></span>'
+        +'</div>'
+        +'<div style="height:4px;background:var(--gris2);border-radius:2px;overflow:hidden">'
+        +'<div style="width:'+pct+'%;height:100%;background:var(--rojo);border-radius:2px"></div>'
+        +'</div>'
+        +'</div></div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── INFO RIVAL AEK ATENAS ───────────────────
+function rRival(){
+  var el=document.getElementById('rivalContent');
+  if(!el)return;
+  el.innerHTML=
+    // HEADER RIVAL
+    '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #0f3460;border-radius:12px;padding:22px;margin-bottom:14px;display:flex;align-items:center;gap:18px">'
+    +'<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#ffd700,#000);display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;border:3px solid #ffd700">🦅</div>'
+    +'<div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ffd700;margin-bottom:4px">Conference League · Cuartos de Final</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:32px;letter-spacing:2px;color:#fff">AEK Atenas FC</div>'
+    +'<div style="font-size:12px;color:#aaa;margin-top:3px">🇬🇷 Grecia · SuperLeague Grecia · Fundado: 1924</div>'
+    +'</div>'
+    +'</div>'
+
+    // PARTIDOS IDA Y VUELTA
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'
+    +'<div style="background:var(--gris);border:1px solid #00c853;border-radius:12px;padding:16px;text-align:center">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:#00c853;text-transform:uppercase;margin-bottom:8px">Cuartos Ida</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;color:var(--txt);margin-bottom:4px">Rayo Vallecano vs AEK Atenas</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">📅 Jue 9 Abril 2026</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">🏟️ Estadio de Vallecas · Madrid</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">🕘 21:00h</div>'
+    +'</div>'
+    +'<div style="background:var(--gris);border:1px solid var(--gris3);border-radius:12px;padding:16px;text-align:center">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:8px">Cuartos Vuelta</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;color:var(--txt);margin-bottom:4px">AEK Atenas vs Rayo Vallecano</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">📅 Jue 16 Abril 2026</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">🏟️ OPAP Arena · Atenas</div>'
+    +'<div style="font-size:12px;color:var(--txt3)">🕘 21:00h</div>'
+    +'</div>'
+    +'</div>'
+
+    // INFO AEK
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">'
+    +[
+      {icon:'🏆',label:'Títulos liga',val:'13 SuperLeague'},
+      {icon:'🏟️',label:'Estadio',val:'OPAP Arena (32.500)'},
+      {icon:'📍',label:'Ciudad',val:'Atenas, Grecia'},
+      {icon:'👔',label:'Entrenador',val:'Matías Almeyda'},
+      {icon:'⚽',label:'Posición Liga',val:'2º SuperLeague'},
+      {icon:'🌍',label:'En Conference',val:'Semifinalistas 23/24'},
+    ].map(function(s){
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px">'
+        +'<span style="font-size:22px">'+s.icon+'</span>'
+        +'<div><div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">'+s.label+'</div>'
+        +'<div style="font-size:13px;color:var(--txt);font-weight:500">'+s.val+'</div></div>'
+        +'</div>';
+    }).join('')
+    +'</div>'
+
+    // JUGADORES CLAVE AEK
+    +'<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px">'
+    +'<div class="sec-t" style="font-size:18px;margin-bottom:14px">🦅 Jugadores Clave del AEK</div>'
+    +[
+      {n:'Ante Rebić',pos:'Delantero',nac:'🇭🇷',desc:'Ex Milan y Frankfurt. Máximo goleador del equipo con 14 goles.'},
+      {n:'Erik Lamela',pos:'Extremo',nac:'🇦🇷',desc:'Ex Tottenham y Sevilla. Veterano con experiencia europea enorme.'},
+      {n:'Takehiro Tomiyasu',pos:'Defensa',nac:'🇯🇵',desc:'Cedido del Arsenal. Lateral polivalente y muy intenso.'},
+      {n:'Stef Pinho',pos:'Mediapunta',nac:'🇧🇪',desc:'El motor del equipo. Clave en la creación de juego del AEK.'},
+    ].map(function(p){
+      return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris2)">'
+        +'<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ffd700,#1a1a2e);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+p.nac+'</div>'
+        +'<div><div style="font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:700;color:var(--txt)">'+p.n+'</div>'
+        +'<div style="font-size:11px;color:var(--rojo);font-family:Barlow Condensed,sans-serif;letter-spacing:1px;text-transform:uppercase">'+p.pos+'</div>'
+        +'<div style="font-size:11px;color:var(--txt3);margin-top:2px">'+p.desc+'</div></div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── COMPARTIR ────────────────────────────────
+function shareWeb(){
+  var text="⚡🔴 La mejor web del Rayo Vallecano\n\nNoticias, partidos, clasificacion y mucho mas en tiempo real\n\nhttps://rayo-vallecano.vercel.app\n\n#RayoVallecano #Vallecas #LaLiga";
+  if(navigator.share){
+    navigator.share({title:"Rayo Vallecano — La Franja",text:text,url:"https://rayo-vallecano.vercel.app"}).catch(function(){});
+  } else {
+    var tw="https://twitter.com/intent/tweet?text="+encodeURIComponent(text);
+    window.open(tw,'_blank');
+  }
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -1573,6 +1794,8 @@ rNoticias();
 rPlantilla();
 rVideos();
 rHistoria();
+rStats();
+rRival();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
