@@ -30,7 +30,7 @@
 <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 /* TEMAS */
-[data-theme="dark"]{--bg:#0A0A0A;--gris:#161616;--gris2:#222;--gris3:#333;--txt:#F5F0E8;--txt2:#aaa;--txt3:#555;--brd:#222;}
+[data-theme="dark"]{--bg:#080808;--gris:#111;--gris2:#1a1a1a;--gris3:#2a2a2a;--txt:#F5F0E8;--txt2:#999;--txt3:#444;--brd:#1e1e1e;--header:rgba(8,8,8,.92);}
 
 /* ═══ MODO CLARO — Diseño completo ═══ */
 [data-theme="light"]{
@@ -162,7 +162,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Barlow',sans-serif;min-h
 ::-webkit-scrollbar-thumb:hover{background:var(--rojo-dark);}
 
 /* HEADER */
-header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;top:0;z-index:300;backdrop-filter:blur(10px);}
+header{background:var(--header,rgba(8,8,8,.88));border-bottom:1px solid rgba(208,27,46,.4);border-bottom-width:1px;position:sticky;top:0;z-index:300;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(208,27,46,.2),0 4px 20px rgba(0,0,0,.5);}
 .h-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 16px;gap:8px;}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .escudo{width:38px;height:38px;background:var(--rojo);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';font-size:15px;color:#fff;border:2px solid var(--oro);position:relative;overflow:hidden;flex-shrink:0;}
@@ -187,7 +187,7 @@ header{background:var(--bg);border-bottom:3px solid var(--rojo);position:sticky;
 /* NAV + THEME */
 .nav-right{display:flex;align-items:center;gap:4px;}
 nav{display:flex;gap:1px;}
-nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--txt3);font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+nav button{background:none;border:none;border-bottom:2px solid transparent;color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 8px;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);white-space:nowrap;}
 nav button:hover{color:var(--txt);}
 nav button.active{color:var(--rojo);border-bottom:2px solid var(--rojo);}
 .theme-btn{background:var(--gris2);border:1px solid var(--gris3);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:14px;color:var(--txt);transition:all .2s;flex-shrink:0;letter-spacing:1px;}
@@ -217,8 +217,11 @@ nav button.active{color:var(--rojo);border-bottom:2px solid var(--rojo);}
 /* CONTENT */
 .content{max-width:1100px;margin:0 auto;padding:24px 16px 60px;}
 .section{display:none;}
-.section.active{display:block;animation:fu .35s ease;}
+.section.active{display:block;animation:sectionReveal .4s cubic-bezier(.16,1,.3,1) both;}
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes sectionReveal{from{opacity:0;transform:translateY(20px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes shimmerGold{0%,100%{border-color:rgba(201,168,76,.3)}50%{border-color:rgba(201,168,76,.8);box-shadow:0 0 20px rgba(201,168,76,.2)}}
+.next-match:first-child{animation:shimmerGold 3s ease infinite;}
 .sec-t{font-family:'Bebas Neue';font-size:26px;letter-spacing:3px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--brd);display:flex;align-items:center;gap:10px;color:var(--txt);}
 .sec-t::before{content:'';width:4px;height:100%;min-height:24px;background:linear-gradient(to bottom,var(--rojo),var(--rojo-dark));border-radius:2px;flex-shrink:0;}
 .sec-t small{font-family:'Barlow Condensed';font-size:11px;font-weight:600;letter-spacing:2px;color:var(--txt3);}
@@ -235,7 +238,7 @@ nav button.active{color:var(--rojo);border-bottom:2px solid var(--rojo);}
 /* NEWS */
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;}
 .news-card{background:var(--gris);border:1px solid var(--brd);border-top:3px solid var(--rojo);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;display:block;}
-.news-card:hover{transform:translateY(-4px);border-color:var(--rojo);box-shadow:0 8px 24px rgba(208,27,46,.1);}
+.news-card:hover{transform:translateY(-6px) scale(1.01);border-color:var(--rojo);box-shadow:0 12px 32px rgba(208,27,46,.18),0 0 0 1px rgba(208,27,46,.1);}
 .news-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--gris2);}
 .news-body{padding:12px;}
 .news-tag{font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:5px;}
@@ -492,6 +495,30 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 .red-btn:hover{transform:translateY(-2px);opacity:.9;}
 .apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(226,185,111,.2);border-radius:12px;padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+/* ═══ MODERN DESIGN 2026 ═══ */
+@keyframes sectionReveal{from{opacity:0;transform:translateY(20px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes shimmerGold{0%,100%{border-color:rgba(201,168,76,.3)}50%{border-color:rgba(201,168,76,.8);box-shadow:0 0 20px rgba(201,168,76,.2)}}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+/* Glow rojo en hover */
+.mc:hover{border-color:rgba(208,27,46,.5) !important;}
+/* Badge animado */
+.badge.bn{animation:shimmerGold 2.5s ease infinite;}
+/* Tabla hover mejorado */
+.tb tr:hover td{background:rgba(208,27,46,.05) !important;}
+/* Player card hover */
+.pcard:hover .pname{color:var(--rojo);}
+/* Scrollbar ultradelgada */
+::-webkit-scrollbar{width:3px;}
+/* Focus visible rojo */
+button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-offset:2px;}
+/* Sección activa con reveal */
+.section.active{animation:sectionReveal .4s cubic-bezier(.16,1,.3,1) both;}
+/* Hero bar animada */
+.hero-bar{animation:floatUp 4s ease infinite;}
+/* Próximos partidos shimmer */
+.mc.nxt{position:relative;overflow:hidden;}
+.mc.nxt::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.02),transparent);animation:shimmerSlide 3s ease infinite;}
+@keyframes shimmerSlide{0%{left:-100%}100%{left:200%}}
 /* ═══ EPIC FINAL TOUCHES ═══ */
 /* Glow on rayo cards */
 .mc.res:hover{box-shadow:0 6px 20px rgba(208,27,46,.15);}
@@ -588,23 +615,25 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
     <div class="hero-title">SIEMPRE <em>RAYO</em>,<br>SIEMPRE VALLECAS</div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px;">
       <!-- PRÓXIMO LIGA -->
-      <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.4);border-radius:10px;padding:12px 18px;">
-        <div style="font-size:22px">⚽</div>
+      <div style="display:inline-flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(208,27,46,.12),rgba(208,27,46,.06));border:1px solid rgba(208,27,46,.4);border-radius:14px;padding:14px 20px;backdrop-filter:blur(10px);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(208,27,46,.6),transparent)"></div>
+        <div style="width:42px;height:42px;border-radius:50%;background:rgba(208,27,46,.2);border:2px solid rgba(208,27,46,.5);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">⚽</div>
         <div>
-          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:3px">LaLiga J29 · MANANA</div>
-          <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">FC Barcelona vs Rayo Vallecano</div>
-          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Sab 21 Mar · Camp Nou · 18:30h</div>
-          <div id="countdownLiga" style="font-family:'Bebas Neue';font-size:14px;color:var(--oro);margin-top:4px;letter-spacing:2px"></div>
+          <div style="font-family:'Barlow Condensed';font-size:9px;letter-spacing:4px;color:var(--rojo);text-transform:uppercase;margin-bottom:4px">LaLiga J29 · MAÑANA</div>
+          <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;line-height:1">FC Barcelona vs Rayo Vallecano</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px">Dom 22 Mar · Camp Nou · 14:00h</div>
+          <div id="countdownLiga" style="font-family:'Bebas Neue';font-size:15px;color:var(--oro);margin-top:5px;letter-spacing:2px"></div>
         </div>
       </div>
       <!-- PRÓXIMO CONFERENCE -->
-      <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(74,143,255,.1);border:1px solid rgba(74,143,255,.4);border-radius:10px;padding:12px 18px;">
-        <div class="dot" style="background:#4a8fff"></div>
+      <div style="display:inline-flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(74,143,255,.1),rgba(74,143,255,.05));border:1px solid rgba(74,143,255,.4);border-radius:14px;padding:14px 20px;backdrop-filter:blur(10px);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(74,143,255,.6),transparent)"></div>
+        <div style="width:42px;height:42px;border-radius:50%;background:rgba(74,143,255,.15);border:2px solid rgba(74,143,255,.4);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🌍</div>
         <div>
-          <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:3px;color:var(--azul);text-transform:uppercase;margin-bottom:3px">🌍 Conference League · Cuartos Ida</div>
-          <div style="font-family:'Bebas Neue';font-size:19px;letter-spacing:2px">Rayo Vallecano vs AEK Atenas</div>
-          <div style="font-size:11px;color:var(--txt3);margin-top:2px">Jueves 9 Abr · Vallecas · Hora por confirmar</div>
-          <div id="countdownConf" style="font-family:'Bebas Neue';font-size:14px;color:var(--azul);margin-top:4px;letter-spacing:2px"></div>
+          <div style="font-family:'Barlow Condensed';font-size:9px;letter-spacing:4px;color:var(--azul);text-transform:uppercase;margin-bottom:4px">Conference League · Cuartos Ida</div>
+          <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:2px;line-height:1">Rayo Vallecano vs AEK Atenas</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:3px">Jue 9 Abr · Vallecas · 21:00h</div>
+          <div id="countdownConf" style="font-family:'Bebas Neue';font-size:15px;color:var(--azul);margin-top:5px;letter-spacing:2px"></div>
         </div>
       </div>
     </div>
@@ -2914,6 +2943,19 @@ loadWeather();
     <div id="compContent" style="padding:20px"></div>
   </div>
 </div>
+
+<!-- FOOTER -->
+<footer style="background:var(--gris);border-top:1px solid var(--gris2);padding:28px 20px;text-align:center;margin-top:20px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-family:'Bebas Neue';font-size:30px;letter-spacing:4px;color:var(--txt);margin-bottom:4px">⚡ LA FRANJA</div>
+    <div style="font-family:'Barlow Condensed';font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--txt3);margin-bottom:16px">La web de la afición rayista · rayo-vallecano.vercel.app</div>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:14px">
+      <a href="https://twitter.com/LaFranjaRayo" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">𝕏 @LaFranjaRayo</a>
+      <a href="https://www.rayovallecano.es" target="_blank" rel="noopener" style="color:var(--txt3);font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--rojo)'" onmouseout="this.style.color='var(--txt3)'">Web Oficial</a>
+    </div>
+    <div style="font-size:10px;color:#2a2a2a">Web no oficial · Hecha con ❤️ desde Vallecas · © 2026 La Franja</div>
+  </div>
+</footer>
 
 <!-- MOBILE BOTTOM TAB BAR -->
 <div id="mobileTabBar">
