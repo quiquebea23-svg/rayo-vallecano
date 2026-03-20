@@ -474,7 +474,21 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
   </div>
+<!-- LIVE MATCH BAR -->
+<div id="liveBar" style="display:none;background:#4caf50;padding:8px 20px;align-items:center;justify-content:center;gap:16px;">
+  <div class="dot" style="background:#fff"></div>
+  <span id="liveRival" style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff"></span>
+  <span id="liveScore" style="font-family:'Bebas Neue';font-size:22px;color:#fff;letter-spacing:3px"></span>
+  <a href="#" onclick="show('partidos',document.querySelectorAll('nav button')[1])" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none">Ver partido →</a>
+</div>
 </header>
+<!-- LIVE MATCH BAR -->
+<div id="liveBar" style="display:none;background:#4caf50;padding:8px 20px;align-items:center;justify-content:center;gap:16px;">
+  <div class="dot" style="background:#fff;flex-shrink:0"></div>
+  <span id="liveRival" style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff"></span>
+  <span id="liveScore" style="font-family:'Bebas Neue';font-size:22px;color:#fff;letter-spacing:3px"></span>
+  <a onclick="show('partidos',document.querySelectorAll('nav button')[1]);return false;" href="#" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none">Ver partido →</a>
+</div>
 
 <div class="hero">
   <div class="hero-bar"></div>
@@ -509,6 +523,18 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
         </div>
       </div>
     </div>
+    <!-- ALINEACION PROBABLE -->
+    <div id="alineacionWrap" style="margin-top:14px;background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:10px;padding:12px 16px;display:inline-block;max-width:100%">
+      <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:8px">⚽ Alineación probable vs Barça · Dom 22 Mar 14:00h</div>
+      <div style="font-family:'Barlow Condensed';font-size:13px;color:#fff;letter-spacing:1px;line-height:2">
+        <span style="color:rgba(255,255,255,.5)">POR</span> Batalla &nbsp;
+        <span style="color:rgba(255,255,255,.5)">DEF</span> Rațiu · Lejeune · Mendy · Chavarría &nbsp;
+        <span style="color:rgba(255,255,255,.5)">MED</span> P.Ciss · U.López · O.Valentín &nbsp;
+        <span style="color:rgba(255,255,255,.5)">ATA</span> Álvaro · De Frutos · Akhomach
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">Sistema 4-3-3 · Íñigo Pérez</div>
+    </div>
+  </div>
   </div>
 </div>
 
@@ -530,9 +556,9 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
     <div id="seasonStats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(75px,1fr));gap:8px;"></div>
   </div>
   <div class="frow" id="frow"></div>
-  <div class="sec-t" style="font-size:17px;margin-top:4px;">Todos los Resultados <small id="matchCount"></small></div>
+  <div class="sec-t" id="resTitle" style="font-size:17px;margin-top:4px;">Todos los Resultados <small id="matchCount"></small></div>
   <div id="listRes"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-  <div class="sec-t" style="font-size:17px;margin-top:16px;">Próximos Partidos</div>
+  <div class="sec-t" id="proxTitle" style="font-size:17px;margin-top:16px;">Próximos Partidos</div>
   <div id="listProx"><div class="skeleton"></div><div class="skeleton"></div></div>
 </section>
 
@@ -804,11 +830,27 @@ async function loadPartidos(){
       document.getElementById('listRes').innerHTML=lista.length?lista.map(m=>matchCard(m,true)).join(''):'<div class="err-msg">No hay resultados.</div>';
       document.getElementById('matchCount').textContent=`${lista.length} partidos`;
     }
-    ['Todos',...comps].forEach((c,i)=>{
+    ['Todos','Próximos',...comps].forEach((c,i)=>{
       const b=document.createElement('button');
       b.className='pill';b.textContent=c;
       if(i===0)b.style.cssText='border-color:var(--rojo);color:var(--rojo);';
-      b.onclick=()=>{filtro=c;frow.querySelectorAll('.pill').forEach(x=>x.style.cssText='');b.style.cssText='border-color:var(--rojo);color:var(--rojo);';renderList(filtro);};
+      b.onclick=()=>{
+        filtro=c;
+        frow.querySelectorAll('.pill').forEach(x=>x.style.cssText='');
+        b.style.cssText='border-color:var(--rojo);color:var(--rojo);';
+        if(c==='Próximos'){
+          document.getElementById('listRes').style.display='none';
+          document.getElementById('listProx').style.display='block';
+          document.getElementById('proxTitle').style.display='flex';
+          document.getElementById('resTitle').style.display='none';
+        } else {
+          document.getElementById('listRes').style.display='block';
+          document.getElementById('listProx').style.display='none';
+          document.getElementById('proxTitle').style.display='none';
+          document.getElementById('resTitle').style.display='flex';
+          renderList(filtro);
+        }
+      };
       frow.appendChild(b);
     });
     renderList('Todos');
@@ -1995,6 +2037,26 @@ loadSquadPhotos();
 startCountdowns();
 loadWeather();
 window.addEventListener('scroll',function(){var b=document.getElementById('backToTop');if(b)b.style.display=window.scrollY>400?'block':'none';});
+// Auto-refresh partidos cada 60s si hay partido en vivo
+setInterval(function(){
+  if(document.body.classList.contains('live-mode')||document.getElementById('partidos').classList.contains('active')){
+    loadPartidos();
+  }
+},60000);
+// Auto-refresh cada 60s si hay partido en vivo
+setInterval(function(){
+  if(document.body.classList.contains('live-mode')){
+    loadPartidos();
+    loadTabla();
+  }
+},60000);
+// Auto-refresh cada 60s si hay partido en vivo
+setInterval(function(){
+  if(document.body.classList.contains('live-mode')){
+    loadPartidos();
+    loadTabla();
+  }
+},60000);
 </script>
 <!-- MODAL COMPARADOR -->
 <div class="overlay" id="overlayComp" onclick="if(event.target===this){document.getElementById('overlayComp').classList.remove('on');document.body.style.overflow='';compJ1=null;compJ2=null;}">
