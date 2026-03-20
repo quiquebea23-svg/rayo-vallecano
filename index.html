@@ -487,8 +487,6 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
       <button onclick="show('quiz',this)">Quiz</button>
       <button onclick="show('predictor',this)">Predictor</button>
       <button onclick="show('logros',this)">🏆 Logros</button>
-      <button onclick="show('predictor',this)">Predictor</button>
-      <button onclick="show('logros',this)">🏆</button>
       </nav>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
     </div>
@@ -788,18 +786,6 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 <section id="quiz" class="section">
   <div class="sec-t">🧠 Quiz Rayo Vallecano</div>
   <div id="quizContent"></div>
-</section>
-
-<!-- PREDICTOR -->
-<section id="predictor" class="section">
-  <div class="sec-t">🔮 Predictor de Partidos</div>
-  <div id="predictorContent"></div>
-</section>
-
-<!-- LOGROS -->
-<section id="logros" class="section">
-  <div class="sec-t">🏆 Logros de la Temporada</div>
-  <div id="logrosContent"></div>
 </section>
 
 <!-- PREDICTOR -->
@@ -2162,15 +2148,39 @@ function rPredictor(){
   if(!el)return;
 
   var partidos=[
-    {local:'FC Barcelona',visitante:'Rayo Vallecano',comp:'LaLiga J29',fecha:'Dom 22 Mar 14:00h',estadio:'Camp Nou',
-     rayoForm:['E','D','V','E','V'],rivalForm:['V','V','V','V','E'],
-     rayoGoles:1.1,rivalGoles:2.8,rayoDef:1.0,rivalDef:0.9},
-    {local:'Rayo Vallecano',visitante:'AEK Atenas',comp:'Conference Cuartos Ida',fecha:'Jue 9 Abr 21:00h',estadio:'Vallecas',
-     rayoForm:['V','E','V','V','D'],rivalForm:['V','V','E','V','V'],
-     rayoGoles:1.8,rivalGoles:1.9,rayoDef:0.8,rivalDef:1.0},
-    {local:'Rayo Vallecano',visitante:'Elche CF',comp:'LaLiga J30',fecha:'Sáb 4 Abr',estadio:'Vallecas',
-     rayoForm:['E','V','E','V','V'],rivalForm:['D','D','E','D','D'],
-     rayoGoles:1.8,rivalGoles:0.7,rayoDef:1.0,rivalDef:1.4},
+    {
+      local:'FC Barcelona',visitante:'Rayo Vallecano',
+      comp:'LaLiga J29',fecha:'Dom 22 Mar · 14:00h · Spotify Camp Nou',
+      rayoForm:['E','D','V','E','E'],  // Rayo: ultimos 5 - empate Levante, derrota Samsunspor, victoria Getafe NO derrota, empate Sevilla, empate Levante
+      rivalForm:['V','V','V','V','V'], // Barca: 14/14 victorias en casa, goleada 7-2 Newcastle, 5-2 Sevilla
+      rayoGoles:0.8,rivalGoles:2.7,   // Barca 2.7 goles/partido, Rayo 0.8 como visitante
+      rayoDef:1.0,rivalDef:0.5,
+      rivalNombre:'FC Barcelona',
+      rivalInfo:'Lider LaLiga con 70 pts. 14/14 victorias en casa. Lewandowski, Lamine Yamal y Raphinha en estado de gracia.',
+      rayoInfo:'13o con 32 pts. Visitante con 0 victorias fuera desde octubre. Viene de eliminar al Samsunspor en Conference.'
+    },
+    {
+      local:'Rayo Vallecano',visitante:'AEK Atenas',
+      comp:'Conference League · Cuartos Ida',fecha:'Jue 9 Abr · 21:00h · Estadio de Vallecas',
+      rayoForm:['E','D','V','E','V'],
+      rivalForm:['V','V','E','V','D'],
+      rayoGoles:1.8,rivalGoles:1.9,
+      rayoDef:0.8,rivalDef:1.0,
+      rivalNombre:'AEK Atenas',
+      rivalInfo:'2o SuperLeague Grecia. Llegaron a semifinales de Conference en 2023/24. Rebic y Lamela son sus figuras.',
+      rayoInfo:'Imbatibles en Vallecas en Conference (3V 0E 0D). La aficion sera el 12o jugador.'
+    },
+    {
+      local:'Rayo Vallecano',visitante:'Elche CF',
+      comp:'LaLiga J30',fecha:'Sáb 4 Abr · Estadio de Vallecas',
+      rayoForm:['E','D','V','E','V'],
+      rivalForm:['D','D','D','E','D'],
+      rayoGoles:1.8,rivalGoles:0.7,
+      rayoDef:1.0,rivalDef:1.4,
+      rivalNombre:'Elche CF',
+      rivalInfo:'Penultimo clasificado con 25 pts. Solo 22 goles en 29 jornadas. Sin ganar fuera en toda la temporada.',
+      rayoInfo:'El Rayo DEBE ganar este partido para alejarse del descenso. Vallecas en modo fortaleza.'
+    },
   ];
 
   var selIdx=0;
@@ -2243,7 +2253,10 @@ function rPredictor(){
     html+='<div style="background:var(--gris2);border-radius:8px;padding:12px;text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;color:var(--rojo)">'+(isHome?pred.golesRayo:pred.golesRival)+'</div><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px">Goles esperados Rayo</div></div>';
     html+='<div style="background:var(--gris2);border-radius:8px;padding:12px;text-align:center"><div style="font-family:Bebas Neue,sans-serif;font-size:32px;color:var(--txt3)">'+(isHome?pred.golesRival:pred.golesRayo)+'</div><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:2px">Goles esperados rival</div></div>';
     html+='</div>';
-    html+='<div style="margin-top:10px;padding:8px;background:rgba(208,27,46,.06);border-radius:8px;font-size:11px;color:var(--txt3);text-align:center">Prediccion basada en forma reciente y estadisticas</div>';
+    html+='<div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+    html+='<div style="background:rgba(208,27,46,.06);border-radius:8px;padding:10px"><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rojo);margin-bottom:4px">RAYO</div><div style="font-size:11px;color:var(--txt3)">'+p.rayoInfo+'</div></div>';
+    html+='<div style="background:rgba(100,100,100,.06);border-radius:8px;padding:10px"><div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);margin-bottom:4px">RIVAL</div><div style="font-size:11px;color:var(--txt3)">'+p.rivalInfo+'</div></div>';
+    html+='</div>';
     html+='</div>';
 
     // Votos
