@@ -195,6 +195,9 @@ nav button.active{color:var(--rojo);border-bottom:2px solid var(--rojo);}
 
 /* HERO */
 .hero{background:linear-gradient(135deg,rgba(0,0,0,0.88) 0%,rgba(26,0,6,0.92) 60%,rgba(0,0,0,0.88) 100%),url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=70") center/cover no-repeat;padding:40px 20px 30px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(208,27,46,.08) 0%,transparent 60%);pointer-events:none;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(208,27,46,.08) 0%,transparent 60%);pointer-events:none;}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(201,168,76,.05) 0%,transparent 60%);pointer-events:none;}
 [data-theme="light"] .hero{background:linear-gradient(135deg,#f4f4f4 0%,#ffe5e5 60%,#f4f4f4 100%);}
 .hero::before{content:'RV';position:absolute;right:-10px;top:-20px;font-family:'Bebas Neue';font-size:240px;color:rgba(208,27,46,.04);pointer-events:none;}
 .hero-bar{position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rojo);}
@@ -563,6 +566,7 @@ img.loaded{opacity:1;}
       </div>
     </div>
     <!-- ALINEACION PROBABLE -->
+    <div id="encuestaEspecialWrap" style="margin-top:12px"></div>
     <div id="alineacionWrap" style="margin-top:14px;background:rgba(208,27,46,.08);border:1px solid rgba(208,27,46,.25);border-radius:10px;padding:12px 16px;display:inline-block;max-width:100%">
       <div style="font-family:'Barlow Condensed';font-size:10px;font-weight:700;letter-spacing:3px;color:var(--rojo);text-transform:uppercase;margin-bottom:8px">⚽ Alineación probable vs Barça · Dom 22 Mar 14:00h</div>
       <div style="font-family:'Barlow Condensed';font-size:13px;color:#fff;letter-spacing:1px;line-height:2">
@@ -2520,6 +2524,99 @@ function tweetAlineacion(){
   window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(txt),'_blank');
 }
 
+// ─── MOMENTOS ÉPICOS TEMPORADA ───────────
+var momentosEpicos=[
+  {f:'Oct 2025', e:'🏟️', t:'Primera vez en Europa', d:'14.700 rayistas en Vallecas. El Rayo regresa a Europa 24 años después. Lágrimas en las gradas.', c:'#00c853'},
+  {f:'Dic 2025', e:'⚡', t:'3-0 al Atlético de Madrid', d:'Goleada histórica al Atleti en Vallecas. Uno de los mejores resultados en décadas. Vallecas explotó.', c:'var(--rojo)'},
+  {f:'Ene 2026', e:'🌟', t:'De Frutos convocado con España', d:'Jorge de Frutos viste la Roja. Solo el 6º jugador del Rayo en toda la historia en ser convocado.', c:'var(--oro)'},
+  {f:'Feb 2026', e:'🎯', t:'6-1 al Yuncos en Copa', d:'Fran Pérez con hat-trick. La mayor goleada del Rayo en Copa del Rey en mucho tiempo. Noche para el recuerdo.', c:'var(--rojo)'},
+  {f:'Mar 2026', e:'🇹🇷', t:'Épica en Turquía', d:'1-3 en Samsunspor. Alemão doblete. El Rayo demostrando que es equipo europeo de verdad.', c:'#00c853'},
+  {f:'Mar 2026', e:'🏆', t:'¡A Cuartos de Conference!', d:'Global 3-2 al Samsunspor. El Rayo en cuartos de final europeos. HISTÓRICO. Próximo rival: AEK Atenas.', c:'var(--oro)'},
+];
+
+// ─── ENCUESTA ESPECIAL BARÇA ─────────────
+var encuestaEspecial={
+  preg:'¿Cuál será el resultado mañana en el Camp Nou?',
+  ops:['Derrota (lo más probable 😅)','Empate épico 🤝','Victoria histórica ⚡🔴'],
+  votos:[0,0,0],
+  key:'encuesta_barca_j29'
+};
+
+function rEncuestaBarça(){
+  var el=document.getElementById('encuestaEspecialWrap');
+  if(!el)return;
+  var saved=JSON.parse(localStorage.getItem(encuestaEspecial.key)||'null');
+  var totalVotos=encuestaEspecial.votos.reduce(function(a,b){return a+b;},0)||1;
+
+  if(saved!==null){
+    el.innerHTML='<div style="background:var(--gris);border:2px solid var(--rojo);border-radius:12px;padding:18px;margin-bottom:16px">'
+      +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:8px">🗳️ BARÇA VS RAYO · DOM 22 MAR</div>'
+      +'<div style="font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:1px;color:var(--txt);margin-bottom:14px">'+encuestaEspecial.preg+'</div>'
+      +encuestaEspecial.ops.map(function(op,i){
+        var pct=Math.round(encuestaEspecial.votos[i]/totalVotos*100);
+        var isSelected=saved===i;
+        return '<div style="margin-bottom:8px">'
+          +'<div style="display:flex;justify-content:space-between;margin-bottom:3px">'
+          +'<span style="font-family:Barlow Condensed,sans-serif;font-size:13px;color:'+(isSelected?'var(--rojo)':'var(--txt2)')+'">'+op+(isSelected?' ✓':'')+'</span>'
+          +'<span style="font-family:Bebas Neue,sans-serif;font-size:16px;color:var(--txt3)">'+pct+'%</span>'
+          +'</div>'
+          +'<div style="height:6px;background:var(--gris2);border-radius:3px;overflow:hidden">'
+          +'<div style="width:'+pct+'%;height:100%;background:'+(isSelected?'var(--rojo)':'var(--gris3)')+';border-radius:3px;transition:width 1s ease"></div>'
+          +'</div></div>';
+      }).join('')
+      +'</div>';
+    return;
+  }
+
+  el.innerHTML='<div style="background:var(--gris);border:2px solid var(--rojo);border-radius:12px;padding:18px;margin-bottom:16px">'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);margin-bottom:8px">🗳️ BARÇA VS RAYO · DOM 22 MAR · 14:00H</div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:1px;color:var(--txt);margin-bottom:14px">'+encuestaEspecial.preg+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:8px">'
+    +encuestaEspecial.ops.map(function(op,i){
+      return '<button data-idx="'+i+'" onclick="votarBarca(parseInt(this.dataset.idx))" style="background:var(--gris2);border:1px solid var(--gris3);color:var(--txt);font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;padding:12px 16px;border-radius:10px;cursor:pointer;text-align:left;transition:all .2s">'+op+'</button>';
+    }).join('')
+    +'</div></div>';
+}
+
+function votarBarca(idx){
+  encuestaEspecial.votos[idx]=(encuestaEspecial.votos[idx]||0)+1;
+  localStorage.setItem(encuestaEspecial.key, idx);
+  rEncuestaBarça();
+}
+
+// ─── RACHA GOLEADORA DE FRUTOS ────────────
+function rDeFrutos(){
+  var el=document.getElementById('deFrutosWidget');
+  if(!el)return;
+  var goles=[
+    {j:'J3',rival:'Osasuna',g:1},{j:'J5',rival:'Alavés',g:1},{j:'J7',rival:'Valladolid',g:1},
+    {j:'J9',rival:'Betis',g:1},{j:'J11',rival:'Leganés',g:1},{j:'J14',rival:'Girona',g:1},
+    {j:'J15',rival:'Espanyol',g:1},{j:'J18',rival:'Atlético',g:1},{j:'J21',rival:'Getafe',g:1},
+    {j:'J23',rival:'Celta',g:1},{j:'J25',rival:'Valencia',g:1},{j:'J26',rival:'Getafe',g:1},
+  ];
+  el.innerHTML='<div style="background:var(--gris);border:1px solid var(--brd);border-radius:12px;padding:18px;margin-bottom:14px">'
+    +'<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">'
+    +'<img src="'+(fotoJugador[19]||fotoDefault)+'" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--rojo)">'
+    +'<div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:26px;letter-spacing:1px;color:var(--txt)">Jorge De Frutos</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo)">Máximo goleador · Extremo derecho</div>'
+    +'</div>'
+    +'<div style="margin-left:auto;text-align:center;background:rgba(208,27,46,.1);border:2px solid var(--rojo);border-radius:10px;padding:10px 16px">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:44px;color:var(--rojo);line-height:1">12</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">Goles</div>'
+    +'</div>'
+    +'</div>'
+    +'<div style="display:flex;gap:4px;flex-wrap:wrap">'
+    +goles.map(function(g){
+      return '<div style="background:rgba(208,27,46,.1);border:1px solid rgba(208,27,46,.3);border-radius:6px;padding:4px 8px;text-align:center">'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:16px;color:var(--rojo)">⚽</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;color:var(--txt3)">'+g.j+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;color:var(--txt3)">'+g.rival+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div></div>';
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2535,6 +2632,10 @@ rPredictor();
 rLogros();
 rGaleria();
 rAlineacion();
+rEncuestaBarça();
+rDeFrutos();
+rEncuestaBarça();
+rDeFrutos();
 loadPartidos();
 loadTabla();
 loadSquadPhotos();
