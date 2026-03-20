@@ -495,6 +495,9 @@ body.live-mode .hero-bar{background:#4caf50 !important;}
 .red-btn:hover{transform:translateY(-2px);opacity:.9;}
 .apuestas-banner{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(226,185,111,.2);border-radius:12px;padding:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
 .apuestas-btn{background:#e2b96f;color:#000;font-family:'Barlow Condensed';font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+/* TICKER */
+.ticker-inner{transition:all .4s ease;}
+.cifra-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
 /* ═══ MODERN DESIGN 2026 ═══ */
 @keyframes sectionReveal{from{opacity:0;transform:translateY(20px) scale(.99)}to{opacity:1;transform:none}}
 @keyframes shimmerGold{0%,100%{border-color:rgba(201,168,76,.3)}50%{border-color:rgba(201,168,76,.8);box-shadow:0 0 20px rgba(201,168,76,.2)}}
@@ -599,6 +602,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
   <span id="liveRival" style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff"></span>
   <span id="liveScore" style="font-family:'Bebas Neue';font-size:22px;color:#fff;letter-spacing:3px"></span>
   <a onclick="show('partidos',document.querySelectorAll('nav button')[1]);return false;" href="#" style="font-family:'Barlow Condensed';font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8);text-decoration:none">Ver partido →</a>
+</div>
+<!-- TICKER -->
+<div id="newsTicker" style="background:rgba(208,27,46,.12);border-top:1px solid rgba(208,27,46,.2);padding:6px 20px;display:flex;align-items:center;gap:12px;overflow:hidden">
+  <div style="font-family:'Barlow Condensed';font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--rojo);flex-shrink:0">⚡ ÚLTIMO</div>
+  <div style="width:1px;height:14px;background:rgba(208,27,46,.4);flex-shrink:0"></div>
+  <div class="ticker-inner" style="font-family:'Barlow Condensed';font-size:12px;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
 </div>
 </header>
 
@@ -928,6 +937,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--rojo);outline-o
 <section id="momentos" class="section">
   <div class="sec-t">🌟 Momentos Épicos</div>
   <div id="momentosContent"></div>
+</section>
+
+<!-- TERMÓMETRO DE FORMA -->
+<section id="termometro" class="section">
+  <div class="sec-t">🌡️ Termómetro de Forma</div>
+  <div id="termometroContent"></div>
+</section>
+
+<!-- RAYO EN CIFRAS -->
+<section id="cifras" class="section">
+  <div class="sec-t">🔢 Rayo en Cifras</div>
+  <div id="cifrasContent"></div>
 </section>
 
 <!-- HISTORIA -->
@@ -2909,6 +2930,135 @@ function rMomentos(){
     +'</div>';
 }
 
+// ─── TERMÓMETRO DE FORMA ─────────────────────
+function rTermometro(){
+  var el=document.getElementById('termometroContent');
+  if(!el)return;
+
+  // Últimos 10 partidos con contexto
+  var partidos=[
+    {rival:'Levante',    res:'E',gf:1,gc:1,comp:'LaLiga',  fecha:'16 Mar',casa:true},
+    {rival:'Samsunspor', res:'D',gf:0,gc:1,comp:'Conf.',   fecha:'19 Mar',casa:true,  nota:'Pasamos global 3-2 ✅'},
+    {rival:'Samsunspor', res:'V',gf:1,gc:3,comp:'Conf.',   fecha:'13 Mar',casa:false, nota:'Doblete Alemão 🇧🇷'},
+    {rival:'Sevilla',    res:'E',gf:1,gc:1,comp:'LaLiga',  fecha:'08 Mar',casa:false},
+    {rival:'Getafe',     res:'E',gf:1,gc:1,comp:'LaLiga',  fecha:'01 Mar',casa:false},
+    {rival:'Real Madrid',res:'D',gf:1,gc:3,comp:'LaLiga',  fecha:'22 Feb',casa:false},
+    {rival:'Villarreal', res:'V',gf:2,gc:0,comp:'LaLiga',  fecha:'15 Feb',casa:true},
+    {rival:'Valencia',   res:'V',gf:1,gc:0,comp:'LaLiga',  fecha:'08 Feb',casa:false},
+    {rival:'R. Oviedo',  res:'V',gf:3,gc:0,comp:'LaLiga',  fecha:'01 Feb',casa:true},
+    {rival:'Athletic',   res:'E',gf:1,gc:1,comp:'LaLiga',  fecha:'25 Ene',casa:false},
+  ];
+
+  var pts=partidos.reduce(function(s,p){return s+(p.res==='V'?3:p.res==='E'?1:0);},0);
+  var maxPts=partidos.length*3;
+  var pct=Math.round(pts/maxPts*100);
+  var nivel=pct>=70?{t:'🔥 EN RACHA',c:'#ff6b35'}:pct>=50?{t:'⚡ BUEN MOMENTO',c:'#4caf50'}:pct>=35?{t:'😐 IRREGULAR',c:'#ffc107'}:{t:'📉 MAL MOMENTO',c:'var(--rojo)'};
+
+  el.innerHTML=
+    // Header termómetro
+    '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:14px;padding:20px;margin-bottom:14px">'
+    +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">'
+    +'<div>'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:32px;letter-spacing:2px;color:'+nivel.c+'">'+nivel.t+'</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3)">Últimos 10 partidos</div>'
+    +'</div>'
+    +'<div style="text-align:center;background:rgba(0,0,0,.3);border-radius:12px;padding:12px 18px;border:1px solid var(--gris3)">'
+    +'<div style="font-family:Bebas Neue,sans-serif;font-size:44px;color:'+nivel.c+';line-height:1">'+pts+'</div>'
+    +'<div style="font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3)">de '+maxPts+' pts</div>'
+    +'</div>'
+    +'</div>'
+    // Barra termómetro
+    +'<div style="height:10px;background:var(--gris2);border-radius:5px;overflow:hidden;margin-bottom:6px">'
+    +'<div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,var(--rojo),'+nivel.c+');border-radius:5px;transition:width 1.5s cubic-bezier(.4,0,.2,1)"></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;font-family:Barlow Condensed,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--txt3)">'
+    +'<span>Mal momento</span><span>'+pct+'% rendimiento</span><span>En racha</span>'
+    +'</div>'
+    +'</div>'
+
+    // Lista partidos
+    +'<div style="background:var(--gris);border:1px solid var(--brd);border-radius:14px;overflow:hidden">'
+    +'<div style="padding:14px 18px;border-bottom:1px solid var(--gris2);font-family:Barlow Condensed,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--txt3)">Detalle de resultados</div>'
+    +partidos.map(function(p,i){
+      var bc=p.res==='V'?'#4caf50':p.res==='E'?'#ffc107':'var(--rojo)';
+      var bg=p.res==='V'?'rgba(76,175,80,.08)':p.res==='E'?'rgba(255,193,7,.06)':'rgba(208,27,46,.06)';
+      return '<div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--gris2);background:'+bg+'">'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:11px;color:var(--txt3);min-width:14px;text-align:center">'+(i+1)+'</div>'
+        +'<div style="width:28px;height:28px;border-radius:50%;background:'+bc+';display:flex;align-items:center;justify-content:center;font-family:Bebas Neue,sans-serif;font-size:13px;color:#fff;flex-shrink:0">'+p.res+'</div>'
+        +'<div style="flex:1">'
+        +'<div style="display:flex;align-items:center;gap:8px">'
+        +'<span style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;color:var(--txt)">'+(p.casa?'⚡ Rayo':'Rayo')+' '+p.gf+' — '+p.gc+' '+p.rival+'</span>'
+        +(p.nota?'<span style="font-size:10px;color:var(--txt3)">· '+p.nota+'</span>':'')
+        +'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:10px;color:var(--txt3);margin-top:1px">'+p.comp+' · '+p.fecha+(p.casa?' · Local':' · Visitante')+'</div>'
+        +'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:13px;color:var(--txt3)">'+(p.res==='V'?'+3':p.res==='E'?'+1':'0')+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── RAYO EN CIFRAS (datos curiosos) ─────────
+function rCifras(){
+  var el=document.getElementById('cifrasContent');
+  if(!el)return;
+
+  var cifras=[
+    {n:'1924',label:'Año de fundación',sub:'Hace 102 años',color:'var(--oro)',icon:'📅'},
+    {n:'14.700',label:'Capacidad Vallecas',sub:'Uno de los estadios más pequeños de Primera',color:'var(--rojo)',icon:'🏟️'},
+    {n:'24',label:'Años sin Europa',sub:'Hasta octubre de 2025',color:'#00c853',icon:'🌍'},
+    {n:'6/6',label:'Fase de grupos Conference',sub:'16 goles marcados · 5 encajados',color:'#00c853',icon:'🏆'},
+    {n:'4-1',label:'Global vs Samsunspor',sub:'Pasamos a cuartos de Conference',color:'var(--azul)',icon:'⚽'},
+    {n:'102',label:'Años de historia',sub:'Club obrero, siempre fiel a sus raíces',color:'var(--oro)',icon:'❤️'},
+    {n:'32',label:'Puntos en LaLiga',sub:'Temporada 2025/26 · J28',color:'var(--rojo)',icon:'📊'},
+    {n:'12',label:'Goles de De Frutos',sub:'Máximo goleador del Rayo esta temporada',color:'var(--oro)',icon:'👑'},
+  ];
+
+  el.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">'
+    +cifras.map(function(c){
+      return '<div style="background:var(--gris);border:1px solid var(--brd);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s" class="cifra-card">'
+        +'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+c.color+'"></div>'
+        +'<div style="font-size:28px;margin-bottom:8px">'+c.icon+'</div>'
+        +'<div style="font-family:Bebas Neue,sans-serif;font-size:40px;letter-spacing:-1px;color:'+c.color+';line-height:1;margin-bottom:4px">'+c.n+'</div>'
+        +'<div style="font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;color:var(--txt);margin-bottom:2px">'+c.label+'</div>'
+        +'<div style="font-size:11px;color:var(--txt3);line-height:1.4">'+c.sub+'</div>'
+        +'</div>';
+    }).join('')
+    +'</div>';
+}
+
+// ─── TICKER DE NOTICIAS EN TIEMPO REAL ────────
+function startNewsTicker(){
+  var ticker=document.getElementById('newsTicker');
+  if(!ticker)return;
+  var items=[
+    '⚡ MAÑANA — FC Barcelona vs Rayo Vallecano · LaLiga J29 · 14:00h · Camp Nou',
+    '🌍 CUARTOS DE CONFERENCE — Rayo vs AEK Atenas · Jue 9 Abr · 21:00h · Vallecas',
+    '👑 DE FRUTOS — 12 goles en todas las competiciones · Mejor temporada de su carrera',
+    '🏆 GLOBAL 3-2 — Rayo elimina al Samsunspor y pasa a cuartos de Conference League',
+    '📊 CLASIFICACIÓN — Rayo 13º en LaLiga con 32 puntos tras 28 jornadas',
+    '🌍 HISTORIA — Primera vez en cuartos europeos en la historia del Rayo Vallecano',
+  ];
+  var idx=0;
+  var inner=ticker.querySelector('.ticker-inner');
+  if(!inner)return;
+
+  function next(){
+    inner.style.transition='none';
+    inner.style.opacity='0';
+    inner.style.transform='translateY(100%)';
+    setTimeout(function(){
+      idx=(idx+1)%items.length;
+      inner.textContent=items[idx];
+      inner.style.transition='all .4s ease';
+      inner.style.opacity='1';
+      inner.style.transform='translateY(0)';
+    },300);
+  }
+  inner.textContent=items[0];
+  setInterval(next,4000);
+}
+
 // ─── INIT ────────────────────────────────────
 rEncuestas();
 rTienda();
@@ -2982,6 +3132,8 @@ loadWeather();
   <button class="mmb" onclick="mobileNav('tienda',null);closeMobileMore()"><span class="mmb-icon">🛍️</span><span class="mmb-label">Tienda</span></button>
   <button class="mmb" onclick="mobileNav('mapa',null);closeMobileMore()"><span class="mmb-icon">📍</span><span class="mmb-label">Vallecas</span></button>
   <button class="mmb" onclick="mobileNav('momentos',null);closeMobileMore()"><span class="mmb-icon">🌟</span><span class="mmb-label">Momentos</span></button>
+  <button class="mmb" onclick="mobileNav('termometro',null);closeMobileMore()"><span class="mmb-icon">🌡️</span><span class="mmb-label">Forma</span></button>
+  <button class="mmb" onclick="mobileNav('cifras',null);closeMobileMore()"><span class="mmb-icon">🔢</span><span class="mmb-label">Cifras</span></button>
   <button class="mmb" onclick="toggleTheme();closeMobileMore()"><span class="mmb-icon">🌙</span><span class="mmb-label">Tema</span></button>
 </div>
 
